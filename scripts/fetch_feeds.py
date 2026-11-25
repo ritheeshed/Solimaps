@@ -411,9 +411,13 @@ ATS_PATTERNS = [
     ("smartrecruiters", r"(?:careers|jobs)\.smartrecruiters\.com/([A-Za-z0-9_-]+)"),
     ("workable", r"apply\.workable\.com/([A-Za-z0-9_-]+)"),
     ("workday", r"([a-z0-9-]+)\.(wd\d+)\.myworkdayjobs\.com/(?:[a-z]{2}-[A-Z]{2}/)?([A-Za-z0-9_-]+)"),
-    ("unsupported", r"([a-z0-9-]+\.(?:keka\.com|zohorecruit\.(?:com|in)|darwinbox\.in|freshteam\.com|turbohire\.co))"),
+    ("keka", r"([a-z0-9-]+)\.keka\.com"),
+    ("freshteam", r"([a-z0-9-]+)\.freshteam\.com"),
+    ("zohorecruit", r"([a-z0-9-]+\.zohorecruit\.(?:com|in))"),
+    ("zohorecruit", r"(careers\.zohocorp\.com)"),
+    ("unsupported", r"([a-z0-9-]+\.(?:darwinbox\.in|turbohire\.co))"),
 ]
-SKIP_TOK = {"embed", "js", "v1", "api", "jobs", "careers", "j", "en-US"}
+SKIP_TOK = {"embed", "js", "v1", "api", "jobs", "careers", "j", "en-US", "www", "cdn", "assets", "static", "help", "support"}
 
 
 def detect_ats(text):
@@ -469,6 +473,41 @@ def jobs_from_ats(kind, args, co_name):
             off += 20
             if len(posts) < 20:
                 break
+    elif kind == "keka":
+        base = f"https://{args[0]}.keka.com/careers/"
+        page, _ = fetch_html(base)
+        guid = re.search(r"embedjobs/(?:js/)?([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})", page) or re.search(r"([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})", page)
+        if not guid:
+            raise ValueError("keka portal id not found")
+        res = get(f"{base}api/embedjobs/default/active/{guid.group(1)}")
+        for j in res if isinstance(res, list) else []:
+            locs = " ".join(f"{l.get('name') or ''} {l.get('city') or ''}" for l in (j.get("jobLocations") or []))
+            out.append((j.get("title"), locs, iso_date(j.get("publishedOn")), "", f"{base}jobdetails/{j.get('id')}"))
+    elif kind == "freshteam":
+        base = f"https://{args[0]}.freshteam.com"
+        page, _ = fetch_html(base + "/jobs")
+        links = list(dict.fromkeys(re.findall(r'href="(/jobs/[A-Za-z0-9_-]{6,}/[^"#?]+)"', page)))
+        for path in links[:40]:
+            try:
+                pg, final = fetch_html(base + path)
+            except Exception:
+                continue
+            for p in jsonld_postings(pg)[:1]:
+                out.append((p.get("title"), posting_location(p), iso_date(p.get("datePosted")) if p.get("datePosted") else None, str(p.get("employmentType") or "").replace("_", " ").title(), final))
+            time.sleep(0.2)
+    elif kind == "zohorecruit":
+        host = args[0]
+        page, final = fetch_html(f"https://{host}/jobs/Careers")
+        m = re.search(r'<input[^>]*id=["\']jobs["\'][^>]*value=["\'](.*?)["\']\s*/?>', page, re.S) or re.search(r'value=["\'](\[\{.*?\}\])["\'][^>]*id=["\']jobs["\']', page, re.S)
+        if not m:
+            raise ValueError("zoho recruit list not found")
+        for j in json.loads(htmlmod.unescape(m.group(1))):
+            if j.get("Publish") is False:
+                continue
+            title = j.get("Posting_Title") or j.get("Job_Opening_Name")
+            slug = re.sub(r"[^A-Za-z0-9]+", "-", title or "").strip("-")
+            loc = ", ".join(str(j.get(k) or "") for k in ("City", "State", "Country1") if j.get(k))
+            out.append((title, loc, iso_date(j.get("Date_Opened")) if j.get("Date_Opened") else None, j.get("Job_Type") or "", f"https://{host}/jobs/Careers/{j.get('id')}/{slug}"))
     return out
 
 
@@ -559,36 +598,131 @@ def crawl_careers(page, base, co_name):
     return out, ("job pages on the careers site" if out else "")
 
 
+ATS_CACHE = load_json("ats_cache.json", {})
+CAREER_WORDS = re.compile(r"career|jobs|join[-_ ]?us|work[-_ ]with[-_ ]us|hiring|openings|vacanc", re.I)
+
+
+def slug_variants(c):
+    out = []
+    site = (c.get("site") or "").lower().removeprefix("www.")
+    if site:
+        out.append(site.split(".")[0])
+    n = re.sub(r"\(.*?\)", "", c["name"]).lower()
+    out.append(re.sub(r"[^a-z0-9]", "", n))
+    out.append(re.sub(r"[^a-z0-9]+", "-", n).strip("-"))
+    w = re.sub(r"[^a-z0-9 ]", "", n).split()
+    if w and len(w[0]) >= 5:
+        out.append(w[0])
+    return [x for x in dict.fromkeys(out) if len(x) >= 3]
+
+
+def indian(items):
+    return any(not loc or in_chennai(loc) or "india" in (loc or "").lower() for _, loc, *_ in items)
+
+
+def probe_ats(c):
+    """Try the usual job-board addresses for this company's name. Returns (kind, args) or None."""
+    from concurrent.futures import ThreadPoolExecutor
+    tries = []
+    for v in slug_variants(c):
+        tries += [("greenhouse", (v,)), ("lever", (v,)), ("ashby", (v,)), ("workable", (v,)), ("keka", (v,)), ("freshteam", (v,)),
+                  ("zohorecruit", (v + ".zohorecruit.in",)), ("zohorecruit", (v + ".zohorecruit.com",))]
+
+    def one(t):
+        try:
+            items = jobs_from_ats(t[0], t[1], c["name"])
+            return t if items and indian(items) else None
+        except Exception:
+            return None
+    with ThreadPoolExecutor(8) as ex:
+        for r in ex.map(one, tries):
+            if r:
+                return r
+    return None
+
+
+def careers_links(page, base):
+    links = []
+    for href, label in re.findall(r"<a\s[^>]*href=[\"']([^\"'#]+)[\"'][^>]*>(.*?)</a>", page, re.S | re.I):
+        u = urljoin(base, htmlmod.unescape(href))
+        lab = tidy(htmlmod.unescape(re.sub(r"<[^>]+>", " ", label)))
+        pu = urlparse(u)
+        if pu.scheme in ("http", "https") and (CAREER_WORDS.search(pu.path) or CAREER_WORDS.search(pu.netloc.split(".")[0]) or CAREER_WORDS.search(lab[:40])):
+            links.append(u)
+    return list(dict.fromkeys(links))[:4]
+
+
+def read_page(url, name):
+    """Returns (items, how) for a careers page, or raises."""
+    page, final = fetch_html(url)
+    how = ""
+    for a in detect_ats(final + " " + page):
+        if a[0] == "unsupported":
+            how = how or f"uses {a[1]} (not readable yet)"
+            continue
+        try:
+            items = jobs_from_ats(a[0], a[1:], name)
+            return items, f"{a[0]} job board", (a[0], list(a[1:]))
+        except Exception as e:
+            LOG.append(f"company {name}: {a[0]} {a[1:]} failed: {e}")
+    items, how2 = crawl_careers(page, final, name)
+    return items, how2 or how, ("page", [final]) if items else None
+
+
 def fetch_directory():
     for c in DIRECTORY:
-        url, name = c.get("careers"), c["name"]
-        if not url:
-            continue
+        name = c["name"]
         n0 = len(JOBS)
-        how = ""
-        try:
-            page, final = fetch_html(url)
-        except Exception as e:
-            LOG.append(f"company {name}: careers page failed: {e}")
-            continue
-        items = []
-        ats = detect_ats(final + " " + page)
-        for a in ats:
-            if a[0] == "unsupported":
-                how = how or f"uses {a[1]} (not readable yet)"
-                continue
+        items, how, src = [], "", None
+        cached = ATS_CACHE.get(c["id"]) or {}
+        # 1. what worked last time
+        if cached.get("kind") and cached["kind"] != "none":
             try:
-                items = [x for x in jobs_from_ats(a[0], a[1:], name)]
-                how = f"{a[0]} job board"
-                break
+                if cached["kind"] == "page":
+                    items, how, src = read_page(cached["args"][0], name)
+                else:
+                    items = jobs_from_ats(cached["kind"], tuple(cached["args"]), name)
+                    how, src = f"{cached['kind']} job board", (cached["kind"], cached["args"])
             except Exception as e:
-                LOG.append(f"company {name}: {a[0]} {a[1:]} failed: {e}")
-        if not items and not how.startswith("uses"):
+                LOG.append(f"company {name}: saved source failed: {e}")
+        # 2. the careers address we have on file
+        if not src and c.get("careers"):
             try:
-                items, how2 = crawl_careers(page, final, name)
-                how = how2 or how
+                items, how, src = read_page(c["careers"], name)
             except Exception as e:
-                LOG.append(f"company {name}: crawl failed: {e}")
+                how = f"careers page failed: {e}"
+        # 3. look for it: careers links on the home page, then the usual job boards (at most weekly for misses)
+        stale = cached.get("kind") == "none" and cached.get("checked", "") > (TODAY - datetime.timedelta(days=7)).isoformat()
+        if not src and not stale and c.get("site"):
+            try:
+                home, hfinal = fetch_html("https://" + c["site"] + "/")
+                ats = [a for a in detect_ats(home) if a[0] != "unsupported"]
+                cands = careers_links(home, hfinal)
+                for a in ats:
+                    try:
+                        items = jobs_from_ats(a[0], a[1:], name)
+                        how, src = f"{a[0]} job board (found on home page)", (a[0], list(a[1:]))
+                        break
+                    except Exception:
+                        pass
+                for u in cands if not src else []:
+                    try:
+                        it, h2, s2 = read_page(u, name)
+                    except Exception:
+                        continue
+                    if s2:
+                        items, how, src = it, h2 + " (found on home page)", s2
+                        break
+            except Exception:
+                pass
+            if not src:
+                r = probe_ats(c)
+                if r:
+                    items = jobs_from_ats(r[0], r[1], name)
+                    how, src = f"{r[0]} job board (found by name)", (r[0], list(r[1]))
+            ATS_CACHE[c["id"]] = {"kind": src[0], "args": src[1], "checked": TODAY.isoformat()} if src else {"kind": "none", "checked": TODAY.isoformat()}
+        elif src:
+            ATS_CACHE[c["id"]] = {"kind": src[0], "args": src[1], "checked": TODAY.isoformat()}
         for title, loc, date, jtype, u in items:
             if not title or not u:
                 continue
@@ -597,7 +731,7 @@ def fetch_directory():
             d = date or PREV.get(u) or TODAY.isoformat()
             add(title, name, loc or "Chennai", d, jtype, u, "Company careers", area="")
         got = len(JOBS) - n0
-        LOG.append(f"company {name}: {got} Chennai jobs" + (f" via {how}" if how else " (no readable listings found)"))
+        LOG.append(f"company {name}: " + (how if how.startswith("careers page failed") and not got else f"{got} Chennai jobs" + (f" via {how}" if how else " (no readable listings found)")))
 
 
 def pin_directory_jobs():
@@ -624,62 +758,141 @@ def icon_links(page, base):
     for tag in re.findall(r"<link\b[^>]*>", page, re.I):
         rel = (re.search(r"rel=[\"']([^\"']+)", tag, re.I) or [None, ""])[1].lower()
         href = (re.search(r"href=[\"']([^\"']+)", tag, re.I) or [None, ""])[1]
-        if not href or "icon" not in rel or "mask-icon" in rel:
+        if not href:
             continue
-        size = re.search(r"sizes=[\"'](\d+)x\d+", tag, re.I)
-        score = int(size.group(1)) if size else (180 if "apple" in rel else (64 if href.lower().endswith(".svg") else 32))
-        cands.append((score, urljoin(base, htmlmod.unescape(href))))
-    return [u for _, u in sorted(cands, reverse=True)]
+        if rel == "manifest":
+            try:
+                man = get(urljoin(base, htmlmod.unescape(href)), timeout=15)
+                for ic in man.get("icons", []):
+                    if ic.get("src"):
+                        cands.append(urljoin(urljoin(base, href), ic["src"]))
+            except Exception:
+                pass
+        elif "icon" in rel and "mask-icon" not in rel:
+            cands.append(urljoin(base, htmlmod.unescape(href)))
+    for m in re.findall(r"<meta[^>]+(?:msapplication-TileImage|og:logo)[^>]+content=[\"']([^\"']+)", page, re.I):
+        cands.append(urljoin(base, htmlmod.unescape(m)))
+    return list(dict.fromkeys(cands))
 
 
 def fetch_bytes(url, timeout=20):
     req = urllib.request.Request(url, headers={"User-Agent": HTML_UA["User-Agent"], "Accept": "image/*,*/*"})
     with urllib.request.urlopen(req, timeout=timeout) as r:
-        return r.read(600_000), (r.headers.get("Content-Type") or "").split(";")[0].strip().lower()
+        return r.read(1_500_001), (r.headers.get("Content-Type") or "").split(";")[0].strip().lower()
 
 
 EXT = {"image/png": "png", "image/svg+xml": "svg", "image/jpeg": "jpg", "image/webp": "webp", "image/x-icon": "ico", "image/vnd.microsoft.icon": "ico", "image/gif": "gif"}
+
+
+def image_side(data, ext):
+    """Smaller side of an image in pixels (SVG counts as large); 0 if unreadable."""
+    import struct
+    try:
+        if ext == "svg":
+            return 512 if b"<svg" in data[:3000].lower() else 0
+        if data[:8] == b"\x89PNG\r\n\x1a\n":
+            w, h = struct.unpack(">II", data[16:24]); return min(w, h)
+        if data[:4] == b"\x00\x00\x01\x00":
+            best = 0
+            for i in range(struct.unpack("<H", data[4:6])[0]):
+                w, h = data[6 + 16 * i], data[7 + 16 * i]
+                best = max(best, min(w or 256, h or 256))
+            return best
+        if data[:4] == b"RIFF" and data[8:12] == b"WEBP":
+            if data[12:16] == b"VP8X":
+                return min(1 + int.from_bytes(data[24:27], "little"), 1 + int.from_bytes(data[27:30], "little"))
+            if data[12:16] == b"VP8L":
+                b = int.from_bytes(data[21:25], "little"); return min((b & 0x3FFF) + 1, ((b >> 14) & 0x3FFF) + 1)
+            if data[12:16] == b"VP8 ":
+                w, h = struct.unpack("<HH", data[26:30]); return min(w & 0x3FFF, h & 0x3FFF)
+        if data[:2] == b"\xff\xd8":
+            i = 2
+            while i < len(data) - 9:
+                if data[i] != 0xFF:
+                    i += 1; continue
+                mk = data[i + 1]
+                if mk in (0xC0, 0xC1, 0xC2):
+                    h, w = struct.unpack(">HH", data[i + 5:i + 9]); return min(w, h)
+                i += 2 + struct.unpack(">H", data[i + 2:i + 4])[0]
+        if data[:3] == b"GIF":
+            w, h = struct.unpack("<HH", data[6:10]); return min(w, h)
+    except Exception:
+        pass
+    return 0
+
+
+# employers that post Chennai jobs but are not in companies.json: name -> website, for their logo
+EMPLOYER_SITES = {"Caterpillar": "caterpillar.com", "Bosch Group": "bosch.com", "Pfizer": "pfizer.com", "Zuora": "zuora.com",
+                  "Mitsogo Inc": "mitsogo.com", "Valgenesis": "valgenesis.com", "Visa": "visa.com", "Ford": "ford.com",
+                  "HCLTech": "hcltech.com", "project44": "project44.com", "Equativ": "equativ.com", "Workday": "workday.com"}
+
+
+def best_logo(site):
+    """Downloads the clearest square icon the site offers. Returns (bytes, ext, side) or None."""
+    urls, exists = [], False
+    try:
+        page, final = fetch_html("https://" + site + "/")
+        urls += icon_links(page, final)
+        exists = True
+    except urllib.error.HTTPError:
+        exists = True
+    except Exception:
+        pass
+    urls += ["https://" + site + "/apple-touch-icon.png"]
+    if exists:
+        urls.append(f"https://www.google.com/s2/favicons?domain={site}&sz=256")
+    best = None
+    for u in urls[:10]:
+        try:
+            data, ctype = fetch_bytes(u)
+        except Exception:
+            continue
+        ext = EXT.get(ctype) or (u.rsplit(".", 1)[-1].lower() if u.rsplit(".", 1)[-1].lower() in ("png", "svg", "jpg", "webp", "ico") else "")
+        if not ext or len(data) < 120 or len(data) > 1_500_000:
+            continue
+        side = image_side(data, ext)
+        if not side or side > 4096:
+            continue
+        # prefer real site icons; Google's copy is a fallback only when it is clearly bigger
+        score = min(side, 512) - (40 if "google.com/s2" in u else 0)
+        if not best or score > best[3]:
+            best = (data, ext, side, score)
+        if side >= 180 and "google.com/s2" not in u:
+            break
+    return best[:3] if best else None
 
 
 def fetch_logos():
     os.makedirs(os.path.join(ROOT, "logos"), exist_ok=True)
     have = {f.rsplit(".", 1)[0]: f for f in os.listdir(os.path.join(ROOT, "logos"))}
     got = 0
-    for c in DIRECTORY:
-        site = c.get("site")
+    todo = [(c["id"], c["name"], c.get("site")) for c in DIRECTORY] + [("emp-" + re.sub(r"[^a-z0-9]+", "-", n.lower()).strip("-"), n, st) for n, st in EMPLOYER_SITES.items()]
+    for key, name, site in todo:
         if not site:
             continue
-        if c["id"] in have:
-            LOGOS[c["name"]] = "logos/" + have[c["id"]]
-            continue
-        urls, exists = [], False
-        try:
-            page, final = fetch_html("https://" + site + "/")
-            urls += icon_links(page, final)
-            exists = True
-        except urllib.error.HTTPError:
-            exists = True
-        except Exception:
-            pass
-        urls += ["https://" + site + "/apple-touch-icon.png"]
-        if exists:
-            urls.append(f"https://www.google.com/s2/favicons?domain={site}&sz=128")
-        for u in urls:
+        cur = have.get(key)
+        side = 0
+        if cur:
             try:
-                data, ctype = fetch_bytes(u)
+                with open(os.path.join(ROOT, "logos", cur), "rb") as f:
+                    side = image_side(f.read(), cur.rsplit(".", 1)[-1])
             except Exception:
+                side = 0
+            LOGOS[name] = "logos/" + cur
+            if 64 <= side <= 4096:
                 continue
-            ext = EXT.get(ctype) or (u.rsplit(".", 1)[-1].lower() if u.rsplit(".", 1)[-1].lower() in ("png", "svg", "jpg", "webp", "ico") else "")
-            if not ext or len(data) < 120 or (ext == "svg" and b"<svg" not in data[:2000].lower()):
-                continue
-            name = f"{c['id']}.{ext}"
-            with open(os.path.join(ROOT, "logos", name), "wb") as f:
+        found = best_logo(site)
+        if found and found[2] > side:
+            data, ext, _ = found
+            if cur:
+                os.remove(os.path.join(ROOT, "logos", cur))
+            fname = f"{key}.{ext}"
+            with open(os.path.join(ROOT, "logos", fname), "wb") as f:
                 f.write(data)
-            LOGOS[c["name"]] = "logos/" + name
+            LOGOS[name] = "logos/" + fname
             got += 1
-            break
-        time.sleep(0.3)
-    LOG.append(f"logos: {len(LOGOS)} of {len(DIRECTORY)} companies have a logo ({got} new)")
+        time.sleep(0.2)
+    LOG.append(f"logos: {len(LOGOS)} logos ({got} new or sharper)")
 
 
 def main():
@@ -705,6 +918,8 @@ def main():
             areas[k] = {"en": c["name"], "ta": c["name"], "lat": round(la, 6), "lon": round(lo, 6), "exact": True, "co": True, "office": c.get("office", ""), "logo": LOGOS.get(c["name"], ""), "approx": c["id"] in APPROX, "careers": c.get("careers", "")}
     with open(os.path.join(ROOT, "geo_cache.json"), "w", encoding="utf-8") as f:
         json.dump(GEO_CACHE, f, ensure_ascii=False, indent=0)
+    with open(os.path.join(ROOT, "ats_cache.json"), "w", encoding="utf-8") as f:
+        json.dump(ATS_CACHE, f, ensure_ascii=False, indent=1)
     feed = {"updated": TODAY.isoformat(), "areas": areas, "logos": LOGOS,
             "log": LOG, "jobs": out}
     if not out:
