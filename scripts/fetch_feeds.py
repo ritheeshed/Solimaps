@@ -608,8 +608,71 @@ def pin_directory_jobs():
             j["a"] = "co_" + c["id"]
 
 
+
+# ---------- company logos (saved into logos/ so the site serves them itself) ----------
+LOGOS = {}
+
+
+def icon_links(page, base):
+    cands = []
+    for tag in re.findall(r"<link\b[^>]*>", page, re.I):
+        rel = (re.search(r"rel=[\"']([^\"']+)", tag, re.I) or [None, ""])[1].lower()
+        href = (re.search(r"href=[\"']([^\"']+)", tag, re.I) or [None, ""])[1]
+        if not href or "icon" not in rel or "mask-icon" in rel:
+            continue
+        size = re.search(r"sizes=[\"'](\d+)x\d+", tag, re.I)
+        score = int(size.group(1)) if size else (180 if "apple" in rel else (64 if href.lower().endswith(".svg") else 32))
+        cands.append((score, urljoin(base, htmlmod.unescape(href))))
+    return [u for _, u in sorted(cands, reverse=True)]
+
+
+def fetch_bytes(url, timeout=20):
+    req = urllib.request.Request(url, headers={"User-Agent": HTML_UA["User-Agent"], "Accept": "image/*,*/*"})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return r.read(600_000), (r.headers.get("Content-Type") or "").split(";")[0].strip().lower()
+
+
+EXT = {"image/png": "png", "image/svg+xml": "svg", "image/jpeg": "jpg", "image/webp": "webp", "image/x-icon": "ico", "image/vnd.microsoft.icon": "ico", "image/gif": "gif"}
+
+
+def fetch_logos():
+    os.makedirs(os.path.join(ROOT, "logos"), exist_ok=True)
+    have = {f.rsplit(".", 1)[0]: f for f in os.listdir(os.path.join(ROOT, "logos"))}
+    got = 0
+    for c in DIRECTORY:
+        site = c.get("site")
+        if not site:
+            continue
+        if c["id"] in have:
+            LOGOS[c["name"]] = "logos/" + have[c["id"]]
+            continue
+        urls = []
+        try:
+            page, final = fetch_html("https://" + site + "/")
+            urls += icon_links(page, final)
+        except Exception:
+            pass
+        urls += ["https://" + site + "/apple-touch-icon.png", f"https://www.google.com/s2/favicons?domain={site}&sz=128"]
+        for u in urls:
+            try:
+                data, ctype = fetch_bytes(u)
+            except Exception:
+                continue
+            ext = EXT.get(ctype) or (u.rsplit(".", 1)[-1].lower() if u.rsplit(".", 1)[-1].lower() in ("png", "svg", "jpg", "webp", "ico") else "")
+            if not ext or len(data) < 120 or (ext == "svg" and b"<svg" not in data[:2000].lower()):
+                continue
+            name = f"{c['id']}.{ext}"
+            with open(os.path.join(ROOT, "logos", name), "wb") as f:
+                f.write(data)
+            LOGOS[c["name"]] = "logos/" + name
+            got += 1
+            break
+        time.sleep(0.3)
+    LOG.append(f"logos: {len(LOGOS)} of {len(DIRECTORY)} companies have a logo ({got} new)")
+
+
 def main():
-    for fn in (geocode_directory, fetch_jsearch, fetch_greenhouse, fetch_lever, fetch_smartrecruiters, fetch_workday, fetch_directory):
+    for fn in (geocode_directory, fetch_logos, fetch_jsearch, fetch_greenhouse, fetch_lever, fetch_smartrecruiters, fetch_workday, fetch_directory):
         try:
             fn()
         except Exception as e:
@@ -628,10 +691,10 @@ def main():
         k = "co_" + c["id"]
         if k in used:
             la, lo = CO_AREAS[c["id"]]
-            areas[k] = {"en": c["name"], "ta": c["name"], "lat": round(la, 6), "lon": round(lo, 6), "exact": True, "co": True, "office": c.get("office", "")}
+            areas[k] = {"en": c["name"], "ta": c["name"], "lat": round(la, 6), "lon": round(lo, 6), "exact": True, "co": True, "office": c.get("office", ""), "logo": LOGOS.get(c["name"], "")}
     with open(os.path.join(ROOT, "geo_cache.json"), "w", encoding="utf-8") as f:
         json.dump(GEO_CACHE, f, ensure_ascii=False, indent=0)
-    feed = {"updated": TODAY.isoformat(), "areas": areas,
+    feed = {"updated": TODAY.isoformat(), "areas": areas, "logos": LOGOS,
             "log": LOG, "jobs": out}
     if not out:
         prev = load_json("feeds.json", None)
