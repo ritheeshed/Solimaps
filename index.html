@@ -303,7 +303,7 @@ function makeMap(){
   function group(){
     const close=map.getZoom()>=14.5,spots={};
     for(const[a,m]of markers){const k=D.areas[a].lat.toFixed(4)+','+D.areas[a].lon.toFixed(4);(spots[k]=spots[k]||[]).push(m)}
-    for(const k in spots){const ms=spots[k];ms.forEach((m,i)=>{if(close&&ms.length>1){const R=Math.max(38,8*ms.length),an=-Math.PI/2+2*Math.PI*i/ms.length;m.mk.setOffset([Math.cos(an)*R,Math.sin(an)*R]);m.spread=true}else{m.mk.setOffset([0,0]);m.spread=false}})}
+    for(const k in spots){const ms=spots[k];ms.forEach((m,i)=>{if(close&&ms.length>1){const R=Math.max(44,11*ms.length),an=-Math.PI/2+2*Math.PI*i/ms.length;m.mk.setOffset([Math.cos(an)*R,Math.sin(an)*R]);m.spread=true}else{m.mk.setOffset([0,0]);m.spread=false}})}
     const arr=[...markers].map(([a,m])=>({a,m,p:map.project([D.areas[a].lon,D.areas[a].lat])})).sort((x,y)=>(y.a===S.area)-(x.a===S.area)||y.m.co-x.m.co||y.m.n-x.m.n);
     const lead=[];
     for(const o of arr){o.m.grp=null;o.m.el.classList.remove('grp');o.m.el.hidden=false;
