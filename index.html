@@ -105,7 +105,7 @@ select:hover,input[type=search]:hover{border-color:#E9CFCC}
 .more{display:block;margin:14px auto;min-height:40px;padding:0 18px;border:1px solid var(--line);border-radius:999px;background:var(--bg);cursor:pointer;font-weight:500;font-size:13px}
 .empty{color:var(--mute);text-align:center;padding:48px 24px;font-size:14px}
 .foot{padding:10px 20px 14px;font-size:11.5px;color:var(--mute);border-top:1px solid var(--line);display:grid;gap:2px}
-.foot p{margin:0}.foot p:empty{display:none}
+.foot p{margin:0}.foot .credits{display:none;font-size:11px}.foot .credits a{color:inherit}.foot p:empty{display:none}
 .foot summary{cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:6px;font-size:12px;min-height:24px}.foot summary::-webkit-details-marker{display:none}
 .foot summary::before{content:"i";width:15px;height:15px;border-radius:50%;border:1px solid currentColor;display:grid;place-items:center;font-size:10px;font-weight:600;font-style:italic}
 .foot summary:hover{color:var(--red)}.foot details p{margin-top:4px}
@@ -148,7 +148,7 @@ select:hover,input[type=search]:hover{border-color:#E9CFCC}
 .brand .vp,.brand .stats{display:none}
 .float.panel{position:relative;inset:auto;width:auto;border-radius:20px 20px 0 0;border:0;border-top:1px solid var(--line);box-shadow:0 -8px 24px #2b20220f;backdrop-filter:none;background:var(--bg);margin-top:-14px;z-index:4}
 .float.panel::before{content:"";display:block;width:36px;height:4px;border-radius:4px;background:var(--line);margin:8px auto 0}
-.tools{left:10px;bottom:48px}.hint,#rotl,#rotr,#north,.ptog{display:none}.maplibregl-ctrl-bottom-right{bottom:16px}.list{overflow:visible}}
+.tools{left:10px;bottom:28px}.hint,#rotl,#rotr,#north,.ptog,.maplibregl-ctrl-attrib{display:none}.foot .credits{display:block}.list{overflow:visible}}
 @media(prefers-reduced-motion:reduce){.mk .bub,.mk .stk{transition:none;animation:none!important}}
 </style>
 </head>
@@ -198,7 +198,7 @@ select:hover,input[type=search]:hover{border-color:#E9CFCC}
       <div class="note" id="clearRow" hidden style="justify-content:flex-end"><button type="button" id="clear" data-t="clear">Clear filters</button></div>
     </div>
     <div class="list" id="list"></div>
-    <div class="foot"><p id="stale"></p><details><summary data-t="about">About these listings</summary><p data-t="source"></p><p data-t="check"></p></details></div>
+    <div class="foot"><p id="stale"></p><p class="credits">Map data <a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> · <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener">© OpenMapTiles</a> · <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a></p><details><summary data-t="about">About these listings</summary><p data-t="source"></p><p data-t="check"></p></details></div>
   </section>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
