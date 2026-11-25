@@ -412,6 +412,7 @@ ATS_PATTERNS = [
     ("workable", r"apply\.workable\.com/([A-Za-z0-9_-]+)"),
     ("workday", r"([a-z0-9-]+)\.(wd\d+)\.myworkdayjobs\.com/(?:[a-z]{2}-[A-Z]{2}/)?([A-Za-z0-9_-]+)"),
     ("keka", r"([a-z0-9-]+)\.keka\.com"),
+    ("kula", r"careers\.kula\.ai/([A-Za-z0-9_-]+)"),
     ("freshteam", r"([a-z0-9-]+)\.freshteam\.com"),
     ("zohorecruit", r"([a-z0-9-]+\.zohorecruit\.(?:com|in))"),
     ("zohorecruit", r"(careers\.zohocorp\.com)"),
@@ -488,6 +489,20 @@ def jobs_from_ats(kind, args, co_name):
         page, _ = fetch_html(base + "/jobs")
         links = list(dict.fromkeys(re.findall(r'href="(/jobs/[A-Za-z0-9_-]{6,}/[^"#?]+)"', page)))
         for path in links[:40]:
+            try:
+                pg, final = fetch_html(base + path)
+            except Exception:
+                continue
+            for p in jsonld_postings(pg)[:1]:
+                out.append((p.get("title"), posting_location(p), iso_date(p.get("datePosted")) if p.get("datePosted") else None, str(p.get("employmentType") or "").replace("_", " ").title(), final))
+            time.sleep(0.2)
+    elif kind == "kula":
+        base = "https://careers.kula.ai"
+        page, _ = fetch_html(f"{base}/{args[0]}")
+        links = list(dict.fromkeys(re.findall(rf'href="(/{re.escape(args[0])}/\d+)', page)))
+        if not links:
+            raise ValueError("no kula jobs")
+        for path in links[:45]:
             try:
                 pg, final = fetch_html(base + path)
             except Exception:
@@ -625,7 +640,7 @@ def probe_ats(c):
     from concurrent.futures import ThreadPoolExecutor
     tries = []
     for v in slug_variants(c):
-        tries += [("greenhouse", (v,)), ("lever", (v,)), ("ashby", (v,)), ("workable", (v,)), ("keka", (v,)), ("freshteam", (v,)),
+        tries += [("greenhouse", (v,)), ("lever", (v,)), ("ashby", (v,)), ("workable", (v,)), ("keka", (v,)), ("freshteam", (v,)), ("kula", (v,)),
                   ("zohorecruit", (v + ".zohorecruit.in",)), ("zohorecruit", (v + ".zohorecruit.com",))]
 
     def one(t):

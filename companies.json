@@ -1,857 +1,867 @@
 {
-"note": "Chennai startups and product companies on Soli Maps. 'office' is the Chennai address the company publishes; 'geo' is the landmark the daily job looks up on OpenStreetMap to place the pin (cached in geo_cache.json); set lat/lon to override. Companies without a published Chennai address have office '' and are not pinned. A geo name starting with '~' is a locality fallback: the pin then marks the area, not the building, and is flagged approximate.",
-"companies": [
-{
-"id": "zoho",
-"name": "Zoho",
-"group": "Established product",
-"careers": "https://careers.zohocorp.com/jobs/Careers",
-"office": "Estancia IT Park, Plot No. 140 & 151, GST Road, Vallancheri, Chengalpattu District 603202",
-"geo": [
-"Estancia IT Park, Vallancheri",
-"Zoho Corporation, Chengalpattu",
-"Estancia IT Park",
-"Zoho Corporation"
-],
-"site": "zoho.com"
-},
-{
-"id": "freshworks",
-"name": "Freshworks",
-"alias": [
-"Freshworks Inc."
-],
-"group": "Established product",
-"careers": "https://careers.smartrecruiters.com/Freshworks",
-"office": "Global Infocity Park, Block A, 40 MGR Salai, Perungudi, Chennai 600096",
-"geo": "Global Infocity Park, Perungudi, Chennai",
-"site": "freshworks.com"
-},
-{
-"id": "chargebee",
-"name": "Chargebee",
-"group": "Established product",
-"careers": "https://jobs.chargebee.com/",
-"office": "10th Floor, Littlewood Tower, Ramanujan IT Park, Taramani, Chennai 600113",
-"geo": [
-"Ramanujan IT City, Taramani, Chennai",
-"Littlewood Tower, Taramani",
-"Ramanujan IT City",
-"~Taramani, Chennai"
-],
-"site": "chargebee.com"
-},
-{
-"id": "uniphore",
-"name": "Uniphore",
-"group": "Established product",
-"careers": "https://uniphore.wd503.myworkdayjobs.com/Uniphore",
-"office": "IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
-"geo": "IIT Madras Research Park, Chennai",
-"site": "uniphore.com"
-},
-{
-"id": "kissflow",
-"name": "Kissflow",
-"group": "Established product",
-"careers": "https://careers.kissflow.com/",
-"office": "Tower B, 10th Floor, World Trade Center, 5/142 Rajiv Gandhi Salai (OMR), Perungudi, Chennai 600096",
-"geo": "World Trade Center, Perungudi, Chennai",
-"site": "kissflow.com"
-},
-{
-"id": "fourkites",
-"name": "FourKites",
-"group": "Established product",
-"careers": "https://boards.greenhouse.io/fourkites",
-"office": "DLF Cybercity, Manapakkam, Chennai",
-"geo": [
-"DLF IT Park, Manapakkam",
-"DLF Cyber City, Chennai",
-"DLF Cybercity, Manapakkam, Chennai",
-"~Manapakkam, Chennai"
-],
-"site": "fourkites.com"
-},
-{
-"id": "ramco",
-"name": "Ramco Systems",
-"alias": [
-"Ramco"
-],
-"group": "Established product",
-"careers": "https://www.ramco.com/careers",
-"office": "64, Sardar Patel Road, Taramani, Chennai 600113",
-"geo": [
-"64 Sardar Patel Road, Taramani, Chennai",
-"Ramco Systems, Taramani",
-"~Taramani, Chennai"
-],
-"site": "ramco.com"
-},
-{
-"id": "madstreetden",
-"name": "Mad Street Den (Vue.ai)",
-"alias": [
-"Mad Street Den",
-"Vue.ai"
-],
-"group": "Established product",
-"careers": "https://www.vue.ai/careers",
-"office": "",
-"geo": "",
-"site": "vue.ai"
-},
-{
-"id": "disprz",
-"name": "Disprz",
-"group": "Established product",
-"careers": "https://disprz.ai/careers",
-"office": "",
-"geo": "",
-"site": "disprz.ai"
-},
-{
-"id": "facilio",
-"name": "Facilio",
-"group": "Established product",
-"careers": "https://facilio.com/careers/",
-"office": "IndiQube Ocean Bay, Guindy Industrial Estate, Ekkaduthangal, Chennai 600032",
-"geo": [
-"IndiQube Ocean Bay, Ekkaduthangal",
-"~Ekkaduthangal, Chennai",
-"~Guindy, Chennai"
-],
-"site": "facilio.com"
-},
-{
-"id": "superops",
-"name": "SuperOps",
-"group": "Fast-growing SaaS",
-"careers": "https://superops.com/careers",
-"office": "",
-"geo": "",
-"site": "superops.com"
-},
-{
-"id": "rocketlane",
-"name": "Rocketlane",
-"group": "Fast-growing SaaS",
-"careers": "https://www.rocketlane.com/careers",
-"office": "",
-"geo": "",
-"site": "rocketlane.com"
-},
-{
-"id": "gallabox",
-"name": "Gallabox",
-"group": "Fast-growing SaaS",
-"careers": "https://gallabox.com/careers",
-"office": "",
-"geo": "",
-"site": "gallabox.com"
-},
-{
-"id": "highperformr",
-"name": "Highperformr.ai",
-"alias": [
-"Highperformr"
-],
-"group": "Fast-growing SaaS",
-"careers": "https://www.highperformr.ai/careers",
-"office": "",
-"geo": "",
-"site": "highperformr.ai"
-},
-{
-"id": "vajro",
-"name": "Vajro",
-"group": "Fast-growing SaaS",
-"careers": "https://www.vajro.com/careers",
-"office": "",
-"geo": "",
-"site": "vajro.com"
-},
-{
-"id": "fieldproxy",
-"name": "Fieldproxy",
-"group": "Fast-growing SaaS",
-"careers": "https://www.fieldproxy.com/careers",
-"office": "",
-"geo": "",
-"site": "fieldproxy.com"
-},
-{
-"id": "auditcue",
-"name": "AuditCue",
-"group": "Fast-growing SaaS",
-"careers": "https://auditcue.com/careers",
-"office": "",
-"geo": "",
-"site": "auditcue.com"
-},
-{
-"id": "pando",
-"name": "Pando",
-"group": "Fast-growing SaaS",
-"careers": "https://careers.pando.ai/jobs/Careers",
-"office": "No. 4, Yarlagadda Towers, 4th Lane, Nungambakkam High Road, Chennai 600034",
-"geo": [
-"Yarlagadda Towers, Nungambakkam",
-"~Nungambakkam, Chennai"
-],
-"site": "pando.ai"
-},
-{
-"id": "onehash",
-"name": "OneHash",
-"group": "Fast-growing SaaS",
-"careers": "https://www.onehash.ai/careers",
-"office": "",
-"geo": "",
-"site": "onehash.ai"
-},
-{
-"id": "pipecandy",
-"name": "PipeCandy",
-"group": "Fast-growing SaaS",
-"careers": "https://pipecandy.com/careers",
-"office": "",
-"geo": "",
-"site": "pipecandy.com"
-},
-{
-"id": "yubi",
-"name": "Yubi",
-"alias": [
-"CredAvenue"
-],
-"group": "Fintech",
-"careers": "https://www.go-yubi.com/careers",
-"office": "12th Floor, Prestige Polygon, 471 Anna Salai, Nandanam, Chennai 600035",
-"geo": [
-"Prestige Polygon, Anna Salai, Chennai",
-"Prestige Polygon, Chennai",
-"Prestige Polygon"
-],
-"site": "go-yubi.com"
-},
-{
-"id": "m2p",
-"name": "M2P Fintech",
-"alias": [
-"M2P"
-],
-"group": "Fintech",
-"careers": "https://careers.m2pfintech.com/view-jobs/",
-"office": "Plot No. C1 & C56, Olympia Quest, SIDCO, Thiru Vi Ka Industrial Estate, Guindy, Chennai 600032",
-"geo": [
-"Olympia Quest, Guindy",
-"SIDCO Industrial Estate, Guindy",
-"Thiru Vi Ka Industrial Estate, Guindy, Chennai"
-],
-"site": "m2pfintech.com"
-},
-{
-"id": "bankbazaar",
-"name": "BankBazaar",
-"group": "Fintech",
-"careers": "https://www.bankbazaar.com/careers.html",
-"office": "Prince Info Park, Block B, 3rd Floor, 81B 2nd Main Road, Ambattur Industrial Estate, Chennai 600058",
-"geo": "Prince Info Park, Ambattur Industrial Estate, Chennai",
-"site": "bankbazaar.com"
-},
-{
-"id": "kaleidofin",
-"name": "Kaleidofin",
-"group": "Fintech",
-"careers": "https://www.kaleidofin.com/careers",
-"office": "Module A6-02, Block A, 6th Floor, Phase 2, IIT Madras Research Park, Taramani, Chennai 600113",
-"geo": "IIT Madras Research Park, Chennai",
-"site": "kaleidofin.com"
-},
-{
-"id": "vivriti",
-"name": "Vivriti Capital",
-"alias": [
-"Vivriti"
-],
-"group": "Fintech",
-"careers": "https://www.vivriticapital.com/careers",
-"office": "Prestige Zackria Metropolitan, No. 200/1-8, Block 1, Anna Salai, Chennai 600002",
-"geo": [
-"Prestige Zackria Metropolitan, Anna Salai, Chennai",
-"Prestige Zackria Metropolitan",
-"Zackria Metropolitan"
-],
-"site": "vivriticapital.com"
-},
-{
-"id": "northernarc",
-"name": "Northern Arc",
-"alias": [
-"Northern Arc Capital"
-],
-"group": "Fintech",
-"careers": "https://www.northernarc.com/careers",
-"office": "10th Floor, IIT Madras Research Park, 1 Kanagam Village, Taramani, Chennai 600113",
-"geo": "IIT Madras Research Park, Chennai",
-"site": "northernarc.com"
-},
-{
-"id": "fundsindia",
-"name": "FundsIndia",
-"group": "Fintech",
-"careers": "https://www.fundsindia.com/careers",
-"office": "",
-"geo": "",
-"site": "fundsindia.com"
-},
-{
-"id": "credopay",
-"name": "CredoPay",
-"group": "Fintech",
-"careers": "https://www.credopay.com/careers",
-"office": "",
-"geo": "",
-"site": "credopay.com"
-},
-{
-"id": "hypto",
-"name": "Hypto",
-"group": "Fintech",
-"careers": "https://hypto.in/careers",
-"office": "",
-"geo": "",
-"site": "hypto.in"
-},
-{
-"id": "creditmantri",
-"name": "CreditMantri",
-"group": "Fintech",
-"careers": "https://www.creditmantri.com/careers/",
-"office": "Taramani, Chennai 600113",
-"geo": [
-"~Taramani, Chennai"
-],
-"site": "creditmantri.com"
-},
-{
-"id": "agnikul",
-"name": "Agnikul Cosmos",
-"alias": [
-"Agnikul"
-],
-"group": "Deeptech",
-"careers": "https://agnikul.in/careers/",
-"office": "E-Block, 3rd Floor, E304, IIT Madras Research Park, Chennai 600113",
-"geo": "IIT Madras Research Park, Chennai",
-"site": "agnikul.in"
-},
-{
-"id": "detect",
-"name": "Detect Technologies",
-"group": "Deeptech",
-"careers": "https://detecttechnologies.com/current-openings",
-"office": "1st Floor, Block B, Featherlite The Address, Iswarya Nagar, Nemilichery, Pallavaram, Chennai 600043",
-"geo": "Featherlite The Address, Pallavaram, Chennai",
-"site": "detecttechnologies.com"
-},
-{
-"id": "eplane",
-"name": "The ePlane Company",
-"alias": [
-"ePlane"
-],
-"group": "Deeptech",
-"careers": "https://www.eplane.ai/careers",
-"office": "No. 1FA, 1st Floor, IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
-"geo": "IIT Madras Research Park, Chennai",
-"site": "eplane.ai"
-},
-{
-"id": "blurgs",
-"name": "Blurgs AI",
-"alias": [
-"Blurgs"
-],
-"group": "Deeptech",
-"careers": "https://blurgs.ai/careers",
-"office": "",
-"geo": "",
-"site": "blurgs.ai"
-},
-{
-"id": "zuppa",
-"name": "Zuppa",
-"alias": [
-"Zuppa Geo Navigation"
-],
-"group": "Deeptech",
-"careers": "https://zuppa.io/careers",
-"office": "IIT Madras Incubation Cell, IIT Madras Research Park, Taramani, Chennai 600113",
-"geo": [
-"IIT Madras Research Park, Chennai"
-],
-"site": "zuppa.io"
-},
-{
-"id": "raptee",
-"name": "RapteeHV",
-"alias": [
-"Raptee.HV",
-"Raptee"
-],
-"group": "Deeptech",
-"careers": "https://www.raptee.com/careers",
-"office": "",
-"geo": "",
-"site": "rapteehv.com"
-},
-{
-"id": "waycool",
-"name": "WayCool",
-"group": "Agri, logistics & edtech",
-"careers": "https://www.waycool.in/careers",
-"office": "",
-"geo": "",
-"site": "waycool.in"
-},
-{
-"id": "samunnati",
-"name": "Samunnati",
-"group": "Agri, logistics & edtech",
-"careers": "https://www.samunnati.com/careers/",
-"office": "Baid Hi Tech Park, 129-B, 8th Floor, ECR, Thiruvanmiyur, Chennai 600041",
-"geo": [
-"Baid Hi Tech Park, Thiruvanmiyur, Chennai",
-"Baid Hi-Tech Park",
-"~Thiruvanmiyur, Chennai"
-],
-"site": "samunnati.com"
-},
-{
-"id": "wizfreight",
-"name": "Wiz Freight",
-"alias": [
-"WIZ Freight"
-],
-"group": "Agri, logistics & edtech",
-"careers": "https://wizfreight.com/careers",
-"office": "",
-"geo": "",
-"site": "wizfreight.com"
-},
-{
-"id": "guvi",
-"name": "GUVI",
-"alias": [
-"GUVI Geek Networks"
-],
-"group": "Agri, logistics & edtech",
-"careers": "https://www.guvi.in/careers/",
-"office": "IITM Research Park Phase 2, Module 9, 3rd Floor, D Block, Kanagam Road, Taramani, Chennai 600113",
-"geo": "IIT Madras Research Park, Chennai",
-"site": "guvi.in"
-},
-{
-"id": "latentview",
-"name": "LatentView Analytics",
-"group": "Analytics & AI",
-"careers": "https://latentview.com/careers",
-"office": "ETA Technopark, Old Mahabalipuram Road, Navalur, Chennai 603103",
-"geo": [
-"ETA Technopark, Navalur",
-"~Navalur, Chennai"
-],
-"site": "latentview.com",
-"alias": [
-"LatentView"
-]
-},
-{
-"id": "tiger",
-"name": "Tiger Analytics",
-"group": "Analytics & AI",
-"careers": "https://tigeranalytics.com/careers",
-"office": "Module 1, DLF IT Park, Ramapuram, Chennai 600089",
-"geo": [
-"DLF IT Park, Ramapuram",
-"DLF Cybercity, Manapakkam, Chennai",
-"~Ramapuram, Chennai"
-],
-"site": "tigeranalytics.com",
-"alias": [
-"Tiger Analytics India"
-]
-},
-{
-"id": "intellect",
-"name": "Intellect Design Arena",
-"group": "Product & SaaS",
-"careers": "https://intellectdesign.com/careers",
-"office": "SIPCOT IT Park, Siruseri, Chennai 603103",
-"geo": [
-"SIPCOT IT Park, Siruseri",
-"~Siruseri, Chennai"
-],
-"site": "intellectdesign.com",
-"alias": [
-"Intellect Design Arena Ltd",
-"Intellect"
-]
-},
-{
-"id": "qube",
-"name": "Qube Cinema",
-"group": "Product & SaaS",
-"careers": "https://qubecinema.com/careers",
-"office": "No. 42, Dr. Ranga Road, Mylapore, Chennai 600004",
-"geo": [
-"42 Dr Ranga Road, Mylapore",
-"Dr Ranga Road, Mylapore",
-"~Mylapore, Chennai"
-],
-"site": "qubecinema.com"
-},
-{
-"id": "syncfusion",
-"name": "Syncfusion",
-"group": "Product & SaaS",
-"careers": "https://syncfusion.com/careers",
-"office": "AJ 217, 2nd Avenue, Anna Nagar, Chennai 600040",
-"geo": [
-"2nd Avenue, Anna Nagar, Chennai",
-"~Anna Nagar, Chennai"
-],
-"site": "syncfusion.com"
-},
-{
-"id": "nference",
-"name": "Nference",
-"group": "Deeptech (IIT Madras Research Park)",
-"careers": "https://nference.com/careers",
-"office": "7th Floor, IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
-"geo": [
-"IIT Madras Research Park, Chennai"
-],
-"site": "nference.com"
-},
-{
-"id": "aquaconnect",
-"name": "Aquaconnect",
-"group": "Deeptech (IIT Madras Research Park)",
-"careers": "https://aquaconnect.blue/careers",
-"office": "IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
-"geo": [
-"IIT Madras Research Park, Chennai"
-],
-"site": "aquaconnect.blue"
-},
-{
-"id": "cynlr",
-"name": "CynLr",
-"group": "Deeptech (IIT Madras Research Park)",
-"careers": "https://cynlr.com/careers",
-"office": "IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
-"geo": [
-"IIT Madras Research Park, Chennai"
-],
-"site": "cynlr.com"
-},
-{
-"id": "prescience",
-"name": "Prescience Insilico",
-"group": "Deeptech (IIT Madras Research Park)",
-"careers": "https://prescienceinsilico.com/careers",
-"office": "IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
-"geo": [
-"IIT Madras Research Park, Chennai"
-],
-"site": "prescienceinsilico.com"
-},
-{
-"id": "stellapps",
-"name": "Stellapps",
-"group": "Deeptech (IIT Madras Research Park)",
-"careers": "https://stellapps.com/careers",
-"office": "IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
-"geo": [
-"IIT Madras Research Park, Chennai"
-],
-"site": "stellapps.com"
-},
-{
-"id": "tvaster",
-"name": "Tvaster Genkalp",
-"group": "Deeptech (IIT Madras Research Park)",
-"careers": "",
-"office": "IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
-"geo": [
-"IIT Madras Research Park, Chennai"
-],
-"site": ""
-},
-{
-"id": "modulus",
-"name": "Modulus Housing",
-"group": "Deeptech (IIT Madras Research Park)",
-"careers": "https://modulushousing.com/careers",
-"office": "IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
-"geo": [
-"IIT Madras Research Park, Chennai"
-],
-"site": "modulushousing.com"
-},
-{
-"id": "ynos",
-"name": "YNOS Venture Engine",
-"group": "Deeptech (IIT Madras Research Park)",
-"careers": "https://ynos.in/careers",
-"office": "IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
-"geo": [
-"IIT Madras Research Park, Chennai"
-],
-"site": "ynos.in"
-},
-{
-"id": "complai",
-"name": "ComplAi",
-"group": "Deeptech (IIT Madras Research Park)",
-"careers": "",
-"office": "IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
-"geo": [
-"IIT Madras Research Park, Chennai"
-],
-"site": ""
-},
-{
-"id": "planys",
-"name": "Planys Technologies",
-"group": "Deeptech (IIT Madras Research Park)",
-"careers": "https://planystech.com/careers",
-"office": "IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
-"geo": [
-"IIT Madras Research Park, Chennai"
-],
-"site": "planystech.com"
-},
-{
-"id": "datamoo",
-"name": "DataMoo.ai",
-"group": "Deeptech (IIT Madras Research Park)",
-"careers": "https://datamoo.ai/careers",
-"office": "IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
-"geo": [
-"IIT Madras Research Park, Chennai"
-],
-"site": "datamoo.ai"
-},
-{
-"id": "pibeam",
-"name": "Pi Beam Labs",
-"group": "Deeptech (IIT Madras Research Park)",
-"careers": "",
-"office": "IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
-"geo": [
-"IIT Madras Research Park, Chennai"
-],
-"site": ""
-},
-{
-"id": "orangescape",
-"name": "OrangeScape Technologies",
-"group": "Product & SaaS",
-"careers": "https://orangescape.com/careers",
-"office": "World Trade Center, Perungudi, Chennai 600096",
-"geo": [
-"World Trade Center, Perungudi, Chennai"
-],
-"site": "orangescape.com"
-},
-{
-"id": "karomi",
-"name": "Karomi Technology",
-"group": "Product & SaaS",
-"careers": "https://karomi.com/careers",
-"office": "Prince Infocity II, OMR, Perungudi, Chennai 600096",
-"geo": [
-"Prince Infocity II, Perungudi",
-"Prince Info City, Perungudi",
-"~Perungudi, Chennai"
-],
-"site": "karomi.com"
-},
-{
-"id": "contus",
-"name": "Contus Tech",
-"group": "Product & SaaS",
-"careers": "https://contus.com/careers",
-"office": "Prince Infocity II, OMR, Perungudi, Chennai 600096",
-"geo": [
-"Prince Infocity II, Perungudi",
-"Prince Info City, Perungudi",
-"~Perungudi, Chennai"
-],
-"site": "contus.com"
-},
-{
-"id": "vuram",
-"name": "Vuram Technology Solutions",
-"group": "Product & SaaS",
-"careers": "https://vuram.com/careers",
-"office": "Prince Infocity II, OMR, Perungudi, Chennai 600096",
-"geo": [
-"Prince Infocity II, Perungudi",
-"Prince Info City, Perungudi",
-"~Perungudi, Chennai"
-],
-"site": "vuram.com"
-},
-{
-"id": "xobin",
-"name": "Xobin",
-"group": "Product & SaaS",
-"careers": "https://xobin.com/careers",
-"office": "Perungudi, Chennai 600096",
-"geo": [
-"~Perungudi, Chennai"
-],
-"site": "xobin.com"
-},
-{
-"id": "rently",
-"name": "Rently",
-"group": "Product & SaaS",
-"careers": "https://rently.com/careers",
-"office": "Perungudi, Chennai 600096",
-"geo": [
-"~Perungudi, Chennai"
-],
-"site": "rently.com"
-},
-{
-"id": "fresa",
-"name": "Fresa Technologies",
-"group": "Product & SaaS",
-"careers": "https://fresatechnologies.com/careers",
-"office": "Perungudi, Chennai 600096",
-"geo": [
-"~Perungudi, Chennai"
-],
-"site": "fresatechnologies.com"
-},
-{
-"id": "techjockey",
-"name": "Techjockey",
-"group": "Consumer & other",
-"careers": "https://techjockey.com/careers",
-"office": "Guindy, Chennai 600032",
-"geo": [
-"~Guindy, Chennai"
-],
-"site": "techjockey.com"
-},
-{
-"id": "chargemod",
-"name": "ChargeMOD",
-"group": "Consumer & other",
-"careers": "https://chargemod.com/careers",
-"office": "Guindy, Chennai 600032",
-"geo": [
-"~Guindy, Chennai"
-],
-"site": "chargemod.com"
-},
-{
-"id": "skilllync",
-"name": "Skill-Lync",
-"group": "Consumer & other",
-"careers": "https://skill-lync.com/careers",
-"office": "Guindy, Chennai 600032",
-"geo": [
-"~Guindy, Chennai"
-],
-"site": "skill-lync.com"
-},
-{
-"id": "ather",
-"name": "Ather Energy (R&D Centre)",
-"group": "Deeptech (IIT Madras Research Park)",
-"careers": "https://atherenergy.com/careers",
-"office": "Taramani, Chennai 600113",
-"geo": [
-"~Taramani, Chennai"
-],
-"site": "atherenergy.com"
-},
-{
-"id": "hexnode",
-"name": "Hexnode",
-"group": "Product & SaaS",
-"careers": "https://hexnode.com/careers",
-"office": "Taramani, Chennai",
-"geo": [
-"~Taramani, Chennai"
-],
-"site": "hexnode.com"
-},
-{
-"id": "klenty",
-"name": "Klenty",
-"group": "Product & SaaS",
-"careers": "https://klenty.com/careers",
-"office": "Menon Eternity, St. Mary's Road, Alwarpet, Chennai 600018",
-"geo": [
-"Menon Eternity, Alwarpet",
-"St. Mary's Road, Alwarpet",
-"~Alwarpet, Chennai"
-],
-"site": "klenty.com"
-},
-{
-"id": "kovai",
-"name": "Kovai.co",
-"group": "Product & SaaS",
-"careers": "https://kovai.co/careers",
-"office": "Olympia Technology Park, Guindy, Chennai 600032",
-"geo": [
-"Olympia Technology Park, Guindy",
-"Olympia Tech Park, Guindy",
-"~Guindy, Chennai"
-],
-"site": "kovai.co"
-},
-{
-"id": "netmeds",
-"name": "Netmeds (Technology Centre)",
-"group": "Consumer & other",
-"careers": "https://netmeds.com/careers",
-"office": "Anna Nagar, Chennai 600040",
-"geo": [
-"~Anna Nagar, Chennai"
-],
-"site": "netmeds.com"
-},
-{
-"id": "chaiwaale",
-"name": "Chai Waale",
-"group": "Consumer & other",
-"careers": "",
-"office": "Nungambakkam, Chennai 600034",
-"geo": [
-"~Nungambakkam, Chennai"
-],
-"site": ""
-},
-{
-"id": "foodbuddy",
-"name": "Food Buddy",
-"group": "Consumer & other",
-"careers": "",
-"office": "OMR, Chennai",
-"geo": "",
-"site": ""
-}
-]
+ "note": "Chennai startups and product companies on Soli Maps. 'office' is the Chennai address the company publishes; 'geo' is the landmark the daily job looks up on OpenStreetMap to place the pin (cached in geo_cache.json); set lat/lon to override. Companies without a published Chennai address have office '' and are not pinned. A geo name starting with '~' is a locality fallback: the pin then marks the area, not the building, and is flagged approximate.",
+ "companies": [
+  {
+   "id": "zoho",
+   "name": "Zoho",
+   "group": "Established product",
+   "careers": "https://careers.zohocorp.com/jobs/Careers",
+   "office": "Estancia IT Park, Plot No. 140 & 151, GST Road, Vallancheri, Chengalpattu District 603202",
+   "geo": [
+    "Estancia IT Park, Vallancheri",
+    "Zoho Corporation, Chengalpattu",
+    "Estancia IT Park",
+    "Zoho Corporation"
+   ],
+   "site": "zoho.com"
+  },
+  {
+   "id": "freshworks",
+   "name": "Freshworks",
+   "alias": [
+    "Freshworks Inc."
+   ],
+   "group": "Established product",
+   "careers": "https://careers.smartrecruiters.com/Freshworks",
+   "office": "Global Infocity Park, Block A, 40 MGR Salai, Perungudi, Chennai 600096",
+   "geo": "Global Infocity Park, Perungudi, Chennai",
+   "site": "freshworks.com"
+  },
+  {
+   "id": "chargebee",
+   "name": "Chargebee",
+   "group": "Established product",
+   "careers": "https://jobs.chargebee.com/",
+   "office": "10th Floor, Littlewood Tower, Ramanujan IT Park, Taramani, Chennai 600113",
+   "geo": [
+    "Ramanujan IT City, Taramani, Chennai",
+    "Littlewood Tower, Taramani",
+    "Ramanujan IT City",
+    "~Taramani, Chennai"
+   ],
+   "site": "chargebee.com"
+  },
+  {
+   "id": "uniphore",
+   "name": "Uniphore",
+   "group": "Established product",
+   "careers": "https://uniphore.wd503.myworkdayjobs.com/Uniphore",
+   "office": "IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
+   "geo": "IIT Madras Research Park, Chennai",
+   "site": "uniphore.com"
+  },
+  {
+   "id": "kissflow",
+   "name": "Kissflow",
+   "group": "Established product",
+   "careers": "https://careers.kissflow.com/",
+   "office": "Tower B, 10th Floor, World Trade Center, 5/142 Rajiv Gandhi Salai (OMR), Perungudi, Chennai 600096",
+   "geo": "World Trade Center, Perungudi, Chennai",
+   "site": "kissflow.com"
+  },
+  {
+   "id": "fourkites",
+   "name": "FourKites",
+   "group": "Established product",
+   "careers": "https://boards.greenhouse.io/fourkites",
+   "office": "DLF Cybercity, Manapakkam, Chennai",
+   "geo": [
+    "DLF IT Park, Manapakkam",
+    "DLF Cyber City, Chennai",
+    "DLF Cybercity, Manapakkam, Chennai",
+    "~Manapakkam, Chennai"
+   ],
+   "site": "fourkites.com"
+  },
+  {
+   "id": "ramco",
+   "name": "Ramco Systems",
+   "alias": [
+    "Ramco"
+   ],
+   "group": "Established product",
+   "careers": "https://www.ramco.com/careers",
+   "office": "64, Sardar Patel Road, Taramani, Chennai 600113",
+   "geo": [
+    "64 Sardar Patel Road, Taramani, Chennai",
+    "Ramco Systems, Taramani",
+    "~Taramani, Chennai"
+   ],
+   "site": "ramco.com"
+  },
+  {
+   "id": "madstreetden",
+   "name": "Mad Street Den (Vue.ai)",
+   "alias": [
+    "Mad Street Den",
+    "Vue.ai"
+   ],
+   "group": "Established product",
+   "careers": "https://www.vue.ai/careers",
+   "office": "",
+   "geo": "",
+   "site": "vue.ai"
+  },
+  {
+   "id": "disprz",
+   "name": "Disprz",
+   "group": "Established product",
+   "careers": "https://disprz.ai/careers",
+   "office": "",
+   "geo": "",
+   "site": "disprz.ai"
+  },
+  {
+   "id": "facilio",
+   "name": "Facilio",
+   "group": "Established product",
+   "careers": "https://facilio.com/careers/",
+   "office": "IndiQube Ocean Bay, Guindy Industrial Estate, Ekkaduthangal, Chennai 600032",
+   "geo": [
+    "IndiQube Ocean Bay, Ekkaduthangal",
+    "~Ekkaduthangal, Chennai",
+    "~Guindy, Chennai"
+   ],
+   "site": "facilio.com"
+  },
+  {
+   "id": "superops",
+   "name": "SuperOps",
+   "group": "Fast-growing SaaS",
+   "careers": "https://superops.com/careers",
+   "office": "Olympia Technology Park, Guindy (area)",
+   "geo": [
+    "~Olympia Technology Park, Guindy, Chennai",
+    "~Guindy, Chennai"
+   ],
+   "site": "superops.com"
+  },
+  {
+   "id": "rocketlane",
+   "name": "Rocketlane",
+   "group": "Fast-growing SaaS",
+   "careers": "https://careers.kula.ai/rocketlane",
+   "office": "Thiru Vi Ka Industrial Estate, Guindy (area)",
+   "geo": [
+    "~Thiru Vi Ka Industrial Estate, Guindy, Chennai",
+    "~Guindy, Chennai"
+   ],
+   "site": "rocketlane.com"
+  },
+  {
+   "id": "gallabox",
+   "name": "Gallabox",
+   "group": "Fast-growing SaaS",
+   "careers": "https://gallabox.com/careers",
+   "office": "",
+   "geo": "",
+   "site": "gallabox.com"
+  },
+  {
+   "id": "highperformr",
+   "name": "Highperformr.ai",
+   "alias": [
+    "Highperformr"
+   ],
+   "group": "Fast-growing SaaS",
+   "careers": "https://www.highperformr.ai/careers",
+   "office": "",
+   "geo": "",
+   "site": "highperformr.ai"
+  },
+  {
+   "id": "vajro",
+   "name": "Vajro",
+   "group": "Fast-growing SaaS",
+   "careers": "https://www.vajro.com/careers",
+   "office": "",
+   "geo": "",
+   "site": "vajro.com"
+  },
+  {
+   "id": "fieldproxy",
+   "name": "Fieldproxy",
+   "group": "Fast-growing SaaS",
+   "careers": "https://www.fieldproxy.com/careers",
+   "office": "",
+   "geo": "",
+   "site": "fieldproxy.com"
+  },
+  {
+   "id": "auditcue",
+   "name": "AuditCue",
+   "group": "Fast-growing SaaS",
+   "careers": "https://auditcue.com/careers",
+   "office": "",
+   "geo": "",
+   "site": "auditcue.com"
+  },
+  {
+   "id": "pando",
+   "name": "Pando",
+   "group": "Fast-growing SaaS",
+   "careers": "https://careers.pando.ai/jobs/Careers",
+   "office": "No. 4, Yarlagadda Towers, 4th Lane, Nungambakkam High Road, Chennai 600034",
+   "geo": [
+    "Yarlagadda Towers, Nungambakkam",
+    "~Nungambakkam, Chennai"
+   ],
+   "site": "pando.ai"
+  },
+  {
+   "id": "onehash",
+   "name": "OneHash",
+   "group": "Fast-growing SaaS",
+   "careers": "https://www.onehash.ai/careers",
+   "office": "",
+   "geo": "",
+   "site": "onehash.ai"
+  },
+  {
+   "id": "pipecandy",
+   "name": "PipeCandy",
+   "group": "Fast-growing SaaS",
+   "careers": "https://pipecandy.com/careers",
+   "office": "",
+   "geo": "",
+   "site": "pipecandy.com"
+  },
+  {
+   "id": "yubi",
+   "name": "Yubi",
+   "alias": [
+    "CredAvenue"
+   ],
+   "group": "Fintech",
+   "careers": "https://www.go-yubi.com/careers",
+   "office": "12th Floor, Prestige Polygon, 471 Anna Salai, Nandanam, Chennai 600035",
+   "geo": [
+    "Prestige Polygon, Anna Salai, Chennai",
+    "Prestige Polygon, Chennai",
+    "Prestige Polygon"
+   ],
+   "site": "go-yubi.com"
+  },
+  {
+   "id": "m2p",
+   "name": "M2P Fintech",
+   "alias": [
+    "M2P"
+   ],
+   "group": "Fintech",
+   "careers": "https://careers.m2pfintech.com/view-jobs/",
+   "office": "Plot No. C1 & C56, Olympia Quest, SIDCO, Thiru Vi Ka Industrial Estate, Guindy, Chennai 600032",
+   "geo": [
+    "Olympia Quest, Guindy",
+    "SIDCO Industrial Estate, Guindy",
+    "Thiru Vi Ka Industrial Estate, Guindy, Chennai"
+   ],
+   "site": "m2pfintech.com"
+  },
+  {
+   "id": "bankbazaar",
+   "name": "BankBazaar",
+   "group": "Fintech",
+   "careers": "https://www.bankbazaar.com/careers.html",
+   "office": "Prince Info Park, Block B, 3rd Floor, 81B 2nd Main Road, Ambattur Industrial Estate, Chennai 600058",
+   "geo": "Prince Info Park, Ambattur Industrial Estate, Chennai",
+   "site": "bankbazaar.com"
+  },
+  {
+   "id": "kaleidofin",
+   "name": "Kaleidofin",
+   "group": "Fintech",
+   "careers": "https://www.kaleidofin.com/careers",
+   "office": "Module A6-02, Block A, 6th Floor, Phase 2, IIT Madras Research Park, Taramani, Chennai 600113",
+   "geo": "IIT Madras Research Park, Chennai",
+   "site": "kaleidofin.com"
+  },
+  {
+   "id": "vivriti",
+   "name": "Vivriti Capital",
+   "alias": [
+    "Vivriti"
+   ],
+   "group": "Fintech",
+   "careers": "https://www.vivriticapital.com/careers",
+   "office": "Prestige Zackria Metropolitan, No. 200/1-8, Block 1, Anna Salai, Chennai 600002",
+   "geo": [
+    "Prestige Zackria Metropolitan, Anna Salai, Chennai",
+    "Prestige Zackria Metropolitan",
+    "Zackria Metropolitan"
+   ],
+   "site": "vivriticapital.com"
+  },
+  {
+   "id": "northernarc",
+   "name": "Northern Arc",
+   "alias": [
+    "Northern Arc Capital"
+   ],
+   "group": "Fintech",
+   "careers": "https://www.northernarc.com/careers",
+   "office": "10th Floor, IIT Madras Research Park, 1 Kanagam Village, Taramani, Chennai 600113",
+   "geo": "IIT Madras Research Park, Chennai",
+   "site": "northernarc.com"
+  },
+  {
+   "id": "fundsindia",
+   "name": "FundsIndia",
+   "group": "Fintech",
+   "careers": "https://www.fundsindia.com/careers",
+   "office": "IndiQube Wave, 438/1 T.R. Sundaram Avenue, Anna Salai, Chennai 600006",
+   "geo": [
+    "IndiQube Wave, Anna Salai, Chennai",
+    "438 TR Sundaram Avenue, Chennai",
+    "~Thousand Lights, Chennai"
+   ],
+   "site": "fundsindia.com"
+  },
+  {
+   "id": "credopay",
+   "name": "CredoPay",
+   "group": "Fintech",
+   "careers": "https://www.credopay.com/careers",
+   "office": "",
+   "geo": "",
+   "site": "credopay.com"
+  },
+  {
+   "id": "hypto",
+   "name": "Hypto",
+   "group": "Fintech",
+   "careers": "https://hypto.in/careers",
+   "office": "",
+   "geo": "",
+   "site": "hypto.in"
+  },
+  {
+   "id": "creditmantri",
+   "name": "CreditMantri",
+   "group": "Fintech",
+   "careers": "https://www.creditmantri.com/careers/",
+   "office": "Taramani, Chennai 600113",
+   "geo": [
+    "~Taramani, Chennai"
+   ],
+   "site": "creditmantri.com"
+  },
+  {
+   "id": "agnikul",
+   "name": "Agnikul Cosmos",
+   "alias": [
+    "Agnikul"
+   ],
+   "group": "Deeptech",
+   "careers": "https://agnikul.in/careers/",
+   "office": "E-Block, 3rd Floor, E304, IIT Madras Research Park, Chennai 600113",
+   "geo": "IIT Madras Research Park, Chennai",
+   "site": "agnikul.in"
+  },
+  {
+   "id": "detect",
+   "name": "Detect Technologies",
+   "group": "Deeptech",
+   "careers": "https://detecttechnologies.com/current-openings",
+   "office": "1st Floor, Block B, Featherlite The Address, Iswarya Nagar, Nemilichery, Pallavaram, Chennai 600043",
+   "geo": "Featherlite The Address, Pallavaram, Chennai",
+   "site": "detecttechnologies.com"
+  },
+  {
+   "id": "eplane",
+   "name": "The ePlane Company",
+   "alias": [
+    "ePlane"
+   ],
+   "group": "Deeptech",
+   "careers": "https://www.eplane.ai/careers",
+   "office": "No. 1FA, 1st Floor, IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
+   "geo": "IIT Madras Research Park, Chennai",
+   "site": "eplane.ai"
+  },
+  {
+   "id": "blurgs",
+   "name": "Blurgs AI",
+   "alias": [
+    "Blurgs"
+   ],
+   "group": "Deeptech",
+   "careers": "https://blurgs.ai/careers",
+   "office": "",
+   "geo": "",
+   "site": "blurgs.ai"
+  },
+  {
+   "id": "zuppa",
+   "name": "Zuppa",
+   "alias": [
+    "Zuppa Geo Navigation"
+   ],
+   "group": "Deeptech",
+   "careers": "https://zuppa.io/careers",
+   "office": "IIT Madras Incubation Cell, IIT Madras Research Park, Taramani, Chennai 600113",
+   "geo": [
+    "IIT Madras Research Park, Chennai"
+   ],
+   "site": "zuppa.io"
+  },
+  {
+   "id": "raptee",
+   "name": "RapteeHV",
+   "alias": [
+    "Raptee.HV",
+    "Raptee"
+   ],
+   "group": "Deeptech",
+   "careers": "https://www.raptee.com/careers",
+   "office": "",
+   "geo": "",
+   "site": "rapteehv.com"
+  },
+  {
+   "id": "waycool",
+   "name": "WayCool",
+   "group": "Agri, logistics & edtech",
+   "careers": "https://www.waycool.in/careers",
+   "office": "",
+   "geo": "",
+   "site": "waycool.in"
+  },
+  {
+   "id": "samunnati",
+   "name": "Samunnati",
+   "group": "Agri, logistics & edtech",
+   "careers": "https://www.samunnati.com/careers/",
+   "office": "Baid Hi Tech Park, 129-B, 8th Floor, ECR, Thiruvanmiyur, Chennai 600041",
+   "geo": [
+    "Baid Hi Tech Park, Thiruvanmiyur, Chennai",
+    "Baid Hi-Tech Park",
+    "~Thiruvanmiyur, Chennai"
+   ],
+   "site": "samunnati.com"
+  },
+  {
+   "id": "wizfreight",
+   "name": "Wiz Freight",
+   "alias": [
+    "WIZ Freight"
+   ],
+   "group": "Agri, logistics & edtech",
+   "careers": "https://wizfreight.com/careers",
+   "office": "",
+   "geo": "",
+   "site": "wizfreight.com"
+  },
+  {
+   "id": "guvi",
+   "name": "GUVI",
+   "alias": [
+    "GUVI Geek Networks"
+   ],
+   "group": "Agri, logistics & edtech",
+   "careers": "https://www.guvi.in/careers/",
+   "office": "IITM Research Park Phase 2, Module 9, 3rd Floor, D Block, Kanagam Road, Taramani, Chennai 600113",
+   "geo": "IIT Madras Research Park, Chennai",
+   "site": "guvi.in"
+  },
+  {
+   "id": "latentview",
+   "name": "LatentView Analytics",
+   "group": "Analytics & AI",
+   "careers": "https://latentview.com/careers",
+   "office": "ETA Technopark, Old Mahabalipuram Road, Navalur, Chennai 603103",
+   "geo": [
+    "ETA Technopark, Navalur",
+    "~Navalur, Chennai"
+   ],
+   "site": "latentview.com",
+   "alias": [
+    "LatentView"
+   ]
+  },
+  {
+   "id": "tiger",
+   "name": "Tiger Analytics",
+   "group": "Analytics & AI",
+   "careers": "https://tigeranalytics.com/careers",
+   "office": "Module 1, DLF IT Park, Ramapuram, Chennai 600089",
+   "geo": [
+    "DLF IT Park, Ramapuram",
+    "DLF Cybercity, Manapakkam, Chennai",
+    "~Ramapuram, Chennai"
+   ],
+   "site": "tigeranalytics.com",
+   "alias": [
+    "Tiger Analytics India"
+   ]
+  },
+  {
+   "id": "intellect",
+   "name": "Intellect Design Arena",
+   "group": "Product & SaaS",
+   "careers": "https://intellectdesign.com/careers",
+   "office": "SIPCOT IT Park, Siruseri, Chennai 603103",
+   "geo": [
+    "SIPCOT IT Park, Siruseri",
+    "~Siruseri, Chennai"
+   ],
+   "site": "intellectdesign.com",
+   "alias": [
+    "Intellect Design Arena Ltd",
+    "Intellect"
+   ]
+  },
+  {
+   "id": "qube",
+   "name": "Qube Cinema",
+   "group": "Product & SaaS",
+   "careers": "https://qubecinema.com/careers",
+   "office": "No. 42, Dr. Ranga Road, Mylapore, Chennai 600004",
+   "geo": [
+    "42 Dr Ranga Road, Mylapore",
+    "Dr Ranga Road, Mylapore",
+    "~Mylapore, Chennai"
+   ],
+   "site": "qubecinema.com"
+  },
+  {
+   "id": "syncfusion",
+   "name": "Syncfusion",
+   "group": "Product & SaaS",
+   "careers": "https://syncfusion.com/careers",
+   "office": "AJ 217, 2nd Avenue, Anna Nagar, Chennai 600040",
+   "geo": [
+    "2nd Avenue, Anna Nagar, Chennai",
+    "~Anna Nagar, Chennai"
+   ],
+   "site": "syncfusion.com"
+  },
+  {
+   "id": "nference",
+   "name": "Nference",
+   "group": "Deeptech (IIT Madras Research Park)",
+   "careers": "https://nference.com/careers",
+   "office": "7th Floor, IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
+   "geo": [
+    "IIT Madras Research Park, Chennai"
+   ],
+   "site": "nference.com"
+  },
+  {
+   "id": "aquaconnect",
+   "name": "Aquaconnect",
+   "group": "Deeptech (IIT Madras Research Park)",
+   "careers": "https://aquaconnect.blue/careers",
+   "office": "IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
+   "geo": [
+    "IIT Madras Research Park, Chennai"
+   ],
+   "site": "aquaconnect.blue"
+  },
+  {
+   "id": "cynlr",
+   "name": "CynLr",
+   "group": "Deeptech (IIT Madras Research Park)",
+   "careers": "https://cynlr.com/careers",
+   "office": "IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
+   "geo": [
+    "IIT Madras Research Park, Chennai"
+   ],
+   "site": "cynlr.com"
+  },
+  {
+   "id": "prescience",
+   "name": "Prescience Insilico",
+   "group": "Deeptech (IIT Madras Research Park)",
+   "careers": "https://prescienceinsilico.com/careers",
+   "office": "IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
+   "geo": [
+    "IIT Madras Research Park, Chennai"
+   ],
+   "site": "prescienceinsilico.com"
+  },
+  {
+   "id": "stellapps",
+   "name": "Stellapps",
+   "group": "Deeptech (IIT Madras Research Park)",
+   "careers": "https://stellapps.com/careers",
+   "office": "IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
+   "geo": [
+    "IIT Madras Research Park, Chennai"
+   ],
+   "site": "stellapps.com"
+  },
+  {
+   "id": "tvaster",
+   "name": "Tvaster Genkalp",
+   "group": "Deeptech (IIT Madras Research Park)",
+   "careers": "",
+   "office": "IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
+   "geo": [
+    "IIT Madras Research Park, Chennai"
+   ],
+   "site": ""
+  },
+  {
+   "id": "modulus",
+   "name": "Modulus Housing",
+   "group": "Deeptech (IIT Madras Research Park)",
+   "careers": "https://modulushousing.com/careers",
+   "office": "IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
+   "geo": [
+    "IIT Madras Research Park, Chennai"
+   ],
+   "site": "modulushousing.com"
+  },
+  {
+   "id": "ynos",
+   "name": "YNOS Venture Engine",
+   "group": "Deeptech (IIT Madras Research Park)",
+   "careers": "https://ynos.in/careers",
+   "office": "IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
+   "geo": [
+    "IIT Madras Research Park, Chennai"
+   ],
+   "site": "ynos.in"
+  },
+  {
+   "id": "complai",
+   "name": "ComplAi",
+   "group": "Deeptech (IIT Madras Research Park)",
+   "careers": "",
+   "office": "IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
+   "geo": [
+    "IIT Madras Research Park, Chennai"
+   ],
+   "site": ""
+  },
+  {
+   "id": "planys",
+   "name": "Planys Technologies",
+   "group": "Deeptech (IIT Madras Research Park)",
+   "careers": "https://planystech.com/careers",
+   "office": "IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
+   "geo": [
+    "IIT Madras Research Park, Chennai"
+   ],
+   "site": "planystech.com"
+  },
+  {
+   "id": "datamoo",
+   "name": "DataMoo.ai",
+   "group": "Deeptech (IIT Madras Research Park)",
+   "careers": "https://datamoo.ai/careers",
+   "office": "IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
+   "geo": [
+    "IIT Madras Research Park, Chennai"
+   ],
+   "site": "datamoo.ai"
+  },
+  {
+   "id": "pibeam",
+   "name": "Pi Beam Labs",
+   "group": "Deeptech (IIT Madras Research Park)",
+   "careers": "",
+   "office": "IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
+   "geo": [
+    "IIT Madras Research Park, Chennai"
+   ],
+   "site": ""
+  },
+  {
+   "id": "orangescape",
+   "name": "OrangeScape Technologies",
+   "group": "Product & SaaS",
+   "careers": "https://orangescape.com/careers",
+   "office": "World Trade Center, Perungudi, Chennai 600096",
+   "geo": [
+    "World Trade Center, Perungudi, Chennai"
+   ],
+   "site": "orangescape.com"
+  },
+  {
+   "id": "karomi",
+   "name": "Karomi Technology",
+   "group": "Product & SaaS",
+   "careers": "https://karomi.com/careers",
+   "office": "Prince Infocity II, OMR, Perungudi, Chennai 600096",
+   "geo": [
+    "Prince Infocity II, Perungudi",
+    "Prince Info City, Perungudi",
+    "~Perungudi, Chennai"
+   ],
+   "site": "karomi.com"
+  },
+  {
+   "id": "contus",
+   "name": "Contus Tech",
+   "group": "Product & SaaS",
+   "careers": "https://contus.com/careers",
+   "office": "Prince Infocity II, OMR, Perungudi, Chennai 600096",
+   "geo": [
+    "Prince Infocity II, Perungudi",
+    "Prince Info City, Perungudi",
+    "~Perungudi, Chennai"
+   ],
+   "site": "contus.com"
+  },
+  {
+   "id": "vuram",
+   "name": "Vuram Technology Solutions",
+   "group": "Product & SaaS",
+   "careers": "https://vuram.com/careers",
+   "office": "Prince Infocity II, OMR, Perungudi, Chennai 600096",
+   "geo": [
+    "Prince Infocity II, Perungudi",
+    "Prince Info City, Perungudi",
+    "~Perungudi, Chennai"
+   ],
+   "site": "vuram.com"
+  },
+  {
+   "id": "xobin",
+   "name": "Xobin",
+   "group": "Product & SaaS",
+   "careers": "https://xobin.com/careers",
+   "office": "Perungudi, Chennai 600096",
+   "geo": [
+    "~Perungudi, Chennai"
+   ],
+   "site": "xobin.com"
+  },
+  {
+   "id": "rently",
+   "name": "Rently",
+   "group": "Product & SaaS",
+   "careers": "https://rently.com/careers",
+   "office": "Perungudi, Chennai 600096",
+   "geo": [
+    "~Perungudi, Chennai"
+   ],
+   "site": "rently.com"
+  },
+  {
+   "id": "fresa",
+   "name": "Fresa Technologies",
+   "group": "Product & SaaS",
+   "careers": "https://fresatechnologies.com/careers",
+   "office": "Perungudi, Chennai 600096",
+   "geo": [
+    "~Perungudi, Chennai"
+   ],
+   "site": "fresatechnologies.com"
+  },
+  {
+   "id": "techjockey",
+   "name": "Techjockey",
+   "group": "Consumer & other",
+   "careers": "https://techjockey.com/careers",
+   "office": "Guindy, Chennai 600032",
+   "geo": [
+    "~Guindy, Chennai"
+   ],
+   "site": "techjockey.com"
+  },
+  {
+   "id": "chargemod",
+   "name": "ChargeMOD",
+   "group": "Consumer & other",
+   "careers": "https://chargemod.com/careers",
+   "office": "Guindy, Chennai 600032",
+   "geo": [
+    "~Guindy, Chennai"
+   ],
+   "site": "chargemod.com"
+  },
+  {
+   "id": "skilllync",
+   "name": "Skill-Lync",
+   "group": "Consumer & other",
+   "careers": "https://skill-lync.com/careers",
+   "office": "Guindy, Chennai 600032",
+   "geo": [
+    "~Guindy, Chennai"
+   ],
+   "site": "skill-lync.com"
+  },
+  {
+   "id": "ather",
+   "name": "Ather Energy (R&D Centre)",
+   "group": "Deeptech (IIT Madras Research Park)",
+   "careers": "https://atherenergy.com/careers",
+   "office": "Taramani, Chennai 600113",
+   "geo": [
+    "~Taramani, Chennai"
+   ],
+   "site": "atherenergy.com"
+  },
+  {
+   "id": "hexnode",
+   "name": "Hexnode",
+   "group": "Product & SaaS",
+   "careers": "https://hexnode.com/careers",
+   "office": "Taramani, Chennai",
+   "geo": [
+    "~Taramani, Chennai"
+   ],
+   "site": "hexnode.com"
+  },
+  {
+   "id": "klenty",
+   "name": "Klenty",
+   "group": "Product & SaaS",
+   "careers": "https://klenty.com/careers",
+   "office": "Menon Eternity, St. Mary's Road, Alwarpet, Chennai 600018",
+   "geo": [
+    "Menon Eternity, Alwarpet",
+    "St. Mary's Road, Alwarpet",
+    "~Alwarpet, Chennai"
+   ],
+   "site": "klenty.com"
+  },
+  {
+   "id": "kovai",
+   "name": "Kovai.co",
+   "group": "Product & SaaS",
+   "careers": "https://kovai.co/careers",
+   "office": "Olympia Technology Park, Guindy, Chennai 600032",
+   "geo": [
+    "Olympia Technology Park, Guindy",
+    "Olympia Tech Park, Guindy",
+    "~Guindy, Chennai"
+   ],
+   "site": "kovai.co"
+  },
+  {
+   "id": "netmeds",
+   "name": "Netmeds (Technology Centre)",
+   "group": "Consumer & other",
+   "careers": "https://netmeds.com/careers",
+   "office": "Anna Nagar, Chennai 600040",
+   "geo": [
+    "~Anna Nagar, Chennai"
+   ],
+   "site": "netmeds.com"
+  },
+  {
+   "id": "chaiwaale",
+   "name": "Chai Waale",
+   "group": "Consumer & other",
+   "careers": "",
+   "office": "Nungambakkam, Chennai 600034",
+   "geo": [
+    "~Nungambakkam, Chennai"
+   ],
+   "site": ""
+  },
+  {
+   "id": "foodbuddy",
+   "name": "Food Buddy",
+   "group": "Consumer & other",
+   "careers": "",
+   "office": "OMR, Chennai",
+   "geo": "",
+   "site": ""
+  }
+ ]
 }
