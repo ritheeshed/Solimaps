@@ -8,6 +8,7 @@ on:
     branches: [main]
     paths:
       - "scripts/**"
+      - "companies.json"
       - ".github/workflows/fetch-jobs.yml"
 
 permissions:
@@ -20,7 +21,7 @@ concurrency:
 jobs:
   fetch:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -35,7 +36,7 @@ jobs:
         run: |
           git config user.name "soli-maps-bot"
           git config user.email "soli-maps-bot@users.noreply.github.com"
-          git add feeds.json
+          git add feeds.json geo_cache.json
           if git diff --cached --quiet; then echo "No changes"; exit 0; fi
           git commit -m "Feeds refresh $(date -u +%F)"
           for i in 1 2 3; do git pull --rebase origin main && git push && exit 0; sleep 5; done

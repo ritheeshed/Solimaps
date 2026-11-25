@@ -330,12 +330,282 @@ def fetch_workday():
         LOG.append(f"workday {name}: {len(JOBS) - n0} Chennai jobs")
 
 
+# ---------- source: Chennai startup directory (companies.json) ----------
+import html as htmlmod
+from urllib.parse import urljoin, urlparse
+
+DIRECTORY = load_json("companies.json", {"companies": []}).get("companies", [])
+GEO_CACHE = load_json("geo_cache.json", {})
+PREV = {j.get("u"): j.get("d") for j in (load_json("feeds.json", {}) or {}).get("jobs", []) if j.get("u")}
+CO_AREAS = {}
+HTML_UA = {"User-Agent": "Mozilla/5.0 (compatible; SoliMapsBot/1.0; +https://ritheeshed.github.io/Solimaps/)",
+           "Accept": "text/html,application/xhtml+xml"}
+
+
+def norm(s):
+    return re.sub(r"[^a-z0-9]", "", (s or "").lower())
+
+
+def fetch_html(url, timeout=25):
+    req = urllib.request.Request(url, headers=HTML_UA)
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        raw = r.read(3_000_000)
+        return raw.decode(r.headers.get_content_charset() or "utf-8", "replace"), r.geturl()
+
+
+def geocode_directory():
+    looked = 0
+    for c in DIRECTORY:
+        if isinstance(c.get("lat"), (int, float)) and isinstance(c.get("lon"), (int, float)):
+            CO_AREAS[c["id"]] = (c["lat"], c["lon"])
+            continue
+        q = (c.get("geo") or "").strip()
+        if not q:
+            continue
+        hit = GEO_CACHE.get(q)
+        stale = hit and hit.get("miss") and (TODAY - datetime.date.fromisoformat(hit.get("t", "2000-01-01"))).days > 7
+        if hit is None or stale:
+            if looked:
+                time.sleep(1.2)
+            looked += 1
+            try:
+                url = "https://nominatim.openstreetmap.org/search?" + urllib.parse.urlencode(
+                    {"q": q, "format": "jsonv2", "limit": 1, "countrycodes": "in",
+                     "viewbox": "79.6,13.5,80.6,12.5", "bounded": 1})
+                res = get(url, headers={"Referer": "https://ritheeshed.github.io/Solimaps/"})
+                if res:
+                    hit = {"lat": float(res[0]["lat"]), "lon": float(res[0]["lon"]), "name": res[0].get("display_name", "")[:160], "t": TODAY.isoformat()}
+                else:
+                    hit = {"miss": True, "t": TODAY.isoformat()}
+            except Exception as e:
+                LOG.append(f"geocode '{q}': {e}")
+                continue
+            GEO_CACHE[q] = hit
+        if hit and not hit.get("miss"):
+            CO_AREAS[c["id"]] = (hit["lat"], hit["lon"])
+        else:
+            LOG.append(f"geocode: no match for {c['name']} ('{q}')")
+    LOG.append(f"geocode: {len(CO_AREAS)} of {len(DIRECTORY)} companies pinned ({looked} new lookups)")
+
+
+ATS_PATTERNS = [
+    ("greenhouse", r"(?:boards|job-boards)\.greenhouse\.io/(?:embed/job_board\?for=)?([A-Za-z0-9_-]+)"),
+    ("greenhouse", r"greenhouse\.io/embed/job_board(?:/js)?\?for=([A-Za-z0-9_-]+)"),
+    ("lever", r"jobs\.lever\.co/([A-Za-z0-9_-]+)"),
+    ("ashby", r"jobs\.ashbyhq\.com/([A-Za-z0-9_.%-]+)"),
+    ("smartrecruiters", r"(?:careers|jobs)\.smartrecruiters\.com/([A-Za-z0-9_-]+)"),
+    ("workable", r"apply\.workable\.com/([A-Za-z0-9_-]+)"),
+    ("workday", r"([a-z0-9-]+)\.(wd\d+)\.myworkdayjobs\.com/(?:[a-z]{2}-[A-Z]{2}/)?([A-Za-z0-9_-]+)"),
+    ("unsupported", r"([a-z0-9-]+\.(?:keka\.com|zohorecruit\.(?:com|in)|darwinbox\.in|freshteam\.com|turbohire\.co))"),
+]
+SKIP_TOK = {"embed", "js", "v1", "api", "jobs", "careers", "j", "en-US"}
+
+
+def detect_ats(text):
+    found = []
+    for kind, pat in ATS_PATTERNS:
+        for m in re.finditer(pat, text):
+            g = m.groups()
+            if g[0] in SKIP_TOK:
+                continue
+            item = (kind,) + g
+            if item not in found:
+                found.append(item)
+    return found
+
+
+def jobs_from_ats(kind, args, co_name):
+    """Returns list of (title, loc_text, date, type, url)."""
+    out = []
+    if kind == "greenhouse":
+        res = get(f"https://boards-api.greenhouse.io/v1/boards/{args[0]}/jobs")
+        for j in res.get("jobs", []):
+            out.append((j.get("title"), (j.get("location") or {}).get("name", ""), iso_date(j.get("first_published") or j.get("updated_at")), "", j.get("absolute_url")))
+    elif kind == "lever":
+        res = get(f"https://api.lever.co/v0/postings/{args[0]}?mode=json")
+        for j in res if isinstance(res, list) else []:
+            cats = j.get("categories") or {}
+            d = datetime.datetime.fromtimestamp((j.get("createdAt") or 0) / 1000, IST).date().isoformat() if j.get("createdAt") else TODAY.isoformat()
+            out.append((j.get("text"), " ".join([cats.get("location") or ""] + (cats.get("allLocations") or [])), d, cats.get("commitment") or "", j.get("hostedUrl")))
+    elif kind == "ashby":
+        res = get(f"https://api.ashbyhq.com/posting-api/job-board/{args[0]}")
+        for j in res.get("jobs", []):
+            locs = " ".join([j.get("location") or ""] + [(x or {}).get("location", "") for x in (j.get("secondaryLocations") or [])])
+            out.append((j.get("title"), locs, iso_date(j.get("publishedAt")), (j.get("employmentType") or "").replace("FullTime", "Full-time"), j.get("jobUrl")))
+    elif kind == "smartrecruiters":
+        res = get(f"https://api.smartrecruiters.com/v1/companies/{args[0]}/postings?city=Chennai&limit=100")
+        for j in res.get("content", []):
+            loc = j.get("location") or {}
+            out.append((j.get("name"), ", ".join(str(loc.get(k) or "") for k in ("city", "region", "country")), iso_date(j.get("releasedDate")), ((j.get("typeOfEmployment") or {}).get("label") or ""), f"https://jobs.smartrecruiters.com/{args[0]}/{j.get('id')}"))
+    elif kind == "workable":
+        res = get(f"https://apply.workable.com/api/v3/accounts/{args[0]}/jobs", data={"query": "", "location": [], "department": [], "worktype": [], "remote": []})
+        for j in res.get("results", []):
+            loc = j.get("location") or {}
+            out.append((j.get("title"), ", ".join(str(loc.get(k) or "") for k in ("city", "region", "country")), iso_date(j.get("published")), "", f"https://apply.workable.com/{args[0]}/j/{j.get('shortcode')}/"))
+    elif kind == "workday":
+        tenant, wd, site = args
+        host = f"{tenant}.{wd}.myworkdayjobs.com"
+        off = 0
+        while off < 200:
+            res = get(f"https://{host}/wday/cxs/{tenant}/{site}/jobs", data={"appliedFacets": {}, "limit": 20, "offset": off, "searchText": ""})
+            posts = res.get("jobPostings", [])
+            for j in posts:
+                out.append((j.get("title"), j.get("locationsText") or "", rel_date(j.get("postedOn")), "", f"https://{host}/{site}{j.get('externalPath', '')}"))
+            off += 20
+            if len(posts) < 20:
+                break
+    return out
+
+
+def jsonld_postings(page):
+    found = []
+    for blob in re.findall(r"<script[^>]+application/ld\+json[^>]*>(.*?)</script>", page, re.S | re.I):
+        try:
+            data = json.loads(blob.strip())
+        except Exception:
+            continue
+        stack = [data]
+        while stack:
+            x = stack.pop()
+            if isinstance(x, list):
+                stack.extend(x)
+            elif isinstance(x, dict):
+                t = x.get("@type")
+                if t == "JobPosting" or (isinstance(t, list) and "JobPosting" in t):
+                    found.append(x)
+                stack.extend(v for k, v in x.items() if k == "@graph" or isinstance(v, (list, dict)) and k not in ("hiringOrganization",))
+    return found
+
+
+def posting_location(p):
+    locs = p.get("jobLocation") or []
+    locs = locs if isinstance(locs, list) else [locs]
+    bits = []
+    for l in locs:
+        a = (l or {}).get("address") or {}
+        if isinstance(a, dict):
+            bits += [str(a.get(k) or "") for k in ("streetAddress", "addressLocality", "addressRegion")]
+        elif isinstance(a, str):
+            bits.append(a)
+    return ", ".join(b for b in bits if b)
+
+
+def text_of(page):
+    page = re.sub(r"<(script|style|noscript)[^>]*>.*?</\1>", " ", page, flags=re.S | re.I)
+    return tidy(htmlmod.unescape(re.sub(r"<[^>]+>", " ", page)))
+
+
+JOB_PATH = re.compile(r"/(?:careers?|jobs?|job-description|openings?|positions?|vacanc(?:y|ies))/[^/?#]{4,}", re.I)
+NAV_WORDS = {"careers", "jobs", "openings", "view all", "apply", "life", "culture", "benefits", "faq", "about", "team", "students",
+             "university", "search jobs", "all jobs", "current openings", "join us", "home"}
+JOB_SIGNS = ["responsibilit", "requirement", "qualification", "experience", "job description", "what you", "about the role", "apply"]
+
+
+def site_key(host):
+    parts = (host or "").lower().split(".")
+    return ".".join(parts[-3:]) if len(parts) > 2 and parts[-2] in ("co", "com", "org", "net", "ac") and len(parts[-1]) == 2 else ".".join(parts[-2:])
+
+
+def crawl_careers(page, base, co_name):
+    out, seen = [], set()
+    for p in jsonld_postings(page):
+        out.append((p.get("title"), posting_location(p), iso_date(p.get("datePosted")) if p.get("datePosted") else None, str(p.get("employmentType") or "").replace("_", " ").title(), p.get("url") or base))
+    if out:
+        return out, "embedded job listings"
+    links = []
+    for href, label in re.findall(r"<a\s[^>]*href=[\"']([^\"'#]+)[\"'][^>]*>(.*?)</a>", page, re.S | re.I):
+        u = urljoin(base, htmlmod.unescape(href))
+        lab = tidy(htmlmod.unescape(re.sub(r"<[^>]+>", " ", label)))
+        pu = urlparse(u)
+        if pu.scheme not in ("http", "https") or site_key(pu.netloc) != site_key(urlparse(base).netloc):
+            continue
+        if not JOB_PATH.search(pu.path) or u.rstrip("/") == base.rstrip("/") or u in seen:
+            continue
+        if not (4 <= len(lab) <= 90) or lab.lower() in NAV_WORDS:
+            continue
+        seen.add(u)
+        links.append((u, lab))
+    for u, lab in links[:30]:
+        try:
+            pg, final = fetch_html(u)
+        except Exception:
+            continue
+        posts = jsonld_postings(pg)
+        if posts:
+            p = posts[0]
+            out.append((p.get("title") or lab, posting_location(p) or text_of(pg)[:4000], iso_date(p.get("datePosted")) if p.get("datePosted") else None, str(p.get("employmentType") or "").replace("_", " ").title(), final))
+            continue
+        txt = text_of(pg)
+        if "chennai" in txt.lower() and any(w in txt.lower() for w in JOB_SIGNS):
+            m = re.search(r"<h1[^>]*>(.*?)</h1>", pg, re.S | re.I)
+            title = tidy(htmlmod.unescape(re.sub(r"<[^>]+>", " ", m.group(1)))) if m else lab
+            out.append((title or lab, "Chennai", None, "", final))
+        time.sleep(0.3)
+    return out, ("job pages on the careers site" if out else "")
+
+
+def fetch_directory():
+    for c in DIRECTORY:
+        url, name = c.get("careers"), c["name"]
+        if not url:
+            continue
+        n0 = len(JOBS)
+        how = ""
+        try:
+            page, final = fetch_html(url)
+        except Exception as e:
+            LOG.append(f"company {name}: careers page failed: {e}")
+            continue
+        items = []
+        ats = detect_ats(final + " " + page)
+        for a in ats:
+            if a[0] == "unsupported":
+                how = how or f"uses {a[1]} (not readable yet)"
+                continue
+            try:
+                items = [x for x in jobs_from_ats(a[0], a[1:], name)]
+                how = f"{a[0]} job board"
+                break
+            except Exception as e:
+                LOG.append(f"company {name}: {a[0]} {a[1:]} failed: {e}")
+        if not items and not how.startswith("uses"):
+            try:
+                items, how2 = crawl_careers(page, final, name)
+                how = how2 or how
+            except Exception as e:
+                LOG.append(f"company {name}: crawl failed: {e}")
+        for title, loc, date, jtype, u in items:
+            if not title or not u:
+                continue
+            if loc and not in_chennai(loc):
+                continue
+            d = date or PREV.get(u) or TODAY.isoformat()
+            add(title, name, loc or "Chennai", d, jtype, u, "Company careers", area="")
+        got = len(JOBS) - n0
+        LOG.append(f"company {name}: {got} Chennai jobs" + (f" via {how}" if how else " (no readable listings found)"))
+
+
+def pin_directory_jobs():
+    names = {}
+    for c in DIRECTORY:
+        for n in [c["name"]] + c.get("alias", []):
+            names[norm(n)] = c
+    for j in JOBS:
+        c = names.get(norm(j["c"]))
+        if not c:
+            continue
+        j["c"] = c["name"]
+        if c["id"] in CO_AREAS and (not j["a"] or j["src"] == "Company careers"):
+            j["a"] = "co_" + c["id"]
+
+
 def main():
-    for fn in (fetch_jsearch, fetch_greenhouse, fetch_lever, fetch_smartrecruiters, fetch_workday):
+    for fn in (geocode_directory, fetch_jsearch, fetch_greenhouse, fetch_lever, fetch_smartrecruiters, fetch_workday, fetch_directory):
         try:
             fn()
         except Exception as e:
             LOG.append(f"{fn.__name__}: crashed: {e}")
+    pin_directory_jobs()
     seen, out = set(), []
     for j in sorted(JOBS, key=lambda x: x["d"], reverse=True):
         k = re.sub(r"[^a-z0-9]", "", (j["t"] + "|" + j["c"]).lower())
@@ -344,7 +614,15 @@ def main():
         seen.add(k)
         out.append(j)
     used = {j["a"] for j in out if j["a"]}
-    feed = {"updated": TODAY.isoformat(), "areas": {k: v for k, v in NEW_AREAS.items() if k in used},
+    areas = {k: v for k, v in NEW_AREAS.items() if k in used}
+    for c in DIRECTORY:
+        k = "co_" + c["id"]
+        if k in used:
+            la, lo = CO_AREAS[c["id"]]
+            areas[k] = {"en": c["name"], "ta": c["name"], "lat": round(la, 6), "lon": round(lo, 6), "exact": True, "co": True, "office": c.get("office", "")}
+    with open(os.path.join(ROOT, "geo_cache.json"), "w", encoding="utf-8") as f:
+        json.dump(GEO_CACHE, f, ensure_ascii=False, indent=0)
+    feed = {"updated": TODAY.isoformat(), "areas": areas,
             "log": LOG, "jobs": out}
     if not out:
         prev = load_json("feeds.json", None)

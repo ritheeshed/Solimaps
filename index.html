@@ -158,8 +158,8 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const ageOf=d=>Math.max(0,Math.floor((Date.now()-new Date(d+'T00:00:00+05:30').getTime())/864e5));
 let lang='en';try{lang=localStorage.getItem('soli-lang')||'en'}catch(e){}
 const POST_URL='';
-const S={area:'all',cats:new Set(),q:'',src:'all'};let shown=30;
-let D=null,LIVE=[],MAP=null;
+const S={area:'all',cats:new Set(),q:'',src:'co'};let shown=30;
+let D=null,LIVE=[],MAP=null,DEF_SRC='co';
 const t=(k,v={})=>(T[lang][k]||T.en[k]).replace(/\{(\w)\}/g,(m,x)=>v[x]);
 const areaName=a=>a?(D.areas[a]?D.areas[a][lang]:a):t('none');
 const catName=c=>CATS[c]?(lang==='ta'?CATS[c][2]:CATS[c][1]):c;
@@ -184,7 +184,7 @@ function texts(){
 }
 function filters(){
   const sc={};for(const j of LIVE){const g=srcGroup(j);sc[g]=(sc[g]||0)+1}
-  $('#src').innerHTML=`<option value="all">${esc(t('srcAll'))} (${LIVE.length})</option>`+Object.keys(sc).sort((a,b)=>sc[b]-sc[a]).map(g=>`<option value="${esc(g)}">${esc(srcLabel(g))} (${sc[g]})</option>`).join('');$('#src').value=S.src;
+  $('#src').innerHTML=`<option value="all">${esc(t('srcAll'))} (${LIVE.length})</option>`+Object.keys(sc).sort((a,b)=>(b==='co')-(a==='co')||(b==='soli')-(a==='soli')||sc[b]-sc[a]).map(g=>`<option value="${esc(g)}">${esc(srcLabel(g))} (${sc[g]})</option>`).join('');$('#src').value=S.src;
   const base=LIVE.filter(matchBase),cnt={};
   for(const j of base){const k=j.a||'none';cnt[k]=(cnt[k]||0)+1}
   const keys=Object.keys(D.areas).filter(a=>cnt[a]||S.area===a).sort((a,b)=>(cnt[b]||0)-(cnt[a]||0)||areaName(a).localeCompare(areaName(b)));
@@ -197,7 +197,7 @@ function filters(){
 function list(){
   const js=LIVE.filter(j=>matchBase(j)&&matchArea(j)).sort((a,b)=>b.d.localeCompare(a.d));
   $('#count').textContent=S.area==='all'?t('showing',{n:js.length}):t('showingIn',{n:js.length,a:areaName(S.area==='none'?'':S.area)});
-  $('#clear').hidden=S.area==='all'&&!S.cats.size&&!S.q&&S.src==='all';
+  $('#clear').hidden=S.area==='all'&&!S.cats.size&&!S.q&&S.src===DEF_SRC;
   $('#list').innerHTML=js.length?js.slice(0,shown).map(j=>`<article class="job" style="--c:${CATS[j.cat]?CATS[j.cat][0]:'#888'}"><h3>${esc(j.t)}${ageOf(j.d)<=3?`<span class="new">${esc(t('fresh'))}</span>`:''}</h3><p class="co">${esc(j.c)}</p><div class="meta"><button type="button" class="ar" data-a="${esc(j.a||'none')}">${pinSvg} ${esc(areaName(j.a))}</button><span>${esc(catName(j.cat))}</span>${j.ty?`<span>${esc(j.ty)}</span>`:''}<span>${esc(posted(j.d))}</span>${j.src&&j.src!=='Soli Maps'?`<span class="src">${esc(t('via',{s:j.src==='Company careers'?t('srcCo'):j.src}))}</span>`:''}</div><a class="apply" href="${esc(j.u)}" target="_blank" rel="noopener">${esc(applyLabel(j))} ↗</a></article>`).join(''):`<p class="empty">${esc(t('empty'))}</p>`;
   if(js.length>shown)$('#list').insertAdjacentHTML('beforeend',`<button type="button" class="more" id="more">${esc(t('more',{n:js.length-shown}))}</button>`);
 }
@@ -212,7 +212,7 @@ $('#src').addEventListener('change',e=>{S.src=e.target.value;shown=30;refresh()}
 $('#q').addEventListener('input',e=>{shown=30;S.q=e.target.value.trim().toLowerCase();refresh()});
 $('#chips').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;const c=b.dataset.c;S.cats.has(c)?S.cats.delete(c):S.cats.add(c);shown=30;refresh()});
 $('#list').addEventListener('click',e=>{if(e.target.id==='more'){shown+=30;list();return}const b=e.target.closest('.ar');if(b){setArea(b.dataset.a);$('#map').scrollIntoView({block:'start'})}});
-$('#clear').addEventListener('click',()=>{S.cats.clear();S.q='';S.src='all';$('#q').value='';setArea('all')});
+$('#clear').addEventListener('click',()=>{S.cats.clear();S.q='';S.src=DEF_SRC;$('#q').value='';setArea('all')});
 $('#seeUnl').addEventListener('click',()=>setArea('none'));
 
 /* ---------- 3D map: real OpenStreetMap data from OpenFreeMap, styled as a white scale model ---------- */
@@ -302,6 +302,7 @@ Promise.all([getJSON('jobs.json'),getJSON('feeds.json').catch(()=>null),getJSON(
   for(const j of base.jobs||[])push({...j,src:j.src||'Indeed'});
   for(const j of (feeds&&feeds.jobs)||[])push(j);
   D={...base,areas,updated:[base.updated,feeds&&feeds.updated].filter(Boolean).sort().pop()};LIVE=all.filter(j=>ageOf(j.d)<=(base.maxAgeDays||90));
+  if(!LIVE.some(j=>srcGroup(j)==='co')){DEF_SRC='all';S.src='all'}
   if(POST_URL){$('#post').href=POST_URL;$('#post').hidden=false}
   try{MAP=makeMap()}catch(e){console.error(e);$('#nomap').style.display='grid'}
   render();
