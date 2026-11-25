@@ -109,23 +109,31 @@ select:hover,input[type=search]:hover{border-color:#E9CFCC}
 .mk .ct{position:absolute;top:-4px;right:-6px;min-width:19px;height:19px;padding:0 5px;border-radius:999px;background:#E5484D;color:#fff;font-size:11px;font-weight:600;display:grid;place-items:center;box-shadow:0 0 0 2px #fff}
 .mk .tip{width:6px;height:6px;margin-top:4px;border-radius:50%;background:#E5484D;box-shadow:0 0 0 2px #fff}
 .mk .nm{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:4px;font-size:12.5px;font-weight:600;letter-spacing:-.01em;color:#2B2022;white-space:nowrap;text-shadow:0 0 2px #fff,0 0 4px #fff,0 0 8px #fff;display:none;pointer-events:none}
-.zclose .mk .nm{display:block}.zclose .mk.grp .nm{display:none}
-.mk:hover .bub,.mk:focus-visible .bub{transform:translateY(-3px);box-shadow:0 0 0 1px #2b20221a,0 10px 22px #2b20222e}
+.zclose .mk .nm{display:block}.zclose .mk.grp .nm,.zclose .mk.quiet .nm{display:none}.zclose .mk.quiet:hover .nm,.zclose .mk.quiet:focus-visible .nm,.zclose .mk.quiet.on .nm{display:block}
+.mk:hover,.mk:focus-visible{z-index:2000!important}
+.mk .bub,.mk .stk{transform-origin:50% 100%}
+.mk:hover .bub,.mk:focus-visible .bub,.mk:hover .stk,.mk:focus-visible .stk{transform:scale(1.07);box-shadow:0 0 0 1px #2b20221a,0 10px 22px #2b20222e}
 .mk.on .bub{box-shadow:0 0 0 2px #E5484D,0 10px 22px #e5484d40;transform:scale(1.12)}
 .mk.dim{opacity:.35}
 .mk.zero .bub{box-shadow:0 0 0 1px #2b20221a,0 3px 8px #2b202214}.mk.zero .tip{background:#C9B8B9}
 .mk.area .bub{width:30px;height:30px;background:#FDEEEC;box-shadow:0 0 0 1px #E5484D33,0 4px 12px #2b20221f}
 .mk.area .bub b{font-size:12px;font-weight:600;color:#CE3B40}
-.mk.grp .bub{background:#E5484D;box-shadow:0 0 0 3px #fff,0 6px 16px #e5484d55}
-.mk.grp .bub img,.mk.grp .bub .mono,.mk.grp .ct,.mk.grp .bub b{display:none}
-.mk.grp .bub::after{content:attr(data-n);color:#fff;font-weight:600;font-size:13px}
-.mk.grp0 .bub{background:#fff;box-shadow:0 0 0 1.5px #E5484D,0 6px 16px #2b202224}.mk.grp0 .bub::after{color:#E5484D;font-size:12px}
+.mk .stk{display:none;align-items:center;height:42px;padding:0 11px 0 4px;border-radius:999px;background:#fff;box-shadow:0 0 0 1px #2b20221a,0 6px 16px #2b202224;transition:transform .18s ease,box-shadow .18s ease}
+.mk.grp .bub{display:none}.mk.grp .stk{display:flex}
+.stk .s{position:relative;width:34px;height:34px;flex:none;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 0 0 2px #fff,0 0 0 3px #2b202212;margin-left:-11px}
+.stk .s:first-child{margin-left:0}.stk .s:nth-child(1){z-index:3}.stk .s:nth-child(2){z-index:2}.stk .s:nth-child(3){z-index:1}
+.stk .s img{width:21px;height:21px;object-fit:contain;border-radius:3px}
+.stk .s .mono{font-weight:600;font-size:14px;color:#E5484D}
+.stk .s.ar{background:#FDEEEC}.stk .s.ar b{font-size:11.5px;font-weight:600;color:#CE3B40}
+.stk .plus{margin-left:7px;font-size:12.5px;font-weight:600;color:#CE3B40;letter-spacing:-.01em}
+@keyframes pop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+.mk.pop>.bub,.mk.pop>.stk{animation:pop .24s cubic-bezier(.2,.9,.3,1.2)}
 .mk.off{visibility:hidden;pointer-events:none}
 .maplibregl-ctrl-attrib{font-size:10.5px}
 @media(max-width:860px){.app{height:auto;min-height:0}#map{position:relative;height:72vh;min-height:460px}
 .float.brand,.float.panel{position:relative;inset:auto;width:auto;border-radius:0;border:0;border-bottom:1px solid var(--line);box-shadow:none;backdrop-filter:none;background:var(--bg)}
 .tools{left:12px;bottom:34px}.hint{display:none}.list{overflow:visible}}
-@media(prefers-reduced-motion:reduce){.mk .bub{transition:none}}
+@media(prefers-reduced-motion:reduce){.mk .bub,.mk .stk{transition:none;animation:none!important}}
 </style>
 </head>
 <body>
@@ -299,33 +307,51 @@ function makeMap(){
       if(!co&&!n)continue;
       const el=document.createElement('div');el.className='mk '+(co?'co':'area')+(co&&!n?' zero':'');
       el.setAttribute('role','button');el.tabIndex=0;el.setAttribute('aria-label',`${name}: ${n} ${t('jobs')}`);
-      el.innerHTML=co?`<div class="bub">${ar.logo?`<img src="${esc(ar.logo)}" alt="" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'mono',textContent:'${mono(ar.en)}'}))">`:`<span class="mono">${mono(ar.en)}</span>`}${n?`<span class="ct">${n}</span>`:''}</div><span class="tip"></span><span class="nm">${esc(name)}</span>`
-        :`<div class="bub"><b>${n}</b></div><span class="tip"></span><span class="nm">${esc(name)}</span>`;
-      const go=e=>{e.stopPropagation();const m=markers.get(a);if(m&&m.grp){const bb=new maplibregl.LngLatBounds();for(const k of m.grp)bb.extend([D.areas[k].lon,D.areas[k].lat]);map.fitBounds(bb,{padding:{top:140,bottom:140,left:140,right:140+(wide()?Math.min(420,innerWidth*.38):0)},maxZoom:15.2,pitch:map.getPitch(),bearing:map.getBearing(),duration:reduce?0:900});return}setArea(S.area===a?'all':a)};
+      el.innerHTML=co?`<div class="bub">${ar.logo?`<img src="${esc(ar.logo)}" alt="" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'mono',textContent:'${mono(ar.en)}'}))">`:`<span class="mono">${mono(ar.en)}</span>`}${n?`<span class="ct">${n}</span>`:''}</div><div class="stk"></div><span class="tip"></span><span class="nm">${esc(name)}</span>`
+        :`<div class="bub"><b>${n}</b></div><div class="stk"></div><span class="tip"></span><span class="nm">${esc(name)}</span>`;
+      const go=e=>{e.stopPropagation();const m=markers.get(a);if(m&&m.grp){const bb=new maplibregl.LngLatBounds();for(const k of m.grp)bb.extend([D.areas[k].lon,D.areas[k].lat]);const z=map.getZoom(),tiny=bb.getNorthEast().distanceTo(bb.getSouthWest())<80,cam=tiny?null:map.cameraForBounds(bb,{padding:110});let zz=tiny?15.4:Math.min(15.4,Math.max(z+1.5,cam&&cam.zoom||0));if(zz>=13.8&&zz<14.6)zz=14.6;map.easeTo({center:bb.getCenter(),zoom:zz,duration:reduce?0:850,essential:true});return}setArea(S.area===a?'all':a)};
       el.addEventListener('click',go);el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go(e)}});
       const mk=new maplibregl.Marker({element:el,anchor:'bottom'}).setLngLat([ar.lon,ar.lat]).addTo(map);
       markers.set(a,{mk,el,n,co});
     }
     style();group();
   }
+  const chip=k=>{const ar=D.areas[k],m=markers.get(k);if(!ar.co)return`<span class="s ar"><b>${m.n}</b></span>`;return`<span class="s">${ar.logo?`<img src="${esc(ar.logo)}" alt="" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'mono',textContent:'${mono(ar.en)}'}))">`:`<span class="mono">${mono(ar.en)}</span>`}</span>`};
   function group(){
-    const close=map.getZoom()>=14.5,spots={};
-    for(const[a,m]of markers){const k=D.areas[a].lat.toFixed(4)+','+D.areas[a].lon.toFixed(4);(spots[k]=spots[k]||[]).push(m)}
-    for(const k in spots){const ms=spots[k];ms.forEach((m,i)=>{if(close&&ms.length>1){const R=Math.max(44,11*ms.length),an=-Math.PI/2+2*Math.PI*i/ms.length;m.mk.setOffset([Math.cos(an)*R,Math.sin(an)*R]);m.spread=true}else{m.mk.setOffset([0,0]);m.spread=false}})}
-    const arr=[...markers].map(([a,m])=>({a,m,p:map.project([D.areas[a].lon,D.areas[a].lat])})).sort((x,y)=>(y.a===S.area)-(x.a===S.area)||y.m.co-x.m.co||y.m.n-x.m.n);
-    const lead=[];
-    for(const o of arr){o.m.grp=null;o.m.el.classList.remove('grp');o.m.el.hidden=false;
-      const L=S.area===o.a||o.m.spread?null:lead.find(l=>!l.m.spread&&Math.abs(l.p.x-o.p.x)<46&&Math.abs(l.p.y-o.p.y)<46&&l.a!==S.area);
-      if(L){(L.m.grp=L.m.grp||[L.a]).push(o.a);o.m.el.hidden=true}else lead.push(o)}
-    for(const l of lead)if(l.m.grp){const n=l.m.grp.reduce((s,k)=>s+markers.get(k).n,0),c=l.m.grp.length;l.m.el.classList.add('grp');l.m.el.classList.toggle('grp0',!n);l.m.el.querySelector('.bub').dataset.n=n||c;l.m.el.setAttribute('aria-label',n?`${n} ${t('jobs')}`:`${c} ${t('companies')}`)}
-    cull();
+    // nearby pins become a logo stack when zoomed out, and fan out around their centre when zoomed in
+    const close=map.getZoom()>=14.5;
+    const arr=[...markers].map(([a,m])=>({a,m,p:map.project([D.areas[a].lon,D.areas[a].lat])})).sort((x,y)=>(y.a===S.area)-(x.a===S.area)||y.m.co-x.m.co||y.m.n-x.m.n||!!D.areas[y.a].logo-!!D.areas[x.a].logo);
+    const lead=[],st=new Map();
+    for(const o of arr){o.m.grp=null;o.m.mk.setOffset([0,0]);st.set(o.m,'s');
+      const L=S.area===o.a?null:lead.find(l=>l.a!==S.area&&Math.abs(l.p.x-o.p.x)<(close?48:104)&&Math.abs(l.p.y-o.p.y)<(close?48:50));
+      if(L)(L.g=L.g||[L]).push(o);else lead.push(o)}
+    if(close){
+      // fan nearby pins out in rings around their centre; clusters whose rings would touch are merged first
+      const ring=n=>{let r=0,k=0,left=n-1;if(n<2)return 0;for(;left>0;k++){r=48+56*k;left-=Math.floor(2*Math.PI*r/56)}return r};
+      let cl=lead.map(l=>{const g=l.g||[l];return{g,x:g.reduce((s,o)=>s+o.p.x,0)/g.length,y:g.reduce((s,o)=>s+o.p.y,0)/g.length}});
+      for(let again=true;again;){again=false;
+        for(let i=0;i<cl.length&&!again;i++)for(let j=i+1;j<cl.length;j++){const A=cl[i],B=cl[j];if(A.g.length<2&&B.g.length<2)continue;
+          if(Math.hypot(A.x-B.x,A.y-B.y)<ring(A.g.length)+ring(B.g.length)+50){const g=A.g.concat(B.g);cl.splice(j,1);cl[i]={g,x:g.reduce((s,o)=>s+o.p.x,0)/g.length,y:g.reduce((s,o)=>s+o.p.y,0)/g.length};again=true;break}}}
+      for(const c of cl){if(c.g.length<2)continue;const N=c.g.length;
+        c.g.sort((x,y)=>y.m.n-x.m.n||y.m.co-x.m.co);
+        let i=0,k=0;const place=(o,dx,dy)=>{o.m.mk.setOffset([c.x+dx-o.p.x,c.y+dy-o.p.y]);st.set(o.m,'q')};
+        place(c.g[i++],0,0);
+        for(;i<N;k++){const r=48+56*k,cap=Math.floor(2*Math.PI*r/56),m=Math.min(cap,N-i);for(let j=0;j<m;j++,i++){const an=-Math.PI/2+2*Math.PI*j/m+k*.4;place(c.g[i],Math.cos(an)*r,Math.sin(an)*r)}}}
+    }
+    for(const l of lead){if(!l.g||close)continue;
+      else{const ks=l.g.map(o=>o.a);l.m.grp=ks;st.set(l.m,'g:'+ks.join());for(const o of l.g.slice(1))st.set(o.m,'h');
+        const box=l.m.el.querySelector('.stk'),key=ks.join();if(box.dataset.k!==key){box.dataset.k=key;box.innerHTML=ks.slice(0,3).map(chip).join('')+(ks.length>3?`<span class="plus">+${ks.length-3}</span>`:'')}
+        const n=ks.reduce((s,k)=>s+markers.get(k).n,0);l.m.el.setAttribute('aria-label',`${ks.length} ${t('cosShort')}${n?` · ${n} ${t('jobs')}`:''}`)}}
+    for(const[m,v]of st){const was=m.state;m.state=v;m.el.hidden=v==='h';m.el.classList.toggle('grp',v.startsWith('g'));m.el.classList.toggle('quiet',v==='q');
+      if(was!==undefined&&was!==v&&v!=='h'&&!reduce){m.el.classList.remove('pop');void m.el.offsetWidth;m.el.classList.add('pop')}}
+    style();cull();
   }
   // markers beyond the horizon in a tilted view get projected to wrong places: hide anything outside the visible area
   let raf=0;
   function cull(){const b=map.getBounds();for(const[a,m]of markers){const ar=D.areas[a];m.el.classList.toggle('off',!b.contains([ar.lon,ar.lat]))}}
   map.on('move',()=>{if(!raf)raf=requestAnimationFrame(()=>{raf=0;cull()})});
   map.on('moveend',()=>group());
-  function style(){for(const[a,m]of markers){m.el.classList.toggle('on',S.area===a);m.el.classList.toggle('dim',S.area!=='all'&&S.area!==a);m.el.style.zIndex=S.area===a?999:(m.co?500:0)+m.n}}
+  function style(){for(const[a,m]of markers){m.el.classList.toggle('on',S.area===a);m.el.classList.toggle('dim',S.area!=='all'&&S.area!==a);m.el.style.zIndex=S.area===a?999:m.grp?800+m.grp.length:(m.co?500:0)+m.n}}
   function focus(a){
     if(a==='all'||a==='none'){map.flyTo({...HOME,duration:reduce?0:1400});return}
     const ar=D.areas[a];if(ar)map.flyTo({center:[ar.lon,ar.lat],zoom:ar.co?15.4:14.2,pitch:60,bearing:map.getBearing(),duration:reduce?0:1800,essential:true});
