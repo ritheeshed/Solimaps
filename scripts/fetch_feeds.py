@@ -516,7 +516,7 @@ def jobs_from_ats(kind, args, co_name):
         m = re.search(r'<input[^>]*id=["\']jobs["\'][^>]*value=["\'](.*?)["\']\s*/?>', page, re.S) or re.search(r'value=["\'](\[\{.*?\}\])["\'][^>]*id=["\']jobs["\']', page, re.S)
         if not m:
             raise ValueError("zoho recruit list not found")
-        for j in json.loads(htmlmod.unescape(m.group(1))):
+        for j in json.JSONDecoder().raw_decode(htmlmod.unescape(m.group(1)).strip())[0]:
             if j.get("Publish") is False:
                 continue
             title = j.get("Posting_Title") or j.get("Job_Opening_Name")
