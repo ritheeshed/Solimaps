@@ -1,0 +1,60 @@
+{
+"Estancia IT Park, Vallancheri": {
+"miss": true,
+"t": "2026-11-25"
+},
+"Global Infocity Park, Perungudi, Chennai": {
+"lat": 12.9696396,
+"lon": 80.243881,
+"name": "Global Infocity Park, 40, Ward 184, Zone 14 Perungudi, Chennai, Chennai Metropolitan Area, Sholinganallur, Chennai District, Tamil Nadu, 600096, India",
+"t": "2026-11-25"
+},
+"Ramanujan IT City, Taramani, Chennai": {
+"miss": true,
+"t": "2026-11-25"
+},
+"IIT Madras Research Park, Chennai": {
+"lat": 12.9909554,
+"lon": 80.2424547,
+"name": "Centre of Excellence in Wireless Technology, CEWiT, 3rd Floor, IITM RP Kanagam Gate, Ward 180, Zone 13 Adyar, Chennai, Chennai Metropolitan Area, Velachery, Che",
+"t": "2026-11-25"
+},
+"World Trade Center, Perungudi, Chennai": {
+"lat": 12.9618095,
+"lon": 80.2446673,
+"name": "Brigade World Trade Center, Ward 185, Zone 14 Perungudi, Chennai, Chennai Metropolitan Area, Sholinganallur, Chennai District, Tamil Nadu, India",
+"t": "2026-11-25"
+},
+"DLF Cybercity, Manapakkam, Chennai": {
+"miss": true,
+"t": "2026-11-25"
+},
+"64 Sardar Patel Road, Taramani, Chennai": {
+"miss": true,
+"t": "2026-11-25"
+},
+"IndiQube Ocean Bay, Guindy, Chennai": {
+"miss": true,
+"t": "2026-11-25"
+},
+"Prestige Polygon, Anna Salai, Chennai": {
+"miss": true,
+"t": "2026-11-25"
+},
+"Thiru Vi Ka Industrial Estate, Guindy, Chennai": {
+"miss": true,
+"t": "2026-11-25"
+},
+"Prince Info Park, Ambattur Industrial Estate, Chennai": {
+"lat": 13.0952657,
+"lon": 80.1693751,
+"name": "Prince Info Park I, Ambit Park Road, Ambit IT Park, Ward 86, Zone 7 Ambattur, Chennai, Chennai Metropolitan Area, Ambattur, Chennai District, Tamil Nadu, 600058",
+"t": "2026-11-25"
+},
+"Featherlite The Address, Pallavaram, Chennai": {
+"lat": 12.9524039,
+"lon": 80.1629598,
+"name": "Featherlite The Address, Old Pallavaram, Pallavaram, Chennai Metropolitan Area, Pallavaram, Chengalpattu, Tamil Nadu, India",
+"t": "2026-11-25"
+}
+}
