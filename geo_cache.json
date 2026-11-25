@@ -140,5 +140,121 @@
 "Baid Hitech Park": {
 "miss": true,
 "t": "2026-11-25"
+},
+"Littlewood Tower, Taramani": {
+"miss": true,
+"t": "2026-11-25"
+},
+"Taramani, Chennai": {
+"lat": 12.9849067,
+"lon": 80.2404069,
+"name": "Taramani, Zone 13 Adyar, Chennai, Chennai Metropolitan Area, Velachery, Chennai District, Tamil Nadu, 600113, India",
+"t": "2026-11-25"
+},
+"DLF Cybercity, Ramapuram": {
+"miss": true,
+"t": "2026-11-25"
+},
+"DLF IT Park, Ramapuram": {
+"miss": true,
+"t": "2026-11-25"
+},
+"IndiQube Ocean Bay, Ekkaduthangal": {
+"miss": true,
+"t": "2026-11-25"
+},
+"Ekkaduthangal, Chennai": {
+"miss": true,
+"t": "2026-11-25"
+},
+"Nungambakkam, Chennai": {
+"lat": 13.0620626,
+"lon": 80.240487,
+"name": "Nungambakkam, Zone 9 Teynampet, Chennai, Chennai Metropolitan Area, Chennai District, Tamil Nadu, 600034, India",
+"t": "2026-11-25"
+},
+"Thiruvanmiyur, Chennai": {
+"lat": 12.9858948,
+"lon": 80.2644215,
+"name": "Thiruvanmiyur, Zone 13 Adyar, Chennai, Chennai Metropolitan Area, Velachery, Chennai District, Tamil Nadu, 600041, India",
+"t": "2026-11-25"
+},
+"ETA Technopark, Navalur": {
+"miss": true,
+"t": "2026-11-25"
+},
+"Navalur, Chennai": {
+"lat": 12.8282729,
+"lon": 80.2203926,
+"name": "Chennai Mathematical Institute, Side Entry, SIPCOT Siruseri, Kazhipattur, Chennai Metropolitan Area, Thiruporur, Chengalpattu, Tamil Nadu, 603103, India",
+"t": "2026-11-25"
+},
+"Ramapuram, Chennai": {
+"lat": 13.0314192,
+"lon": 80.1789136,
+"name": "Ramapuram, Zone 11 Valasaravakkam, Chennai, Chennai Metropolitan Area, Maduravoyal, Chennai District, Tamil Nadu, 600089, India",
+"t": "2026-11-25"
+},
+"SIPCOT IT Park, Siruseri": {
+"lat": 12.8355007,
+"lon": 80.2222103,
+"name": "SIPCOT-Thalambur Rd, SIPCOT Siruseri, Navalur, Chennai Metropolitan Area, Thiruporur, Chengalpattu, Tamil Nadu, 603103, India",
+"t": "2026-11-25"
+},
+"42 Dr Ranga Road, Mylapore": {
+"lat": 13.0327113,
+"lon": 80.2596089,
+"name": "Dr Ranga Road, Abhiramapuram, Ward 123, Zone 9 Teynampet, Chennai, Chennai Metropolitan Area, Mylapore, Chennai District, Tamil Nadu, 600018, India",
+"t": "2026-11-25"
+},
+"2nd Avenue, Anna Nagar, Chennai": {
+"lat": 13.095081,
+"lon": 80.1952909,
+"name": "2nd Avenue, Ward 95, Zone 8 Anna Nagar, Chennai, Chennai Metropolitan Area, Ambattur, Chennai District, Tamil Nadu, 600101, India",
+"t": "2026-11-25"
+},
+"Prince Infocity II, Perungudi": {
+"miss": true,
+"t": "2026-11-25"
+},
+"Prince Info City, Perungudi": {
+"lat": 12.9687196,
+"lon": 80.2480137,
+"name": "Prince Info City I, 286/1 & 286/2, Karpaga Vinayagar Street, Vijay Shanti Apartments, Ward 184, Zone 14 Perungudi, Chennai, Chennai Metropolitan Area, Sholingan",
+"t": "2026-11-25"
+},
+"Perungudi, Chennai": {
+"lat": 12.9710239,
+"lon": 80.2418051,
+"name": "Zone 14 Perungudi, Chennai, Chennai Metropolitan Area, Sholinganallur, Chennai District, Tamil Nadu, India",
+"t": "2026-11-25"
+},
+"Guindy, Chennai": {
+"lat": 13.0086685,
+"lon": 80.2126063,
+"name": "Guindy, Anna Salai (Mount Road), Ward 160, Zone 12 Alandur, Chennai, Chennai Metropolitan Area, Guindy, Chennai District, Tamil Nadu, 600032, India",
+"t": "2026-11-25"
+},
+"Menon Eternity, Alwarpet": {
+"miss": true,
+"t": "2026-11-25"
+},
+"St. Mary's Road, Alwarpet": {
+"lat": 13.0289139,
+"lon": 80.258773,
+"name": "St. Mary's Road, Abhiramapuram, Ward 123, Zone 9 Teynampet, Chennai, Chennai Metropolitan Area, Mylapore, Chennai District, Tamil Nadu, 600018, India",
+"t": "2026-11-25"
+},
+"Olympia Technology Park, Guindy": {
+"lat": 13.0148782,
+"lon": 80.203512,
+"name": "Olympia Technology Park, Inner Ring Road, Ward 170, Zone 13 Adyar, Chennai, Chennai Metropolitan Area, Guindy, Chennai District, Tamil Nadu, 600032, India",
+"t": "2026-11-25"
+},
+"Anna Nagar, Chennai": {
+"lat": 13.088249,
+"lon": 80.2073398,
+"name": "Zone 8 Anna Nagar, Chennai, Chennai Metropolitan Area, Chennai District, Tamil Nadu, India",
+"t": "2026-11-25"
 }
 }
