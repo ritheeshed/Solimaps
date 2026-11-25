@@ -7,7 +7,12 @@
 "group": "Established product",
 "careers": "https://careers.zohocorp.com/jobs/Careers",
 "office": "Estancia IT Park, Plot No. 140 & 151, GST Road, Vallancheri, Chengalpattu District 603202",
-"geo": "Estancia IT Park, Vallancheri"
+"geo": [
+"Estancia IT Park, Vallancheri",
+"Zoho Corporation, Chengalpattu",
+"Estancia IT Park",
+"Zoho Corporation"
+]
 },
 {
 "id": "freshworks",
@@ -26,7 +31,12 @@
 "group": "Established product",
 "careers": "https://jobs.chargebee.com/",
 "office": "10th Floor, Littlewood Tower, Ramanujan IT Park, Taramani, Chennai 600113",
-"geo": "Ramanujan IT City, Taramani, Chennai"
+"geo": [
+"Ramanujan IT City, Taramani, Chennai",
+"Ramanujan IT City",
+"Ramanujan IT SEZ",
+"Intellion Park, Taramani"
+]
 },
 {
 "id": "uniphore",
@@ -50,7 +60,12 @@
 "group": "Established product",
 "careers": "https://boards.greenhouse.io/fourkites",
 "office": "DLF Cybercity, Manapakkam, Chennai",
-"geo": "DLF Cybercity, Manapakkam, Chennai"
+"geo": [
+"DLF Cybercity, Manapakkam, Chennai",
+"DLF IT Park, Manapakkam",
+"DLF Cyber City, Chennai",
+"DLF IT SEZ, Manapakkam"
+]
 },
 {
 "id": "ramco",
@@ -61,7 +76,11 @@
 "group": "Established product",
 "careers": "https://www.ramco.com/careers",
 "office": "64, Sardar Patel Road, Taramani, Chennai 600113",
-"geo": "64 Sardar Patel Road, Taramani, Chennai"
+"geo": [
+"64 Sardar Patel Road, Taramani, Chennai",
+"Ramco Systems, Taramani",
+"Ramco Systems, Chennai"
+]
 },
 {
 "id": "madstreetden",
@@ -89,7 +108,11 @@
 "group": "Established product",
 "careers": "https://facilio.com/careers/",
 "office": "IndiQube Ocean Bay, Guindy, Chennai",
-"geo": "IndiQube Ocean Bay, Guindy, Chennai"
+"geo": [
+"IndiQube Ocean Bay, Guindy, Chennai",
+"Ocean Bay, Guindy",
+"IndiQube Ocean Bay"
+]
 },
 {
 "id": "superops",
@@ -156,7 +179,10 @@
 "group": "Fast-growing SaaS",
 "careers": "https://careers.pando.ai/jobs/Careers",
 "office": "No. 4, Yarlagadda Towers, 4th Lane, Nungambakkam High Road, Chennai 600034",
-"geo": "Nungambakkam High Road, Chennai"
+"geo": [
+"Yarlagadda Towers, Nungambakkam",
+"Yarlagadda Towers"
+]
 },
 {
 "id": "onehash",
@@ -183,7 +209,11 @@
 "group": "Fintech",
 "careers": "https://www.go-yubi.com/careers",
 "office": "12th Floor, Prestige Polygon, 471 Anna Salai, Nandanam, Chennai 600035",
-"geo": "Prestige Polygon, Anna Salai, Chennai"
+"geo": [
+"Prestige Polygon, Anna Salai, Chennai",
+"Prestige Polygon, Chennai",
+"Prestige Polygon"
+]
 },
 {
 "id": "m2p",
@@ -194,7 +224,11 @@
 "group": "Fintech",
 "careers": "https://careers.m2pfintech.com/view-jobs/",
 "office": "Plot No. C1 & C56, Olympia Quest, SIDCO, Thiru Vi Ka Industrial Estate, Guindy, Chennai 600032",
-"geo": "Thiru Vi Ka Industrial Estate, Guindy, Chennai"
+"geo": [
+"Olympia Quest, Guindy",
+"SIDCO Industrial Estate, Guindy",
+"Thiru Vi Ka Industrial Estate, Guindy, Chennai"
+]
 },
 {
 "id": "bankbazaar",
@@ -221,7 +255,11 @@
 "group": "Fintech",
 "careers": "https://www.vivriticapital.com/careers",
 "office": "Prestige Zackria Metropolitan, No. 200/1-8, Block 1, Anna Salai, Chennai 600002",
-"geo": "Prestige Zackria Metropolitan, Anna Salai, Chennai"
+"geo": [
+"Prestige Zackria Metropolitan, Anna Salai, Chennai",
+"Prestige Zackria Metropolitan",
+"Zackria Metropolitan"
+]
 },
 {
 "id": "northernarc",
@@ -344,7 +382,11 @@
 "group": "Agri, logistics & edtech",
 "careers": "https://www.samunnati.com/careers/",
 "office": "Baid Hi Tech Park, 129-B, 8th Floor, ECR, Thiruvanmiyur, Chennai 600041",
-"geo": "Baid Hi Tech Park, Thiruvanmiyur, Chennai"
+"geo": [
+"Baid Hi Tech Park, Thiruvanmiyur, Chennai",
+"Baid Hi-Tech Park",
+"Baid Hitech Park"
+]
 },
 {
 "id": "wizfreight",

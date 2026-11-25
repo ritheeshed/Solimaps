@@ -353,38 +353,47 @@ def fetch_html(url, timeout=25):
         return raw.decode(r.headers.get_content_charset() or "utf-8", "replace"), r.geturl()
 
 
+def nominatim(q):
+    url = "https://nominatim.openstreetmap.org/search?" + urllib.parse.urlencode(
+        {"q": q, "format": "jsonv2", "limit": 1, "countrycodes": "in", "viewbox": "79.6,13.5,80.6,12.5", "bounded": 1})
+    res = get(url, headers={"Referer": "https://ritheeshed.github.io/Solimaps/"})
+    if res:
+        return {"lat": float(res[0]["lat"]), "lon": float(res[0]["lon"]), "name": res[0].get("display_name", "")[:160], "t": TODAY.isoformat()}
+    return {"miss": True, "t": TODAY.isoformat()}
+
+
 def geocode_directory():
     looked = 0
     for c in DIRECTORY:
         if isinstance(c.get("lat"), (int, float)) and isinstance(c.get("lon"), (int, float)):
             CO_AREAS[c["id"]] = (c["lat"], c["lon"])
             continue
-        q = (c.get("geo") or "").strip()
-        if not q:
+        qs = c.get("geo") or []
+        qs = [qs] if isinstance(qs, str) else qs
+        qs = [q.strip() for q in qs if q and q.strip()]
+        if not qs:
             continue
-        hit = GEO_CACHE.get(q)
-        stale = hit and hit.get("miss") and (TODAY - datetime.date.fromisoformat(hit.get("t", "2000-01-01"))).days > 7
-        if hit is None or stale:
-            if looked:
-                time.sleep(1.2)
-            looked += 1
-            try:
-                url = "https://nominatim.openstreetmap.org/search?" + urllib.parse.urlencode(
-                    {"q": q, "format": "jsonv2", "limit": 1, "countrycodes": "in",
-                     "viewbox": "79.6,13.5,80.6,12.5", "bounded": 1})
-                res = get(url, headers={"Referer": "https://ritheeshed.github.io/Solimaps/"})
-                if res:
-                    hit = {"lat": float(res[0]["lat"]), "lon": float(res[0]["lon"]), "name": res[0].get("display_name", "")[:160], "t": TODAY.isoformat()}
-                else:
-                    hit = {"miss": True, "t": TODAY.isoformat()}
-            except Exception as e:
-                LOG.append(f"geocode '{q}': {e}")
-                continue
-            GEO_CACHE[q] = hit
-        if hit and not hit.get("miss"):
-            CO_AREAS[c["id"]] = (hit["lat"], hit["lon"])
+        found = None
+        for q in qs:
+            hit = GEO_CACHE.get(q)
+            stale = hit and hit.get("miss") and (TODAY - datetime.date.fromisoformat(hit.get("t", "2000-01-01"))).days > 14
+            if hit is None or stale:
+                if looked:
+                    time.sleep(1.2)
+                looked += 1
+                try:
+                    hit = nominatim(q)
+                except Exception as e:
+                    LOG.append(f"geocode '{q}': {e}")
+                    continue
+                GEO_CACHE[q] = hit
+            if hit and not hit.get("miss"):
+                found = hit
+                break
+        if found:
+            CO_AREAS[c["id"]] = (found["lat"], found["lon"])
         else:
-            LOG.append(f"geocode: no match for {c['name']} ('{q}')")
+            LOG.append(f"geocode: no match for {c['name']} ({' / '.join(qs)})")
     LOG.append(f"geocode: {len(CO_AREAS)} of {len(DIRECTORY)} companies pinned ({looked} new lookups)")
 
 

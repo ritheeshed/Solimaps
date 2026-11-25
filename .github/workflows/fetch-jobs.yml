@@ -39,5 +39,5 @@ jobs:
           git add feeds.json geo_cache.json
           if git diff --cached --quiet; then echo "No changes"; exit 0; fi
           git commit -m "Feeds refresh $(date -u +%F)"
-          for i in 1 2 3; do git pull --rebase origin main && git push && exit 0; sleep 5; done
+          for i in 1 2 3; do git fetch -q origin main && git rebase -X theirs origin/main && git push && exit 0; git rebase --abort 2>/dev/null || true; sleep 5; done
           exit 1
