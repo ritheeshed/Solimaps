@@ -122,7 +122,7 @@ RULES = [
              "solutions engineer", "deal desk", "partnerships"]),
     ("tech", ["software", "developer", "engineer", "devops", "sre", "qa", "test", "frontend", "front-end", "backend",
               "full stack", "fullstack", "cloud", "security", "it support", "sap", "salesforce", "programmer",
-              "architect", "technical", "product manager", "program manager", "scrum"]),
+              "architect", "technical", "product owner", "product manager", "program manager", "scrum"]),
 ]
 
 

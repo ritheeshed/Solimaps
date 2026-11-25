@@ -37,6 +37,9 @@ button,select,input{font:inherit;color:inherit}
 .brand p{margin:0;color:var(--mute);font-size:15px}
 .brow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .stat{background:var(--card);border-radius:999px;padding:3px 11px;font-size:13px;color:var(--mute);white-space:nowrap}.stat b{color:var(--ink)}
+.post{display:inline-flex;align-items:center;min-height:36px;padding:0 14px;border-radius:999px;background:var(--lime);color:#111;font-weight:600;font-size:14px;text-decoration:none}
+.mk.exact svg path:first-of-type{stroke:#111;stroke-width:2}
+.src{font-size:12px;color:var(--mute)}
 .lang{display:flex;background:var(--card);border-radius:999px;padding:3px}
 .lang button{border:0;background:none;border-radius:999px;min-height:36px;padding:0 13px;cursor:pointer;font-weight:600;font-size:14px}
 .lang button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
@@ -104,6 +107,7 @@ select,input[type=search]{min-height:44px;font-size:16px;border:1.5px solid var(
     <h1><svg width="24" height="32" viewBox="0 0 34 46" aria-hidden="true"><path d="M17 45S2 27.5 2 17a15 15 0 0 1 30 0c0 10.5-15 28-15 28Z" fill="currentColor"/><circle cx="17" cy="17" r="6" fill="#C8F135"/></svg>Soli Maps</h1>
     <p data-t="tag">Chennai's jobs, pinned. Tap a pin, apply in one click.</p>
     <div class="brow"><span id="stats" class="brow"></span>
+      <a class="post" id="post" href="#" target="_blank" rel="noopener" hidden data-t="post">Hiring? Post a job free</a>
       <div class="lang" role="group" aria-label="Language"><button type="button" id="l-en" aria-pressed="true">English</button><button type="button" id="l-ta" aria-pressed="false">தமிழ்</button></div>
     </div>
   </header>
@@ -120,12 +124,13 @@ select,input[type=search]{min-height:44px;font-size:16px;border:1.5px solid var(
       <div class="row">
         <label class="f"><span data-t="area">Area</span><select id="area"></select></label>
         <label class="f"><span data-t="find">Search</span><input type="search" id="q" autocomplete="off"></label>
+        <label class="f"><span data-t="srcL">Source</span><select id="src"></select></label>
       </div>
       <div class="chips" id="chips" role="group"></div>
       <div class="count"><h2 id="count"></h2><button type="button" class="clear" id="clear" data-t="clear">Clear filters</button></div>
     </div>
     <div class="list" id="list"></div>
-    <div class="foot"><p data-t="source">Jobs from Indeed, refreshed every morning. Listings older than 90 days are hidden.</p><p data-t="check">Pins mark the area named in each listing, not the exact office. Check the address on the job page before you travel.</p><p id="stale"></p></div>
+    <div class="foot"><p data-t="source"></p><p data-t="check">Pins mark the area named in each listing, not the exact office. Check the address on the job page before you travel.</p><p id="stale"></p></div>
   </section>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
@@ -134,18 +139,22 @@ select,input[type=search]{min-height:44px;font-size:16px;border:1.5px solid var(
 const CATS={tech:['#2F6BFF','Tech','தொழில்நுட்பம்'],data:['#06B6D4','Data & analytics','தரவு பகுப்பாய்வு'],mkt:['#F43F8E','Marketing & sales','மார்க்கெட்டிங் & விற்பனை'],fin:['#FFB000','Finance & accounts','நிதி & கணக்கு'],hr:['#16A34A','HR & recruiting','மனிதவளம்'],ops:['#FF6A1A','Operations & support','செயல்பாடு & ஆதரவு'],eng:['#9A4A22','Engineering','பொறியியல்'],des:['#8B5CF6','Design','வடிவமைப்பு'],edu:['#0F766E','Education','கல்வி'],health:['#E11D2E','Healthcare','மருத்துவம்'],intern:['#7CC40F','Internships','பயிற்சிப் பணி']};
 const CK=Object.keys(CATS);
 const T={
-en:{tag:"Chennai's jobs, pinned. Tap a pin, apply in one click.",jobs:'jobs',areas:'areas',updated:'Updated',area:'Area',find:'Search',ph:'Role or company',all:'All of Chennai',none:'Area not listed',clear:'Clear filters',apply:'Apply on Indeed',today:'today',d1:'1 day ago',dn:'{n} days ago',showing:'{n} jobs',showingIn:'{n} jobs in {a}',empty:'Nothing here yet. Try another area or field.',hint:'Drag to move · right-drag or two fingers to tilt and turn · tap a pin',nomap:"The 3D map couldn't load on this browser. The job list still works.",source:'Jobs from Indeed, refreshed every morning. Listings older than 90 days are hidden.',check:'Pins mark the area named in each listing, not the exact office. Check the address on the job page before you travel.',stale:'Last refresh was {n} days ago, so some listings may have closed.',fields:'Fields',unl:'jobs just say "Chennai"',see:'See them',more:'Show {n} more',fresh:'New',loadErr:'Could not load the job list. Please reload the page.'},
-ta:{tag:'சென்னை வேலைகள், வரைபடத்தில். பின்னைத் தட்டுங்கள், ஒரே க்ளிக்கில் விண்ணப்பியுங்கள்.',jobs:'வேலைகள்',areas:'பகுதிகள்',updated:'புதுப்பிப்பு',area:'பகுதி',find:'தேடல்',ph:'பணி அல்லது நிறுவனம்',all:'முழு சென்னை',none:'பகுதி குறிப்பிடப்படவில்லை',clear:'வடிகட்டிகளை அழி',apply:'Indeed-இல் விண்ணப்பிக்க',today:'இன்று',d1:'1 நாள் முன்',dn:'{n} நாட்களுக்கு முன்',showing:'{n} வேலைகள்',showingIn:'{a}: {n} வேலைகள்',empty:'இங்கே இப்போது வேலைகள் இல்லை. வேறு பகுதி அல்லது துறையை முயற்சிக்கவும்.',hint:'நகர்த்த இழுக்கவும் · சாய்க்க இரு விரல்களால் இழுக்கவும் · பின்னைத் தட்டவும்',nomap:'இந்த உலாவியில் 3D வரைபடம் ஏற்றப்படவில்லை. வேலைப் பட்டியல் இயங்கும்.',source:'வேலைகள் Indeed-இலிருந்து, ஒவ்வொரு காலையும் புதுப்பிக்கப்படுகின்றன. 90 நாட்களுக்கு மேல் பழைய அறிவிப்புகள் மறைக்கப்படும்.',check:'பின்கள் அறிவிப்பில் உள்ள பகுதியைக் காட்டுகின்றன, சரியான அலுவலகத்தை அல்ல. பயணத்துக்கு முன் வேலைப் பக்கத்தில் முகவரியைச் சரிபார்க்கவும்.',stale:'கடைசி புதுப்பிப்பு {n} நாட்களுக்கு முன்; சில வேலைகள் மூடப்பட்டிருக்கலாம்.',fields:'துறைகள்',unl:'வேலைகளில் "சென்னை" என்று மட்டுமே உள்ளது',see:'பார்க்க',more:'மேலும் {n} காட்டு',fresh:'புதிது',loadErr:'வேலைப் பட்டியலை ஏற்ற முடியவில்லை. பக்கத்தை மீண்டும் ஏற்றவும்.'}};
+en:{tag:"Chennai's jobs, pinned. Tap a pin, apply in one click.",jobs:'jobs',areas:'areas',updated:'Updated',area:'Area',find:'Search',ph:'Role or company',all:'All of Chennai',none:'Area not listed',clear:'Clear filters',apply:'Apply on Indeed',today:'today',d1:'1 day ago',dn:'{n} days ago',showing:'{n} jobs',showingIn:'{n} jobs in {a}',empty:'Nothing here yet. Try another area or field.',hint:'Drag to move · right-drag or two fingers to tilt and turn · tap a pin',nomap:"The 3D map couldn't load on this browser. The job list still works.",source:'Jobs from Indeed, Google for Jobs (including listings also posted on LinkedIn and Glassdoor), company career pages and employers who post here. Refreshed every morning; listings older than 90 days are hidden.',check:'Pins mark the area named in each listing, not the exact office. Check the address on the job page before you travel.',stale:'Last refresh was {n} days ago, so some listings may have closed.',fields:'Fields',srcL:'Source',srcAll:'All sources',srcCo:'Company career pages',srcSoli:'Posted on Soli Maps',via:'via {s}',applyOn:'Apply on {s}',applyCo:'Apply on company site',applySoli:'Apply now',post:'Hiring? Post a job free',unl:'jobs just say "Chennai"',see:'See them',more:'Show {n} more',fresh:'New',loadErr:'Could not load the job list. Please reload the page.'},
+ta:{tag:'சென்னை வேலைகள், வரைபடத்தில். பின்னைத் தட்டுங்கள், ஒரே க்ளிக்கில் விண்ணப்பியுங்கள்.',jobs:'வேலைகள்',areas:'பகுதிகள்',updated:'புதுப்பிப்பு',area:'பகுதி',find:'தேடல்',ph:'பணி அல்லது நிறுவனம்',all:'முழு சென்னை',none:'பகுதி குறிப்பிடப்படவில்லை',clear:'வடிகட்டிகளை அழி',apply:'Indeed-இல் விண்ணப்பிக்க',today:'இன்று',d1:'1 நாள் முன்',dn:'{n} நாட்களுக்கு முன்',showing:'{n} வேலைகள்',showingIn:'{a}: {n} வேலைகள்',empty:'இங்கே இப்போது வேலைகள் இல்லை. வேறு பகுதி அல்லது துறையை முயற்சிக்கவும்.',hint:'நகர்த்த இழுக்கவும் · சாய்க்க இரு விரல்களால் இழுக்கவும் · பின்னைத் தட்டவும்',nomap:'இந்த உலாவியில் 3D வரைபடம் ஏற்றப்படவில்லை. வேலைப் பட்டியல் இயங்கும்.',source:'வேலைகள் Indeed, Google for Jobs (LinkedIn, Glassdoor-இல் வந்தவை உட்பட), நிறுவன வேலைப் பக்கங்கள் மற்றும் இங்கே பதிவிடும் நிறுவனங்களிலிருந்து. ஒவ்வொரு காலையும் புதுப்பிக்கப்படுகின்றன; 90 நாட்களுக்கு மேல் பழையவை மறைக்கப்படும்.',check:'பின்கள் அறிவிப்பில் உள்ள பகுதியைக் காட்டுகின்றன, சரியான அலுவலகத்தை அல்ல. பயணத்துக்கு முன் வேலைப் பக்கத்தில் முகவரியைச் சரிபார்க்கவும்.',stale:'கடைசி புதுப்பிப்பு {n} நாட்களுக்கு முன்; சில வேலைகள் மூடப்பட்டிருக்கலாம்.',fields:'துறைகள்',srcL:'மூலம்',srcAll:'அனைத்து மூலங்கள்',srcCo:'நிறுவன வேலைப் பக்கங்கள்',srcSoli:'Soli Maps-இல் பதிவிட்டவை',via:'{s} வழியாக',applyOn:'{s}-இல் விண்ணப்பிக்க',applyCo:'நிறுவனத் தளத்தில் விண்ணப்பிக்க',applySoli:'இப்போதே விண்ணப்பிக்க',post:'வேலை தருகிறீர்களா? இலவசமாகப் பதிவிடுங்கள்',unl:'வேலைகளில் "சென்னை" என்று மட்டுமே உள்ளது',see:'பார்க்க',more:'மேலும் {n} காட்டு',fresh:'புதிது',loadErr:'வேலைப் பட்டியலை ஏற்ற முடியவில்லை. பக்கத்தை மீண்டும் ஏற்றவும்.'}};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const ageOf=d=>Math.max(0,Math.floor((Date.now()-new Date(d+'T00:00:00+05:30').getTime())/864e5));
 let lang='en';try{lang=localStorage.getItem('soli-lang')||'en'}catch(e){}
-const S={area:'all',cats:new Set(),q:''};let shown=30;
+const POST_URL='';
+const S={area:'all',cats:new Set(),q:'',src:'all'};let shown=30;
 let D=null,LIVE=[],MAP=null;
 const t=(k,v={})=>(T[lang][k]||T.en[k]).replace(/\{(\w)\}/g,(m,x)=>v[x]);
 const areaName=a=>a?(D.areas[a]?D.areas[a][lang]:a):t('none');
 const catName=c=>CATS[c]?(lang==='ta'?CATS[c][2]:CATS[c][1]):c;
-const matchBase=j=>(!S.cats.size||S.cats.has(j.cat))&&(!S.q||(j.t+' '+j.c).toLowerCase().includes(S.q));
+const srcGroup=j=>j.src==='Company careers'?'co':j.src==='Soli Maps'?'soli':j.src;
+const matchBase=j=>(!S.cats.size||S.cats.has(j.cat))&&(!S.q||(j.t+' '+j.c).toLowerCase().includes(S.q))&&(S.src==='all'||srcGroup(j)===S.src);
+const srcLabel=g=>g==='co'?t('srcCo'):g==='soli'?t('srcSoli'):g;
+const applyLabel=j=>j.src==='Company careers'?t('applyCo'):j.src==='Soli Maps'?t('applySoli'):t('applyOn',{s:j.src||'Indeed'});
 const matchArea=j=>S.area==='all'||(S.area==='none'?!j.a:j.a===S.area);
 const posted=d=>{const n=ageOf(d);return n===0?t('today'):n===1?t('d1'):t('dn',{n})};
 const pinSvg='<svg width="9" height="12" viewBox="0 0 9 12" aria-hidden="true"><path d="M4.5 0A4.5 4.5 0 0 0 0 4.5C0 8 4.5 12 4.5 12S9 8 9 4.5A4.5 4.5 0 0 0 4.5 0Zm0 6.2a1.7 1.7 0 1 1 0-3.4 1.7 1.7 0 0 1 0 3.4Z" fill="currentColor"/></svg>';
@@ -161,6 +170,8 @@ function texts(){
   const st=ageOf(D.updated);$('#stale').textContent=st>2?t('stale',{n:st}):'';
 }
 function filters(){
+  const sc={};for(const j of LIVE){const g=srcGroup(j);sc[g]=(sc[g]||0)+1}
+  $('#src').innerHTML=`<option value="all">${esc(t('srcAll'))} (${LIVE.length})</option>`+Object.keys(sc).sort((a,b)=>sc[b]-sc[a]).map(g=>`<option value="${esc(g)}">${esc(srcLabel(g))} (${sc[g]})</option>`).join('');$('#src').value=S.src;
   const base=LIVE.filter(matchBase),cnt={};
   for(const j of base){const k=j.a||'none';cnt[k]=(cnt[k]||0)+1}
   const keys=Object.keys(D.areas).filter(a=>cnt[a]||S.area===a).sort((a,b)=>(cnt[b]||0)-(cnt[a]||0)||areaName(a).localeCompare(areaName(b)));
@@ -173,8 +184,8 @@ function filters(){
 function list(){
   const js=LIVE.filter(j=>matchBase(j)&&matchArea(j)).sort((a,b)=>b.d.localeCompare(a.d));
   $('#count').textContent=S.area==='all'?t('showing',{n:js.length}):t('showingIn',{n:js.length,a:areaName(S.area==='none'?'':S.area)});
-  $('#clear').hidden=S.area==='all'&&!S.cats.size&&!S.q;
-  $('#list').innerHTML=js.length?js.slice(0,shown).map(j=>`<article class="job" style="--c:${CATS[j.cat]?CATS[j.cat][0]:'#888'}"><h3>${esc(j.t)}${ageOf(j.d)<=3?`<span class="new">${esc(t('fresh'))}</span>`:''}</h3><p class="co">${esc(j.c)}</p><div class="meta"><button type="button" class="ar" data-a="${esc(j.a||'none')}">${pinSvg} ${esc(areaName(j.a))}</button><span>${esc(catName(j.cat))}</span>${j.ty?`<span>${esc(j.ty)}</span>`:''}<span>${esc(posted(j.d))}</span></div><a class="apply" href="${esc(j.u)}" target="_blank" rel="noopener">${esc(t('apply'))} ↗</a></article>`).join(''):`<p class="empty">${esc(t('empty'))}</p>`;
+  $('#clear').hidden=S.area==='all'&&!S.cats.size&&!S.q&&S.src==='all';
+  $('#list').innerHTML=js.length?js.slice(0,shown).map(j=>`<article class="job" style="--c:${CATS[j.cat]?CATS[j.cat][0]:'#888'}"><h3>${esc(j.t)}${ageOf(j.d)<=3?`<span class="new">${esc(t('fresh'))}</span>`:''}</h3><p class="co">${esc(j.c)}</p><div class="meta"><button type="button" class="ar" data-a="${esc(j.a||'none')}">${pinSvg} ${esc(areaName(j.a))}</button><span>${esc(catName(j.cat))}</span>${j.ty?`<span>${esc(j.ty)}</span>`:''}<span>${esc(posted(j.d))}</span>${j.src&&j.src!=='Soli Maps'?`<span class="src">${esc(t('via',{s:j.src==='Company careers'?t('srcCo'):j.src}))}</span>`:''}</div><a class="apply" href="${esc(j.u)}" target="_blank" rel="noopener">${esc(applyLabel(j))} ↗</a></article>`).join(''):`<p class="empty">${esc(t('empty'))}</p>`;
   if(js.length>shown)$('#list').insertAdjacentHTML('beforeend',`<button type="button" class="more" id="more">${esc(t('more',{n:js.length-shown}))}</button>`);
 }
 function render(){texts();filters();list();if(MAP)MAP.update()}
@@ -184,10 +195,11 @@ const setLang=l=>{lang=l;try{localStorage.setItem('soli-lang',l)}catch(e){}rende
 $('#l-en').addEventListener('click',()=>setLang('en'));
 $('#l-ta').addEventListener('click',()=>setLang('ta'));
 $('#area').addEventListener('change',e=>setArea(e.target.value));
+$('#src').addEventListener('change',e=>{S.src=e.target.value;shown=30;refresh()});
 $('#q').addEventListener('input',e=>{shown=30;S.q=e.target.value.trim().toLowerCase();refresh()});
 $('#chips').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;const c=b.dataset.c;S.cats.has(c)?S.cats.delete(c):S.cats.add(c);shown=30;refresh()});
 $('#list').addEventListener('click',e=>{if(e.target.id==='more'){shown+=30;list();return}const b=e.target.closest('.ar');if(b){setArea(b.dataset.a);$('#map').scrollIntoView({block:'start'})}});
-$('#clear').addEventListener('click',()=>{S.cats.clear();S.q='';$('#q').value='';setArea('all')});
+$('#clear').addEventListener('click',()=>{S.cats.clear();S.q='';S.src='all';$('#q').value='';setArea('all')});
 $('#seeUnl').addEventListener('click',()=>{setArea('none');$('.panel').scrollIntoView({block:'start'})});
 
 /* ---------- 3D map: real OpenStreetMap data from OpenFreeMap, styled as a white scale model ---------- */
@@ -231,7 +243,7 @@ function makeMap(){
     let i=0;
     for(const a in by){
       const b=by[a],dom=CK.reduce((m,c)=>(b.c[c]||0)>(b.c[m]||0)?c:m,CK[0]);
-      const el=document.createElement('div');el.className='mk'+(b.n>=4?' big':'');el.style.setProperty('--s',(0.9+.12*Math.sqrt(b.n)).toFixed(2));el.style.setProperty('--d',(-(i++*.37)%2.6).toFixed(2)+'s');
+      const el=document.createElement('div');el.className='mk'+(b.n>=4?' big':'')+(D.areas[a].exact?' exact big':'');el.style.setProperty('--s',(0.9+.12*Math.sqrt(b.n)).toFixed(2));el.style.setProperty('--d',(-(i++*.37)%2.6).toFixed(2)+'s');
       el.setAttribute('role','button');el.tabIndex=0;el.setAttribute('aria-label',`${areaName(a)}: ${b.n} ${t('jobs')}`);
       el.innerHTML=`<div class="tag"><i>${b.n}</i><span>${esc(areaName(a))}</span></div><svg viewBox="0 0 34 46" aria-hidden="true"><path d="M17 45S2 27.5 2 17a15 15 0 0 1 30 0c0 10.5-15 28-15 28Z" fill="${CATS[dom][0]}"/><path d="M17 45S2 27.5 2 17a15 15 0 0 1 30 0c0 10.5-15 28-15 28Z" fill="url(#gloss)"/><circle cx="17" cy="17" r="6.5" fill="#fff"/></svg>`;
       const go=e=>{e.stopPropagation();setArea(S.area===a?'all':a)};
@@ -253,8 +265,16 @@ function makeMap(){
   return{update:build,focus,lang:()=>{setNames();build()}};
 }
 
-fetch('jobs.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(d=>{
-  D=d;LIVE=(d.jobs||[]).filter(j=>ageOf(j.d)<=(d.maxAgeDays||90));
+const getJSON=(f,opt)=>fetch(f,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()});
+Promise.all([getJSON('jobs.json'),getJSON('feeds.json').catch(()=>null),getJSON('posts.json').catch(()=>null)]).then(([base,feeds,posts])=>{
+  const areas={...(base.areas||{}),...((feeds&&feeds.areas)||{})},all=[],seen=new Set();
+  const key=j=>(j.t+'|'+j.c).toLowerCase().replace(/[^a-z0-9|]/g,'');
+  const push=j=>{const k=key(j);if(seen.has(k))return;seen.add(k);all.push(j)};
+  for(const p of (posts&&posts.jobs)||[]){if(typeof p.la==='number'&&typeof p.lo==='number'){const a='xy'+p.la.toFixed(4)+'_'+p.lo.toFixed(4);areas[a]=areas[a]||{en:p.c,ta:p.c,lat:p.la,lon:p.lo,exact:true};push({...p,a,src:'Soli Maps'})}else push({...p,src:'Soli Maps'})}
+  for(const j of base.jobs||[])push({...j,src:j.src||'Indeed'});
+  for(const j of (feeds&&feeds.jobs)||[])push(j);
+  D={...base,areas,updated:[base.updated,feeds&&feeds.updated].filter(Boolean).sort().pop()};LIVE=all.filter(j=>ageOf(j.d)<=(base.maxAgeDays||90));
+  if(POST_URL){$('#post').href=POST_URL;$('#post').hidden=false}
   try{MAP=makeMap()}catch(e){console.error(e);$('#nomap').style.display='grid'}
   render();
 }).catch(()=>{$('#list').innerHTML=`<p class="empty">${esc(t('loadErr'))}</p>`});
