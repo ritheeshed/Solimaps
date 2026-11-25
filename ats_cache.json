@@ -1,6 +1,9 @@
 {
  "zoho": {
-  "kind": "none",
+  "kind": "zohorecruit",
+  "args": [
+   "careers.zohocorp.com"
+  ],
   "checked": "2026-11-25"
  },
  "freshworks": {
