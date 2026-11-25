@@ -1,45 +1,372 @@
 {
 "note": "Chennai startups and product companies on Soli Maps. 'office' is the Chennai address the company publishes; 'geo' is the landmark the daily job looks up on OpenStreetMap to place the pin (cached in geo_cache.json); set lat/lon to override. Companies without a published Chennai address have office '' and are not pinned.",
 "companies": [
-{"id":"zoho","name":"Zoho","group":"Established product","careers":"https://careers.zohocorp.com/jobs/Careers","office":"Estancia IT Park, Plot No. 140 & 151, GST Road, Vallancheri, Chengalpattu District 603202","geo":"Estancia IT Park, Vallancheri"},
-{"id":"freshworks","name":"Freshworks","alias":["Freshworks Inc."],"group":"Established product","careers":"https://careers.smartrecruiters.com/Freshworks","office":"Global Infocity Park, Block A, 40 MGR Salai, Perungudi, Chennai 600096","geo":"Global Infocity Park, Perungudi, Chennai"},
-{"id":"chargebee","name":"Chargebee","group":"Established product","careers":"https://jobs.chargebee.com/","office":"10th Floor, Littlewood Tower, Ramanujan IT Park, Taramani, Chennai 600113","geo":"Ramanujan IT City, Taramani, Chennai"},
-{"id":"uniphore","name":"Uniphore","group":"Established product","careers":"https://uniphore.wd503.myworkdayjobs.com/Uniphore","office":"IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113","geo":"IIT Madras Research Park, Chennai"},
-{"id":"kissflow","name":"Kissflow","group":"Established product","careers":"https://careers.kissflow.com/","office":"Tower B, 10th Floor, World Trade Center, 5/142 Rajiv Gandhi Salai (OMR), Perungudi, Chennai 600096","geo":"World Trade Center, Perungudi, Chennai"},
-{"id":"fourkites","name":"FourKites","group":"Established product","careers":"https://boards.greenhouse.io/fourkites","office":"DLF Cybercity, Manapakkam, Chennai","geo":"DLF Cybercity, Manapakkam, Chennai"},
-{"id":"ramco","name":"Ramco Systems","alias":["Ramco"],"group":"Established product","careers":"https://www.ramco.com/careers","office":"64, Sardar Patel Road, Taramani, Chennai 600113","geo":"64 Sardar Patel Road, Taramani, Chennai"},
-{"id":"madstreetden","name":"Mad Street Den (Vue.ai)","alias":["Mad Street Den","Vue.ai"],"group":"Established product","careers":"https://www.vue.ai/careers","office":"","geo":""},
-{"id":"disprz","name":"Disprz","group":"Established product","careers":"https://disprz.ai/careers","office":"","geo":""},
-{"id":"facilio","name":"Facilio","group":"Established product","careers":"https://facilio.com/careers/","office":"IndiQube Ocean Bay, Guindy, Chennai","geo":"IndiQube Ocean Bay, Guindy, Chennai"},
-{"id":"superops","name":"SuperOps","group":"Fast-growing SaaS","careers":"https://superops.com/careers","office":"","geo":""},
-{"id":"rocketlane","name":"Rocketlane","group":"Fast-growing SaaS","careers":"https://www.rocketlane.com/careers","office":"","geo":""},
-{"id":"gallabox","name":"Gallabox","group":"Fast-growing SaaS","careers":"https://gallabox.com/careers","office":"","geo":""},
-{"id":"highperformr","name":"Highperformr.ai","alias":["Highperformr"],"group":"Fast-growing SaaS","careers":"https://www.highperformr.ai/careers","office":"","geo":""},
-{"id":"vajro","name":"Vajro","group":"Fast-growing SaaS","careers":"https://www.vajro.com/careers","office":"","geo":""},
-{"id":"fieldproxy","name":"Fieldproxy","group":"Fast-growing SaaS","careers":"https://www.fieldproxy.com/careers","office":"","geo":""},
-{"id":"auditcue","name":"AuditCue","group":"Fast-growing SaaS","careers":"https://auditcue.com/careers","office":"","geo":""},
-{"id":"pando","name":"Pando","group":"Fast-growing SaaS","careers":"https://pando.ai/careers/","office":"","geo":""},
-{"id":"onehash","name":"OneHash","group":"Fast-growing SaaS","careers":"https://www.onehash.ai/careers","office":"","geo":""},
-{"id":"pipecandy","name":"PipeCandy","group":"Fast-growing SaaS","careers":"https://pipecandy.com/careers","office":"","geo":""},
-{"id":"yubi","name":"Yubi","alias":["CredAvenue"],"group":"Fintech","careers":"https://www.go-yubi.com/careers","office":"12th Floor, Prestige Polygon, 471 Anna Salai, Nandanam, Chennai 600035","geo":"Prestige Polygon, Anna Salai, Chennai"},
-{"id":"m2p","name":"M2P Fintech","alias":["M2P"],"group":"Fintech","careers":"https://careers.m2pfintech.com/view-jobs/","office":"Plot No. C1 & C56, Olympia Quest, SIDCO, Thiru Vi Ka Industrial Estate, Guindy, Chennai 600032","geo":"Thiru Vi Ka Industrial Estate, Guindy, Chennai"},
-{"id":"bankbazaar","name":"BankBazaar","group":"Fintech","careers":"https://www.bankbazaar.com/careers.html","office":"Prince Info Park, Block B, 3rd Floor, 81B 2nd Main Road, Ambattur Industrial Estate, Chennai 600058","geo":"Prince Info Park, Ambattur Industrial Estate, Chennai"},
-{"id":"kaleidofin","name":"Kaleidofin","group":"Fintech","careers":"https://www.kaleidofin.com/careers","office":"","geo":""},
-{"id":"vivriti","name":"Vivriti Capital","alias":["Vivriti"],"group":"Fintech","careers":"https://www.vivriticapital.com/careers","office":"","geo":""},
-{"id":"northernarc","name":"Northern Arc","alias":["Northern Arc Capital"],"group":"Fintech","careers":"https://www.northernarc.com/careers","office":"10th Floor, IIT Madras Research Park, 1 Kanagam Village, Taramani, Chennai 600113","geo":"IIT Madras Research Park, Chennai"},
-{"id":"fundsindia","name":"FundsIndia","group":"Fintech","careers":"https://www.fundsindia.com/careers","office":"","geo":""},
-{"id":"credopay","name":"CredoPay","group":"Fintech","careers":"https://www.credopay.com/careers","office":"","geo":""},
-{"id":"hypto","name":"Hypto","group":"Fintech","careers":"https://hypto.in/careers","office":"","geo":""},
-{"id":"creditmantri","name":"CreditMantri","group":"Fintech","careers":"https://www.creditmantri.com/careers/","office":"","geo":""},
-{"id":"agnikul","name":"Agnikul Cosmos","alias":["Agnikul"],"group":"Deeptech","careers":"https://agnikul.in/careers/","office":"E-Block, 3rd Floor, E304, IIT Madras Research Park, Chennai 600113","geo":"IIT Madras Research Park, Chennai"},
-{"id":"detect","name":"Detect Technologies","group":"Deeptech","careers":"https://detecttechnologies.com/current-openings","office":"1st Floor, Block B, Featherlite The Address, Iswarya Nagar, Nemilichery, Pallavaram, Chennai 600043","geo":"Featherlite The Address, Pallavaram, Chennai"},
-{"id":"eplane","name":"The ePlane Company","alias":["ePlane"],"group":"Deeptech","careers":"https://www.eplane.ai/careers","office":"","geo":""},
-{"id":"blurgs","name":"Blurgs AI","alias":["Blurgs"],"group":"Deeptech","careers":"https://blurgs.ai/careers","office":"","geo":""},
-{"id":"zuppa","name":"Zuppa","alias":["Zuppa Geo Navigation"],"group":"Deeptech","careers":"https://zuppa.io/careers","office":"","geo":""},
-{"id":"raptee","name":"RapteeHV","alias":["Raptee.HV","Raptee"],"group":"Deeptech","careers":"https://www.raptee.com/careers","office":"","geo":""},
-{"id":"waycool","name":"WayCool","group":"Agri, logistics & edtech","careers":"https://www.waycool.in/careers","office":"","geo":""},
-{"id":"samunnati","name":"Samunnati","group":"Agri, logistics & edtech","careers":"https://www.samunnati.com/careers/","office":"","geo":""},
-{"id":"wizfreight","name":"Wiz Freight","alias":["WIZ Freight"],"group":"Agri, logistics & edtech","careers":"https://wizfreight.com/careers","office":"","geo":""},
-{"id":"guvi","name":"GUVI","alias":["GUVI Geek Networks"],"group":"Agri, logistics & edtech","careers":"https://www.guvi.in/careers/","office":"","geo":""}
+{
+"id": "zoho",
+"name": "Zoho",
+"group": "Established product",
+"careers": "https://careers.zohocorp.com/jobs/Careers",
+"office": "Estancia IT Park, Plot No. 140 & 151, GST Road, Vallancheri, Chengalpattu District 603202",
+"geo": "Estancia IT Park, Vallancheri"
+},
+{
+"id": "freshworks",
+"name": "Freshworks",
+"alias": [
+"Freshworks Inc."
+],
+"group": "Established product",
+"careers": "https://careers.smartrecruiters.com/Freshworks",
+"office": "Global Infocity Park, Block A, 40 MGR Salai, Perungudi, Chennai 600096",
+"geo": "Global Infocity Park, Perungudi, Chennai"
+},
+{
+"id": "chargebee",
+"name": "Chargebee",
+"group": "Established product",
+"careers": "https://jobs.chargebee.com/",
+"office": "10th Floor, Littlewood Tower, Ramanujan IT Park, Taramani, Chennai 600113",
+"geo": "Ramanujan IT City, Taramani, Chennai"
+},
+{
+"id": "uniphore",
+"name": "Uniphore",
+"group": "Established product",
+"careers": "https://uniphore.wd503.myworkdayjobs.com/Uniphore",
+"office": "IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
+"geo": "IIT Madras Research Park, Chennai"
+},
+{
+"id": "kissflow",
+"name": "Kissflow",
+"group": "Established product",
+"careers": "https://careers.kissflow.com/",
+"office": "Tower B, 10th Floor, World Trade Center, 5/142 Rajiv Gandhi Salai (OMR), Perungudi, Chennai 600096",
+"geo": "World Trade Center, Perungudi, Chennai"
+},
+{
+"id": "fourkites",
+"name": "FourKites",
+"group": "Established product",
+"careers": "https://boards.greenhouse.io/fourkites",
+"office": "DLF Cybercity, Manapakkam, Chennai",
+"geo": "DLF Cybercity, Manapakkam, Chennai"
+},
+{
+"id": "ramco",
+"name": "Ramco Systems",
+"alias": [
+"Ramco"
+],
+"group": "Established product",
+"careers": "https://www.ramco.com/careers",
+"office": "64, Sardar Patel Road, Taramani, Chennai 600113",
+"geo": "64 Sardar Patel Road, Taramani, Chennai"
+},
+{
+"id": "madstreetden",
+"name": "Mad Street Den (Vue.ai)",
+"alias": [
+"Mad Street Den",
+"Vue.ai"
+],
+"group": "Established product",
+"careers": "https://www.vue.ai/careers",
+"office": "",
+"geo": ""
+},
+{
+"id": "disprz",
+"name": "Disprz",
+"group": "Established product",
+"careers": "https://disprz.ai/careers",
+"office": "",
+"geo": ""
+},
+{
+"id": "facilio",
+"name": "Facilio",
+"group": "Established product",
+"careers": "https://facilio.com/careers/",
+"office": "IndiQube Ocean Bay, Guindy, Chennai",
+"geo": "IndiQube Ocean Bay, Guindy, Chennai"
+},
+{
+"id": "superops",
+"name": "SuperOps",
+"group": "Fast-growing SaaS",
+"careers": "https://superops.com/careers",
+"office": "",
+"geo": ""
+},
+{
+"id": "rocketlane",
+"name": "Rocketlane",
+"group": "Fast-growing SaaS",
+"careers": "https://www.rocketlane.com/careers",
+"office": "",
+"geo": ""
+},
+{
+"id": "gallabox",
+"name": "Gallabox",
+"group": "Fast-growing SaaS",
+"careers": "https://gallabox.com/careers",
+"office": "",
+"geo": ""
+},
+{
+"id": "highperformr",
+"name": "Highperformr.ai",
+"alias": [
+"Highperformr"
+],
+"group": "Fast-growing SaaS",
+"careers": "https://www.highperformr.ai/careers",
+"office": "",
+"geo": ""
+},
+{
+"id": "vajro",
+"name": "Vajro",
+"group": "Fast-growing SaaS",
+"careers": "https://www.vajro.com/careers",
+"office": "",
+"geo": ""
+},
+{
+"id": "fieldproxy",
+"name": "Fieldproxy",
+"group": "Fast-growing SaaS",
+"careers": "https://www.fieldproxy.com/careers",
+"office": "",
+"geo": ""
+},
+{
+"id": "auditcue",
+"name": "AuditCue",
+"group": "Fast-growing SaaS",
+"careers": "https://auditcue.com/careers",
+"office": "",
+"geo": ""
+},
+{
+"id": "pando",
+"name": "Pando",
+"group": "Fast-growing SaaS",
+"careers": "https://careers.pando.ai/jobs/Careers",
+"office": "No. 4, Yarlagadda Towers, 4th Lane, Nungambakkam High Road, Chennai 600034",
+"geo": "Nungambakkam High Road, Chennai"
+},
+{
+"id": "onehash",
+"name": "OneHash",
+"group": "Fast-growing SaaS",
+"careers": "https://www.onehash.ai/careers",
+"office": "",
+"geo": ""
+},
+{
+"id": "pipecandy",
+"name": "PipeCandy",
+"group": "Fast-growing SaaS",
+"careers": "https://pipecandy.com/careers",
+"office": "",
+"geo": ""
+},
+{
+"id": "yubi",
+"name": "Yubi",
+"alias": [
+"CredAvenue"
+],
+"group": "Fintech",
+"careers": "https://www.go-yubi.com/careers",
+"office": "12th Floor, Prestige Polygon, 471 Anna Salai, Nandanam, Chennai 600035",
+"geo": "Prestige Polygon, Anna Salai, Chennai"
+},
+{
+"id": "m2p",
+"name": "M2P Fintech",
+"alias": [
+"M2P"
+],
+"group": "Fintech",
+"careers": "https://careers.m2pfintech.com/view-jobs/",
+"office": "Plot No. C1 & C56, Olympia Quest, SIDCO, Thiru Vi Ka Industrial Estate, Guindy, Chennai 600032",
+"geo": "Thiru Vi Ka Industrial Estate, Guindy, Chennai"
+},
+{
+"id": "bankbazaar",
+"name": "BankBazaar",
+"group": "Fintech",
+"careers": "https://www.bankbazaar.com/careers.html",
+"office": "Prince Info Park, Block B, 3rd Floor, 81B 2nd Main Road, Ambattur Industrial Estate, Chennai 600058",
+"geo": "Prince Info Park, Ambattur Industrial Estate, Chennai"
+},
+{
+"id": "kaleidofin",
+"name": "Kaleidofin",
+"group": "Fintech",
+"careers": "https://www.kaleidofin.com/careers",
+"office": "Module A6-02, Block A, 6th Floor, Phase 2, IIT Madras Research Park, Taramani, Chennai 600113",
+"geo": "IIT Madras Research Park, Chennai"
+},
+{
+"id": "vivriti",
+"name": "Vivriti Capital",
+"alias": [
+"Vivriti"
+],
+"group": "Fintech",
+"careers": "https://www.vivriticapital.com/careers",
+"office": "Prestige Zackria Metropolitan, No. 200/1-8, Block 1, Anna Salai, Chennai 600002",
+"geo": "Prestige Zackria Metropolitan, Anna Salai, Chennai"
+},
+{
+"id": "northernarc",
+"name": "Northern Arc",
+"alias": [
+"Northern Arc Capital"
+],
+"group": "Fintech",
+"careers": "https://www.northernarc.com/careers",
+"office": "10th Floor, IIT Madras Research Park, 1 Kanagam Village, Taramani, Chennai 600113",
+"geo": "IIT Madras Research Park, Chennai"
+},
+{
+"id": "fundsindia",
+"name": "FundsIndia",
+"group": "Fintech",
+"careers": "https://www.fundsindia.com/careers",
+"office": "",
+"geo": ""
+},
+{
+"id": "credopay",
+"name": "CredoPay",
+"group": "Fintech",
+"careers": "https://www.credopay.com/careers",
+"office": "",
+"geo": ""
+},
+{
+"id": "hypto",
+"name": "Hypto",
+"group": "Fintech",
+"careers": "https://hypto.in/careers",
+"office": "",
+"geo": ""
+},
+{
+"id": "creditmantri",
+"name": "CreditMantri",
+"group": "Fintech",
+"careers": "https://www.creditmantri.com/careers/",
+"office": "",
+"geo": ""
+},
+{
+"id": "agnikul",
+"name": "Agnikul Cosmos",
+"alias": [
+"Agnikul"
+],
+"group": "Deeptech",
+"careers": "https://agnikul.in/careers/",
+"office": "E-Block, 3rd Floor, E304, IIT Madras Research Park, Chennai 600113",
+"geo": "IIT Madras Research Park, Chennai"
+},
+{
+"id": "detect",
+"name": "Detect Technologies",
+"group": "Deeptech",
+"careers": "https://detecttechnologies.com/current-openings",
+"office": "1st Floor, Block B, Featherlite The Address, Iswarya Nagar, Nemilichery, Pallavaram, Chennai 600043",
+"geo": "Featherlite The Address, Pallavaram, Chennai"
+},
+{
+"id": "eplane",
+"name": "The ePlane Company",
+"alias": [
+"ePlane"
+],
+"group": "Deeptech",
+"careers": "https://www.eplane.ai/careers",
+"office": "No. 1FA, 1st Floor, IIT Madras Research Park, Kanagam Road, Taramani, Chennai 600113",
+"geo": "IIT Madras Research Park, Chennai"
+},
+{
+"id": "blurgs",
+"name": "Blurgs AI",
+"alias": [
+"Blurgs"
+],
+"group": "Deeptech",
+"careers": "https://blurgs.ai/careers",
+"office": "",
+"geo": ""
+},
+{
+"id": "zuppa",
+"name": "Zuppa",
+"alias": [
+"Zuppa Geo Navigation"
+],
+"group": "Deeptech",
+"careers": "https://zuppa.io/careers",
+"office": "",
+"geo": ""
+},
+{
+"id": "raptee",
+"name": "RapteeHV",
+"alias": [
+"Raptee.HV",
+"Raptee"
+],
+"group": "Deeptech",
+"careers": "https://www.raptee.com/careers",
+"office": "",
+"geo": ""
+},
+{
+"id": "waycool",
+"name": "WayCool",
+"group": "Agri, logistics & edtech",
+"careers": "https://www.waycool.in/careers",
+"office": "",
+"geo": ""
+},
+{
+"id": "samunnati",
+"name": "Samunnati",
+"group": "Agri, logistics & edtech",
+"careers": "https://www.samunnati.com/careers/",
+"office": "Baid Hi Tech Park, 129-B, 8th Floor, ECR, Thiruvanmiyur, Chennai 600041",
+"geo": "Baid Hi Tech Park, Thiruvanmiyur, Chennai"
+},
+{
+"id": "wizfreight",
+"name": "Wiz Freight",
+"alias": [
+"WIZ Freight"
+],
+"group": "Agri, logistics & edtech",
+"careers": "https://wizfreight.com/careers",
+"office": "",
+"geo": ""
+},
+{
+"id": "guvi",
+"name": "GUVI",
+"alias": [
+"GUVI Geek Networks"
+],
+"group": "Agri, logistics & edtech",
+"careers": "https://www.guvi.in/careers/",
+"office": "IITM Research Park Phase 2, Module 9, 3rd Floor, D Block, Kanagam Road, Taramani, Chennai 600113",
+"geo": "IIT Madras Research Park, Chennai"
+}
 ]
 }
