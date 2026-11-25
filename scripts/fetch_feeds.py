@@ -854,8 +854,8 @@ def best_logo(site):
     except Exception:
         pass
     urls += ["https://" + site + "/apple-touch-icon.png"]
-    if exists:
-        urls.append(f"https://www.google.com/s2/favicons?domain={site}&sz=256")
+    # Google keeps a copy of most sites' icons, which helps when a site turns away our requests
+    urls.append(f"https://www.google.com/s2/favicons?domain={site}&sz=256")
     best = None
     for u in urls[:10]:
         try:
@@ -866,7 +866,7 @@ def best_logo(site):
         if not ext or len(data) < 120 or len(data) > 1_500_000:
             continue
         side = image_side(data, ext)
-        if not side or side > 4096:
+        if not side or side > 4096 or ("google.com/s2" in u and side < 48):
             continue
         # prefer real site icons; Google's copy is a fallback only when it is clearly bigger
         score = min(side, 512) - (40 if "google.com/s2" in u else 0)
