@@ -1,0 +1,322 @@
+{
+ "zoho": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "freshworks": {
+  "kind": "smartrecruiters",
+  "args": [
+   "Freshworks"
+  ],
+  "checked": "2026-11-25"
+ },
+ "chargebee": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "uniphore": {
+  "kind": "workday",
+  "args": [
+   "uniphore",
+   "wd503",
+   "Uniphore"
+  ],
+  "checked": "2026-11-25"
+ },
+ "kissflow": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "fourkites": {
+  "kind": "greenhouse",
+  "args": [
+   "fourkites"
+  ],
+  "checked": "2026-11-25"
+ },
+ "ramco": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "madstreetden": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "disprz": {
+  "kind": "keka",
+  "args": [
+   "disprz"
+  ],
+  "checked": "2026-11-25"
+ },
+ "facilio": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "superops": {
+  "kind": "page",
+  "args": [
+   "https://superops.com/careers"
+  ],
+  "checked": "2026-11-25"
+ },
+ "rocketlane": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "gallabox": {
+  "kind": "page",
+  "args": [
+   "https://wellfound.com/company/gallabox"
+  ],
+  "checked": "2026-11-25"
+ },
+ "highperformr": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "vajro": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "fieldproxy": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "auditcue": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "pando": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "onehash": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "pipecandy": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "yubi": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "m2p": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "bankbazaar": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "kaleidofin": {
+  "kind": "page",
+  "args": [
+   "https://www.kaleidofin.com/careers"
+  ],
+  "checked": "2026-11-25"
+ },
+ "vivriti": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "northernarc": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "fundsindia": {
+  "kind": "page",
+  "args": [
+   "https://www.fundsindia.com/careers"
+  ],
+  "checked": "2026-11-25"
+ },
+ "credopay": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "hypto": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "creditmantri": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "agnikul": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "detect": {
+  "kind": "page",
+  "args": [
+   "https://detecttechnologies.com/current-openings"
+  ],
+  "checked": "2026-11-25"
+ },
+ "eplane": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "blurgs": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "zuppa": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "raptee": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "waycool": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "samunnati": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "wizfreight": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "guvi": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "latentview": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "tiger": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "intellect": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "qube": {
+  "kind": "page",
+  "args": [
+   "https://www.qubecinema.com:443/careers/"
+  ],
+  "checked": "2026-11-25"
+ },
+ "syncfusion": {
+  "kind": "page",
+  "args": [
+   "https://www.syncfusion.com/careers/"
+  ],
+  "checked": "2026-11-25"
+ },
+ "nference": {
+  "kind": "keka",
+  "args": [
+   "nference"
+  ],
+  "checked": "2026-11-25"
+ },
+ "aquaconnect": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "cynlr": {
+  "kind": "freshteam",
+  "args": [
+   "cynlr"
+  ],
+  "checked": "2026-11-25"
+ },
+ "prescience": {
+  "kind": "keka",
+  "args": [
+   "prescience"
+  ],
+  "checked": "2026-11-25"
+ },
+ "stellapps": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "modulus": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "ynos": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "planys": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "datamoo": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "orangescape": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "karomi": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "contus": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "vuram": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "xobin": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "rently": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "fresa": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "techjockey": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "chargemod": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "skilllync": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "ather": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "hexnode": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "klenty": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "kovai": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ },
+ "netmeds": {
+  "kind": "none",
+  "checked": "2026-11-25"
+ }
+}
