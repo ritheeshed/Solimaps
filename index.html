@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Soli Maps — Chennai jobs near you, straight from the company</title>
-<meta name="description" content="Chennai jobs near you, straight from the company. Pinned on the real office. Only company career pages. Fresh every morning.">
+<meta name="description" content="Chennai jobs near you, straight from the company. Pinned on the real office. Only real company openings. Fresh every morning.">
 <meta property="og:title" content="Soli Maps — Chennai jobs near you, straight from the company">
-<meta property="og:description" content="Pinned on the real office. Only company career pages. Fresh every morning.">
+<meta property="og:description" content="Pinned on the real office. Only real company openings. Fresh every morning.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.solimaps.com/">
 <meta name="theme-color" content="#FFFFFF">
@@ -159,7 +159,7 @@ select:hover,input[type=search]:hover{border-color:#E9CFCC}
     <h1 data-th="tag">Jobs near you, <em>straight from the company.</em></h1>
     <ul class="vp">
       <li><i><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5a5 5 0 0 0-5 5c0 3.6 5 8 5 8s5-4.4 5-8a5 5 0 0 0-5-5Zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z" fill="currentColor"/></svg></i><span data-t="vp1">Pinned on the real office</span></li>
-      <li><i><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span data-t="vp2">Only company career pages</span></li>
+      <li><i><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span data-t="vp2">Only real company openings</span></li>
       <li><i><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M13 8a5 5 0 1 1-1.5-3.6M13 2.5v3h-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span data-t="vp3">Fresh every morning</span></li>
     </ul>
     <p class="stats" id="stats"></p>
@@ -213,21 +213,23 @@ function panelOpen(open,save){const P=document.querySelector('.panel'),b=documen
   if(save)try{localStorage.setItem('soli-panel',open?'1':'0')}catch(e){}
   if(innerWidth>860)MAP_PAD()}
 const T={
-en:{tag:"Jobs near you, <em>straight from the company.</em>",vp1:'Pinned on the real office',vp2:'Only company career pages',vp3:'Fresh every morning',openings:'Openings',jobs:'openings',jobsCo:'openings from company sites',cosShort:'companies',cos:'companies on the map',updated:'Updated',area:'Area or company',find:'Search',ph:'Role or company',all:'All of Chennai',none:'Office not named',clear:'Clear filters',today:'today',d1:'1 day ago',dn:'{n} days ago',showing:'{n}',empty:'No openings match. Try another area, field or source.',hint:'Drag to move · right-click and drag to tilt or turn',nomap:"The 3D map couldn't load on this browser. The list of openings still works.",source:'Openings come straight from company career pages, plus Indeed and Google for Jobs under Source. Refreshed every morning; listings older than 90 days are hidden.',check:'Pins sit on each company\'s published Chennai office. Check the job page for the exact work location.',stale:'Last refresh was {n} days ago, so some openings may have closed.',fields:'Fields',srcL:'Source',srcAll:'All sources',srcCo:'Company career pages',srcSoli:'Posted on Soli Maps',via:'via {s}',applyOn:'Apply on {s}',applyCo:'Apply',applySoli:'Apply',post:'Hiring? Post a job',unl:"openings don't name an office",see:'Show them',more:'Show {n} more',fresh:'New',loadErr:'Could not load openings. Please reload the page.',companies:'Companies',areas:'Areas',noOpen:'No openings listed right now.',visit:'Visit careers page',office:'Chennai office',approxOff:'Office area (approx.)',hide:'Hide',show:'Show',about:'About these listings'},
-ta:{tag:'உங்கள் அருகில் வேலை, <em>நிறுவனத்திடமிருந்தே நேரடியாக.</em>',vp1:'உண்மையான அலுவலகத்தில் பின்',vp2:'நிறுவன வேலைப் பக்கங்கள் மட்டும்',vp3:'தினமும் காலையில் புதுப்பிப்பு',openings:'வேலை வாய்ப்புகள்',jobs:'வாய்ப்புகள்',jobsCo:'நிறுவனத் தள வாய்ப்புகள்',cosShort:'நிறுவனங்கள்',cos:'நிறுவனங்கள் வரைபடத்தில்',updated:'புதுப்பிப்பு',area:'பகுதி அல்லது நிறுவனம்',find:'தேடல்',ph:'பணி அல்லது நிறுவனம்',all:'முழு சென்னை',none:'அலுவலகம் குறிப்பிடப்படவில்லை',clear:'வடிகட்டிகளை அழி',today:'இன்று',d1:'1 நாள் முன்',dn:'{n} நாட்களுக்கு முன்',showing:'{n}',empty:'பொருந்தும் வாய்ப்புகள் இல்லை. வேறு பகுதி, துறை அல்லது மூலத்தை முயற்சிக்கவும்.',hint:'நகர்த்த இழுக்கவும் · சாய்க்க/சுழற்ற வலது க்ளிக் செய்து இழுக்கவும்',nomap:'இந்த உலாவியில் 3D வரைபடம் ஏற்றப்படவில்லை. வாய்ப்புகள் பட்டியல் இயங்கும்.',source:'வாய்ப்புகள் நிறுவன வேலைப் பக்கங்களிலிருந்து நேரடியாக; Indeed, Google for Jobs மூலம் தேர்வில். ஒவ்வொரு காலையும் புதுப்பிக்கப்படுகின்றன; 90 நாட்களுக்கு மேல் பழையவை மறைக்கப்படும்.',check:'பின்கள் ஒவ்வொரு நிறுவனமும் வெளியிட்ட சென்னை அலுவலகத்தில் உள்ளன. சரியான பணியிடத்தை வேலைப் பக்கத்தில் சரிபார்க்கவும்.',stale:'கடைசி புதுப்பிப்பு {n} நாட்களுக்கு முன்; சில வாய்ப்புகள் மூடப்பட்டிருக்கலாம்.',fields:'துறைகள்',srcL:'மூலம்',srcAll:'அனைத்து மூலங்கள்',srcCo:'நிறுவன வேலைப் பக்கங்கள்',srcSoli:'Soli Maps-இல் பதிவிட்டவை',via:'{s} வழியாக',applyOn:'{s}-இல் விண்ணப்பிக்க',applyCo:'விண்ணப்பிக்க',applySoli:'விண்ணப்பிக்க',post:'வேலை பதிவிட',unl:'வாய்ப்புகளில் அலுவலகம் குறிப்பிடப்படவில்லை',see:'காட்டு',more:'மேலும் {n} காட்டு',fresh:'புதிது',loadErr:'வாய்ப்புகளை ஏற்ற முடியவில்லை. பக்கத்தை மீண்டும் ஏற்றவும்.',companies:'நிறுவனங்கள்',areas:'பகுதிகள்',noOpen:'இப்போது வாய்ப்புகள் எதுவும் இல்லை.',visit:'வேலைப் பக்கத்தைப் பார்க்க',office:'சென்னை அலுவலகம்',approxOff:'அலுவலகப் பகுதி (தோராயமாக)',hide:'மறை',show:'காட்டு',about:'இந்த பட்டியல்கள் பற்றி'}};
+en:{tag:"Jobs near you, <em>straight from the company.</em>",vp1:'Pinned on the real office',vp2:'Only real company openings',srcOurs:'Companies on the map',vp3:'Fresh every morning',openings:'Openings',jobs:'openings',jobsCo:'openings from company sites',cosShort:'companies',cos:'companies on the map',updated:'Updated',area:'Area or company',find:'Search',ph:'Role or company',all:'All of Chennai',none:'Office not named',clear:'Clear filters',today:'today',d1:'1 day ago',dn:'{n} days ago',showing:'{n}',empty:'No openings match. Try another area, field or source.',hint:'Drag to move · right-click and drag to tilt or turn',nomap:"The 3D map couldn't load on this browser. The list of openings still works.",source:'Openings come straight from company career pages, plus Indeed and Google for Jobs under Source. Refreshed every morning; listings older than 90 days are hidden.',check:'Pins sit on each company\'s published Chennai office. Check the job page for the exact work location.',stale:'Last refresh was {n} days ago, so some openings may have closed.',fields:'Fields',srcL:'Source',srcAll:'All sources',srcCo:'Company career pages',srcSoli:'Posted on Soli Maps',via:'via {s}',applyOn:'Apply on {s}',applyCo:'Apply',applySoli:'Apply',post:'Hiring? Post a job',unl:"openings don't name an office",see:'Show them',more:'Show {n} more',fresh:'New',loadErr:'Could not load openings. Please reload the page.',companies:'Companies',areas:'Areas',noOpen:'No openings listed right now.',visit:'Visit careers page',office:'Chennai office',approxOff:'Office area (approx.)',hide:'Hide',show:'Show',about:'About these listings'},
+ta:{tag:'உங்கள் அருகில் வேலை, <em>நிறுவனத்திடமிருந்தே நேரடியாக.</em>',vp1:'உண்மையான அலுவலகத்தில் பின்',vp2:'உண்மையான நிறுவன வேலைகள் மட்டும்',srcOurs:'வரைபடத்தில் உள்ள நிறுவனங்கள்',vp3:'தினமும் காலையில் புதுப்பிப்பு',openings:'வேலை வாய்ப்புகள்',jobs:'வாய்ப்புகள்',jobsCo:'நிறுவனத் தள வாய்ப்புகள்',cosShort:'நிறுவனங்கள்',cos:'நிறுவனங்கள் வரைபடத்தில்',updated:'புதுப்பிப்பு',area:'பகுதி அல்லது நிறுவனம்',find:'தேடல்',ph:'பணி அல்லது நிறுவனம்',all:'முழு சென்னை',none:'அலுவலகம் குறிப்பிடப்படவில்லை',clear:'வடிகட்டிகளை அழி',today:'இன்று',d1:'1 நாள் முன்',dn:'{n} நாட்களுக்கு முன்',showing:'{n}',empty:'பொருந்தும் வாய்ப்புகள் இல்லை. வேறு பகுதி, துறை அல்லது மூலத்தை முயற்சிக்கவும்.',hint:'நகர்த்த இழுக்கவும் · சாய்க்க/சுழற்ற வலது க்ளிக் செய்து இழுக்கவும்',nomap:'இந்த உலாவியில் 3D வரைபடம் ஏற்றப்படவில்லை. வாய்ப்புகள் பட்டியல் இயங்கும்.',source:'வாய்ப்புகள் நிறுவன வேலைப் பக்கங்களிலிருந்து நேரடியாக; Indeed, Google for Jobs மூலம் தேர்வில். ஒவ்வொரு காலையும் புதுப்பிக்கப்படுகின்றன; 90 நாட்களுக்கு மேல் பழையவை மறைக்கப்படும்.',check:'பின்கள் ஒவ்வொரு நிறுவனமும் வெளியிட்ட சென்னை அலுவலகத்தில் உள்ளன. சரியான பணியிடத்தை வேலைப் பக்கத்தில் சரிபார்க்கவும்.',stale:'கடைசி புதுப்பிப்பு {n} நாட்களுக்கு முன்; சில வாய்ப்புகள் மூடப்பட்டிருக்கலாம்.',fields:'துறைகள்',srcL:'மூலம்',srcAll:'அனைத்து மூலங்கள்',srcCo:'நிறுவன வேலைப் பக்கங்கள்',srcSoli:'Soli Maps-இல் பதிவிட்டவை',via:'{s} வழியாக',applyOn:'{s}-இல் விண்ணப்பிக்க',applyCo:'விண்ணப்பிக்க',applySoli:'விண்ணப்பிக்க',post:'வேலை பதிவிட',unl:'வாய்ப்புகளில் அலுவலகம் குறிப்பிடப்படவில்லை',see:'காட்டு',more:'மேலும் {n} காட்டு',fresh:'புதிது',loadErr:'வாய்ப்புகளை ஏற்ற முடியவில்லை. பக்கத்தை மீண்டும் ஏற்றவும்.',companies:'நிறுவனங்கள்',areas:'பகுதிகள்',noOpen:'இப்போது வாய்ப்புகள் எதுவும் இல்லை.',visit:'வேலைப் பக்கத்தைப் பார்க்க',office:'சென்னை அலுவலகம்',approxOff:'அலுவலகப் பகுதி (தோராயமாக)',hide:'மறை',show:'காட்டு',about:'இந்த பட்டியல்கள் பற்றி'}};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const ageOf=d=>Math.max(0,Math.floor((Date.now()-new Date(d+'T00:00:00+05:30').getTime())/864e5));
 let lang='en';try{lang=localStorage.getItem('soli-lang')||'en'}catch(e){}
 const POST_URL='';
-const S={area:'all',cats:new Set(),q:'',src:'co'};let shown=30;
-let D=null,LIVE=[],MAP=null,DEF_SRC='co',LOGOS={};
+const S={area:'all',cats:new Set(),q:'',src:'ours'};let shown=30;
+let D=null,LIVE=[],MAP=null,DEF_SRC='ours',LOGOS={};
 const t=(k,v={})=>(T[lang][k]||T.en[k]).replace(/\{(\w)\}/g,(m,x)=>v[x]);
 const areaName=a=>a?(D.areas[a]?D.areas[a][lang]||D.areas[a].en:a):t('none');
 const catName=c=>CATS[c]?(lang==='ta'?CATS[c][1]:CATS[c][0]):c;
 const srcGroup=j=>j.src==='Company careers'?'co':j.src==='Soli Maps'?'soli':j.src;
 const qMatch=j=>!S.q||(j.t+' '+j.c).toLowerCase().includes(S.q);
-const matchBase=j=>(!S.cats.size||S.cats.has(j.cat))&&qMatch(j)&&(S.src==='all'||srcGroup(j)===S.src);
+const ours=j=>srcGroup(j)==='co'||String(j.a||'').startsWith('co_');
+const srcOk=(j,s)=>s==='all'||(s==='ours'?ours(j):srcGroup(j)===s);
+const matchBase=j=>(!S.cats.size||S.cats.has(j.cat))&&qMatch(j)&&srcOk(j,S.src);
 const srcLabel=g=>g==='co'?t('srcCo'):g==='soli'?t('srcSoli'):g;
 const applyLabel=j=>j.src==='Company careers'?t('applyCo'):j.src==='Soli Maps'?t('applySoli'):t('applyOn',{s:j.src||'Indeed'});
 const matchArea=j=>S.area==='all'||(S.area==='none'?!j.a:j.a===S.area);
@@ -244,13 +246,13 @@ function texts(){
   $('#q').placeholder=t('ph');$('#chips').setAttribute('aria-label',t('fields'));
   $('#l-en').setAttribute('aria-pressed',lang==='en');$('#l-ta').setAttribute('aria-pressed',lang==='ta');
   const upd=new Date(D.updated+'T06:00:00+05:30').toLocaleDateString(lang==='ta'?'ta-IN':'en-IN',{day:'numeric',month:'short'});
-  const pool=LIVE.filter(j=>DEF_SRC==='all'||srcGroup(j)===DEF_SRC),cos=Object.values(D.areas).filter(a=>a.co).length;
+  const pool=LIVE.filter(j=>srcOk(j,DEF_SRC)),cos=Object.values(D.areas).filter(a=>a.co).length;
   $('#stats').innerHTML=`<b>${pool.length}</b> ${esc(t('jobs'))} · <b>${cos}</b> ${esc(t('cosShort'))} · ${esc(upd)}`;
   const st=ageOf(D.updated);$('#stale').textContent=st>2?t('stale',{n:st}):'';
 }
 function filters(){
   const sc={};for(const j of LIVE){const g=srcGroup(j);sc[g]=(sc[g]||0)+1}
-  $('#src').innerHTML=`<option value="all">${esc(t('srcAll'))} (${LIVE.length})</option>`+Object.keys(sc).sort((a,b)=>(b==='co')-(a==='co')||(b==='soli')-(a==='soli')||sc[b]-sc[a]).map(g=>`<option value="${esc(g)}">${esc(srcLabel(g))} (${sc[g]})</option>`).join('');$('#src').value=S.src;
+  const no=LIVE.filter(ours).length;$('#src').innerHTML=(no?`<option value="ours">${esc(t('srcOurs'))} (${no})</option>`:'')+`<option value="all">${esc(t('srcAll'))} (${LIVE.length})</option>`+Object.keys(sc).sort((a,b)=>(b==='co')-(a==='co')||(b==='soli')-(a==='soli')||sc[b]-sc[a]).map(g=>`<option value="${esc(g)}">${esc(srcLabel(g))} (${sc[g]})</option>`).join('');$('#src').value=S.src;
   const base=LIVE.filter(matchBase),cnt={};
   for(const j of base){const k=j.a||'none';cnt[k]=(cnt[k]||0)+1}
   const keys=Object.keys(D.areas).filter(a=>cnt[a]||S.area===a||D.areas[a].co).sort((a,b)=>(cnt[b]||0)-(cnt[a]||0)||areaName(a).localeCompare(areaName(b)));
@@ -258,12 +260,13 @@ function filters(){
   const cos=keys.filter(a=>D.areas[a].co),ars=keys.filter(a=>!D.areas[a].co);
   $('#area').innerHTML=`<option value="all">${esc(t('all'))} (${base.length})</option>`+(cos.length?`<optgroup label="${esc(t('companies'))}">${cos.map(opt).join('')}</optgroup>`:'')+(ars.length?`<optgroup label="${esc(t('areas'))}">${ars.map(opt).join('')}</optgroup>`:'')+`<option value="none">${esc(t('none'))} (${cnt.none||0})</option>`;
   $('#area').value=S.area;
-  const cc={};for(const j of LIVE)if(matchArea(j)&&qMatch(j)&&(S.src==='all'||srcGroup(j)===S.src))cc[j.cat]=(cc[j.cat]||0)+1;
+  const cc={};for(const j of LIVE)if(matchArea(j)&&qMatch(j)&&srcOk(j,S.src))cc[j.cat]=(cc[j.cat]||0)+1;
   $('#chips').innerHTML=CK.filter(c=>cc[c]||S.cats.has(c)).map(c=>`<button type="button" class="chip" data-c="${c}" aria-pressed="${S.cats.has(c)}">${esc(catName(c))}<em>${cc[c]||0}</em></button>`).join('');
   $('#unl').textContent=cnt.none||0;$('#sticker').hidden=!cnt.none||S.area==='none';
 }
 function list(){
-  const js=LIVE.filter(j=>matchBase(j)&&matchArea(j)).sort((a,b)=>b.d.localeCompare(a.d));
+  const pin=j=>String(j.a||'').startsWith('co_')?2:j.a?1:0;
+  const js=LIVE.filter(j=>matchBase(j)&&matchArea(j)).sort((a,b)=>pin(b)-pin(a)||b.d.localeCompare(a.d));
   $('#count').textContent=js.length;
   $('#clearRow').hidden=S.area==='all'&&!S.cats.size&&!S.q&&S.src===DEF_SRC;
   const sel=D.areas[S.area];
@@ -406,7 +409,7 @@ Promise.all([getJSON('jobs.json'),getJSON('feeds.json').catch(()=>null),getJSON(
   for(const j of base.jobs||[])push({...j,src:j.src||'Indeed'});
   for(const j of (feeds&&feeds.jobs)||[])push(j);
   D={...base,areas,updated:[base.updated,feeds&&feeds.updated].filter(Boolean).sort().pop()};LIVE=all.filter(j=>ageOf(j.d)<=(base.maxAgeDays||90));
-  if(!LIVE.some(j=>srcGroup(j)==='co')){DEF_SRC='all';S.src='all'}
+  if(!LIVE.some(ours)){DEF_SRC='all';S.src='all'}
   if(POST_URL){$('#post').href=POST_URL;$('#post').hidden=false}
   try{MAP=makeMap()}catch(e){console.error(e);$('#nomap').style.display='grid'}
   render();
