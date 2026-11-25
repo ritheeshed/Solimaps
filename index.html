@@ -130,9 +130,17 @@ select:hover,input[type=search]:hover{border-color:#E9CFCC}
 .mk.pop>.bub,.mk.pop>.stk{animation:pop .24s cubic-bezier(.2,.9,.3,1.2)}
 .mk.off{visibility:hidden;pointer-events:none}
 .maplibregl-ctrl-attrib{font-size:10.5px}
-@media(max-width:860px){.app{height:auto;min-height:0}#map{position:relative;height:72vh;min-height:460px}
-.float.brand,.float.panel{position:relative;inset:auto;width:auto;border-radius:0;border:0;border-bottom:1px solid var(--line);box-shadow:none;backdrop-filter:none;background:var(--bg)}
-.tools{left:12px;bottom:34px}.hint{display:none}.list{overflow:visible}}
+@media(max-width:860px){.app{height:auto;min-height:0}
+/* phone: the map is the first screen, with a slim brand bar floating on it; filters and the list follow below */
+#map{position:relative;height:calc(100vh - 72px);height:calc(100svh - 72px);min-height:420px}
+.float.brand{top:10px;left:10px;right:10px;width:auto;padding:11px 12px 12px 14px;gap:6px 10px;grid-template-columns:1fr auto;align-items:center;border-radius:16px}
+.brand .logo{grid-area:1/1;font-size:17px;gap:8px}.brand .logo i{width:18px;height:18px}.brand .logo i::after{width:6px;height:6px}
+.brand .brow{grid-area:1/2}.brand .seg{padding:2px}.brand .seg button{min-height:27px;padding:0 10px;font-size:12px}
+.brand h1{grid-column:1/-1;margin:0;font-size:16px;line-height:1.25;letter-spacing:-.02em}
+.brand .vp,.brand .stats{display:none}
+.float.panel{position:relative;inset:auto;width:auto;border-radius:20px 20px 0 0;border:0;border-top:1px solid var(--line);box-shadow:0 -8px 24px #2b20220f;backdrop-filter:none;background:var(--bg);margin-top:-14px;z-index:4}
+.float.panel::before{content:"";display:block;width:36px;height:4px;border-radius:4px;background:var(--line);margin:8px auto 0}
+.tools{left:10px;bottom:46px}.hint,#rotl,#rotr,#north{display:none}.maplibregl-ctrl-bottom-right{bottom:16px}.list{overflow:visible}}
 @media(prefers-reduced-motion:reduce){.mk .bub,.mk .stk{transition:none;animation:none!important}}
 </style>
 </head>
@@ -289,8 +297,8 @@ const STYLE={version:8,glyphs:'https://tiles.openfreemap.org/fonts/{fontstack}/{
 function makeMap(){
   if(!window.maplibregl)throw new Error('no maplibre');
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,wide=()=>innerWidth>860;
-  const HOME={center:[80.19,12.99],zoom:wide()?10.35:9.7,pitch:50,bearing:-16};
-  const pad=()=>wide()?{left:Math.min(380,innerWidth*.3)*.35,right:Math.min(420,innerWidth*.38)+16,top:0,bottom:0}:{left:0,right:0,top:0,bottom:0};
+  const HOME={center:wide()?[80.19,12.99]:[80.18,12.975],zoom:wide()?10.35:10.05,pitch:50,bearing:-16};
+  const pad=()=>wide()?{left:Math.min(380,innerWidth*.3)*.35,right:Math.min(420,innerWidth*.38)+16,top:0,bottom:0}:{left:0,right:0,top:(document.querySelector('.brand')||{}).offsetHeight+10||0,bottom:20};
   const map=new maplibregl.Map({container:'map',style:STYLE,...HOME,zoom:HOME.zoom-(reduce?0:.7),maxBounds:[[79.2,12.2],[81,13.8]],minZoom:8.5,maxZoom:18,maxPitch:75,pixelRatio:Math.min(devicePixelRatio,2),attributionControl:{compact:true,customAttribution:'<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> © <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener">OpenMapTiles</a> © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>'},dragRotate:true,touchPitch:true});
   map.setPadding(pad());
   addEventListener('resize',()=>map.setPadding(pad()));
