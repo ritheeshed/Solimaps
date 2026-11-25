@@ -37,37 +37,43 @@ a{color:inherit}
 #map{position:absolute;inset:0;z-index:0;background:#F7F1F0}
 .float{position:absolute;z-index:3;background:var(--card);backdrop-filter:blur(16px) saturate(1.2);-webkit-backdrop-filter:blur(16px) saturate(1.2);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}
 /* brand */
-.brand{top:16px;left:16px;width:min(380px,calc(100% - 480px));padding:18px 20px;display:grid;gap:10px}
-.logo{display:flex;align-items:center;gap:10px;margin:0;font-size:22px;font-weight:600;letter-spacing:-.035em;line-height:1}
-.logo i{width:22px;height:22px;border-radius:50%;background:var(--red);display:grid;place-items:center;flex:none}
-.logo i::after{content:"";width:8px;height:8px;border-radius:50%;background:#fff}
-.brand h1{margin:2px 0 0;font-size:clamp(22px,2.2vw,28px);line-height:1.15;font-weight:400;letter-spacing:-.035em;text-wrap:balance}
+.brand{top:16px;left:16px;width:min(340px,calc(100% - 480px));padding:14px 16px 15px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:9px 10px}
+.brand>*{grid-column:1/-1}.brand>.logo{grid-area:1/1}.brand>.brow{grid-area:1/2}
+.logo{display:flex;align-items:center;gap:9px;margin:0;font-size:18px;font-weight:600;letter-spacing:-.035em;line-height:1}
+.logo i{width:19px;height:19px;border-radius:50%;background:var(--red);display:grid;place-items:center;flex:none}
+.logo i::after{content:"";width:7px;height:7px;border-radius:50%;background:#fff}
+.brand h1{margin:0;font-size:clamp(19px,1.6vw,22px);line-height:1.2;font-weight:400;letter-spacing:-.035em;text-wrap:balance}
 .brand h1 em{font-style:normal;color:var(--red)}
-.vp{list-style:none;margin:2px 0;padding:0;display:grid;gap:7px}
-.vp li{display:flex;align-items:center;gap:9px;font-size:14px;color:var(--ink)}
-.vp i{width:22px;height:22px;border-radius:50%;background:var(--redsoft);color:var(--red);display:grid;place-items:center;flex:none}
-.stats{margin:0;color:var(--mute);font-size:13px}
+.vp{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.vp li{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink)}
+.vp i{width:18px;height:18px;border-radius:50%;background:var(--redsoft);color:var(--red);display:grid;place-items:center;flex:none}
+.stats{margin:0;color:var(--mute);font-size:12.5px}
 .stats b{color:var(--ink);font-weight:600}
 .brow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
-.seg{display:flex;padding:3px;border-radius:999px;background:var(--soft);border:1px solid var(--line)}
-.seg button{border:0;background:none;border-radius:999px;min-height:32px;padding:0 12px;cursor:pointer;font-size:13px;font-weight:500;color:var(--mute)}
+.seg{display:flex;padding:2px;border-radius:999px;background:var(--soft);border:1px solid var(--line)}
+.seg button{border:0;background:none;border-radius:999px;min-height:27px;padding:0 10px;cursor:pointer;font-size:12px;font-weight:500;color:var(--mute)}
 .seg button[aria-pressed=true]{background:var(--bg);color:var(--ink);box-shadow:0 1px 3px #2b20221a}
 .post{display:inline-flex;align-items:center;min-height:34px;padding:0 14px;border-radius:999px;border:1px solid var(--red);color:var(--red);font-weight:500;font-size:13px;text-decoration:none}
 .post:hover{background:var(--redsoft)}
 /* map controls */
-.tools{position:absolute;z-index:2;left:16px;bottom:34px;display:flex;gap:10px;align-items:flex-end}
-.nav{display:flex;flex-direction:column;border-radius:16px;overflow:hidden;position:static}
-.nav button{width:42px;height:40px;border:0;background:none;cursor:pointer;display:grid;place-items:center;color:var(--ink);font-size:18px;font-weight:400}
+.tools{position:absolute;z-index:3000;left:16px;bottom:30px;display:flex;gap:10px;align-items:center}
+.nav{display:flex;border-radius:14px;overflow:hidden;position:static}
+.nav button{width:40px;height:40px;border:0;background:none;cursor:pointer;display:grid;place-items:center;color:var(--ink);font-size:18px;font-weight:400}
 .nav button:hover{background:var(--soft);color:var(--red)}
-.nav .sep{height:1px;background:var(--line)}
+.nav .sep{width:1px;margin:8px 0;background:var(--line)}
 .nav #tilt{font-size:12px;font-weight:600;letter-spacing:-.01em}
 .nav #tilt[aria-pressed=true]{color:var(--red)}
-.hint{margin:0;padding:7px 12px;border-radius:12px;font-size:12px;color:var(--mute);position:static}
+.hint{margin:0;padding:7px 12px;border-radius:12px;font-size:12px;color:var(--mute);position:static;transition:opacity .4s}.hint.gone{opacity:0;pointer-events:none}
 /* panel */
 .panel{top:16px;right:16px;bottom:16px;width:min(420px,38vw);display:flex;flex-direction:column;overflow:hidden}
 .ph{padding:18px 20px 10px;display:grid;gap:12px;border-bottom:1px solid var(--line)}
 .ph h2{margin:0;font-size:20px;font-weight:500;letter-spacing:-.03em;display:flex;align-items:baseline;justify-content:space-between;gap:10px}
 .ph h2 small{font-size:13px;font-weight:400;color:var(--mute);letter-spacing:0}
+.ph h2 .hr{display:flex;align-items:center;gap:10px}
+.ptog{display:inline-flex;align-items:center;gap:5px;min-height:28px;padding:0 10px;border:1px solid var(--line);border-radius:999px;background:var(--bg);color:var(--mute);font-size:12px;font-weight:500;letter-spacing:0;cursor:pointer}
+.ptog:hover{color:var(--red);border-color:#E9CFCC}.ptog svg{transition:transform .2s}
+.panel.min{bottom:auto;width:auto;min-width:240px}.panel.min .ph{border-bottom:0;padding-bottom:16px}
+.panel.min .ph>:not(h2),.panel.min .list,.panel.min .foot{display:none!important}.panel.min .ptog svg{transform:rotate(180deg)}
 .row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
 .fld{position:relative}
 .fld label{position:absolute;left:12px;top:7px;font-size:11px;color:var(--mute);pointer-events:none}
@@ -99,7 +105,10 @@ select:hover,input[type=search]:hover{border-color:#E9CFCC}
 .more{display:block;margin:14px auto;min-height:40px;padding:0 18px;border:1px solid var(--line);border-radius:999px;background:var(--bg);cursor:pointer;font-weight:500;font-size:13px}
 .empty{color:var(--mute);text-align:center;padding:48px 24px;font-size:14px}
 .foot{padding:10px 20px 14px;font-size:11.5px;color:var(--mute);border-top:1px solid var(--line);display:grid;gap:2px}
-.foot p{margin:0}
+.foot p{margin:0}.foot p:empty{display:none}
+.foot summary{cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:6px;font-size:12px;min-height:24px}.foot summary::-webkit-details-marker{display:none}
+.foot summary::before{content:"i";width:15px;height:15px;border-radius:50%;border:1px solid currentColor;display:grid;place-items:center;font-size:10px;font-weight:600;font-style:italic}
+.foot summary:hover{color:var(--red)}.foot details p{margin-top:4px}
 .nomap{position:absolute;inset:0;display:none;place-items:center;padding:24px;text-align:center;color:#86767A}
 /* pins: company logos */
 .mk{display:flex;flex-direction:column;align-items:center;width:max-content;cursor:pointer}
@@ -133,14 +142,13 @@ select:hover,input[type=search]:hover{border-color:#E9CFCC}
 @media(max-width:860px){.app{height:auto;min-height:0}
 /* phone: the map is the first screen, with a slim brand bar floating on it; filters and the list follow below */
 #map{position:relative;height:calc(100vh - 72px);height:calc(100svh - 72px);min-height:420px}
-.float.brand{top:10px;left:10px;right:10px;width:auto;padding:11px 12px 12px 14px;gap:6px 10px;grid-template-columns:1fr auto;align-items:center;border-radius:16px}
-.brand .logo{grid-area:1/1;font-size:17px;gap:8px}.brand .logo i{width:18px;height:18px}.brand .logo i::after{width:6px;height:6px}
-.brand .brow{grid-area:1/2}.brand .seg{padding:2px}.brand .seg button{min-height:27px;padding:0 10px;font-size:12px}
-.brand h1{grid-column:1/-1;margin:0;font-size:16px;line-height:1.25;letter-spacing:-.02em}
+.float.brand{top:10px;left:10px;right:10px;width:auto;padding:11px 12px 12px 14px;gap:6px 10px;border-radius:16px}
+.brand .logo{font-size:17px}
+.brand h1{font-size:16px;line-height:1.25;letter-spacing:-.02em}
 .brand .vp,.brand .stats{display:none}
 .float.panel{position:relative;inset:auto;width:auto;border-radius:20px 20px 0 0;border:0;border-top:1px solid var(--line);box-shadow:0 -8px 24px #2b20220f;backdrop-filter:none;background:var(--bg);margin-top:-14px;z-index:4}
 .float.panel::before{content:"";display:block;width:36px;height:4px;border-radius:4px;background:var(--line);margin:8px auto 0}
-.tools{left:10px;bottom:62px}.hint,#rotl,#rotr,#north{display:none}.maplibregl-ctrl-bottom-right{bottom:16px}.list{overflow:visible}}
+.tools{left:10px;bottom:48px}.hint,#rotl,#rotr,#north,.ptog{display:none}.maplibregl-ctrl-bottom-right{bottom:16px}.list{overflow:visible}}
 @media(prefers-reduced-motion:reduce){.mk .bub,.mk .stk{transition:none;animation:none!important}}
 </style>
 </head>
@@ -179,7 +187,7 @@ select:hover,input[type=search]:hover{border-color:#E9CFCC}
   </section>
   <section class="float panel" aria-label="Openings">
     <div class="ph">
-      <h2><span data-t="openings">Openings</span><small id="count"></small></h2>
+      <h2><span data-t="openings">Openings</span><span class="hr"><small id="count"></small><button type="button" class="ptog" id="ptog" aria-expanded="true" aria-controls="list"><span data-t="hide">Hide</span><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 7.5 6 4.5l3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></span></h2>
       <div class="row">
         <div class="fld"><label for="area" data-t="area">Area or company</label><select id="area"></select></div>
         <div class="fld"><label for="src" data-t="srcL">Source</label><select id="src"></select></div>
@@ -190,7 +198,7 @@ select:hover,input[type=search]:hover{border-color:#E9CFCC}
       <div class="note" id="clearRow" hidden style="justify-content:flex-end"><button type="button" id="clear" data-t="clear">Clear filters</button></div>
     </div>
     <div class="list" id="list"></div>
-    <div class="foot"><p data-t="source"></p><p data-t="check"></p><p id="stale"></p></div>
+    <div class="foot"><p id="stale"></p><details><summary data-t="about">About these listings</summary><p data-t="source"></p><p data-t="check"></p></details></div>
   </section>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
@@ -198,9 +206,15 @@ select:hover,input[type=search]:hover{border-color:#E9CFCC}
 {
 const CATS={tech:['Tech','தொழில்நுட்பம்'],data:['Data','தரவு'],mkt:['Marketing & sales','மார்க்கெட்டிங் & விற்பனை'],fin:['Finance','நிதி'],hr:['HR','மனிதவளம்'],ops:['Operations','செயல்பாடு'],eng:['Engineering','பொறியியல்'],des:['Design','வடிவமைப்பு'],edu:['Education','கல்வி'],health:['Healthcare','மருத்துவம்'],intern:['Internships','பயிற்சிப் பணி']};
 const CK=Object.keys(CATS);
+let MAP_PAD=()=>{};
+const PANEL_OPEN=()=>!document.querySelector('.panel').classList.contains('min');
+function panelOpen(open,save){const P=document.querySelector('.panel'),b=document.getElementById('ptog');if(!P||open===PANEL_OPEN())return;
+  P.classList.toggle('min',!open);b.setAttribute('aria-expanded',open);const l=b.querySelector('span');l.dataset.t=open?'hide':'show';l.textContent=t(l.dataset.t);
+  if(save)try{localStorage.setItem('soli-panel',open?'1':'0')}catch(e){}
+  if(innerWidth>860)MAP_PAD()}
 const T={
-en:{tag:"Jobs near you, <em>straight from the company.</em>",vp1:'Pinned on the real office',vp2:'Only company career pages',vp3:'Fresh every morning',openings:'Openings',jobs:'openings',jobsCo:'openings from company sites',cosShort:'companies',cos:'companies on the map',updated:'Updated',area:'Area or company',find:'Search',ph:'Role or company',all:'All of Chennai',none:'Office not named',clear:'Clear filters',today:'today',d1:'1 day ago',dn:'{n} days ago',showing:'{n}',empty:'No openings match. Try another area, field or source.',hint:'Drag to move · right-click and drag to tilt or turn',nomap:"The 3D map couldn't load on this browser. The list of openings still works.",source:'Openings come straight from company career pages, plus Indeed and Google for Jobs under Source. Refreshed every morning; listings older than 90 days are hidden.',check:'Pins sit on each company\'s published Chennai office. Check the job page for the exact work location.',stale:'Last refresh was {n} days ago, so some openings may have closed.',fields:'Fields',srcL:'Source',srcAll:'All sources',srcCo:'Company career pages',srcSoli:'Posted on Soli Maps',via:'via {s}',applyOn:'Apply on {s}',applyCo:'Apply',applySoli:'Apply',post:'Hiring? Post a job',unl:"openings don't name an office",see:'Show them',more:'Show {n} more',fresh:'New',loadErr:'Could not load openings. Please reload the page.',companies:'Companies',areas:'Areas',noOpen:'No openings listed right now.',visit:'Visit careers page',office:'Chennai office',approxOff:'Office area (approx.)'},
-ta:{tag:'உங்கள் அருகில் வேலை, <em>நிறுவனத்திடமிருந்தே நேரடியாக.</em>',vp1:'உண்மையான அலுவலகத்தில் பின்',vp2:'நிறுவன வேலைப் பக்கங்கள் மட்டும்',vp3:'தினமும் காலையில் புதுப்பிப்பு',openings:'வேலை வாய்ப்புகள்',jobs:'வாய்ப்புகள்',jobsCo:'நிறுவனத் தள வாய்ப்புகள்',cosShort:'நிறுவனங்கள்',cos:'நிறுவனங்கள் வரைபடத்தில்',updated:'புதுப்பிப்பு',area:'பகுதி அல்லது நிறுவனம்',find:'தேடல்',ph:'பணி அல்லது நிறுவனம்',all:'முழு சென்னை',none:'அலுவலகம் குறிப்பிடப்படவில்லை',clear:'வடிகட்டிகளை அழி',today:'இன்று',d1:'1 நாள் முன்',dn:'{n} நாட்களுக்கு முன்',showing:'{n}',empty:'பொருந்தும் வாய்ப்புகள் இல்லை. வேறு பகுதி, துறை அல்லது மூலத்தை முயற்சிக்கவும்.',hint:'நகர்த்த இழுக்கவும் · சாய்க்க/சுழற்ற வலது க்ளிக் செய்து இழுக்கவும்',nomap:'இந்த உலாவியில் 3D வரைபடம் ஏற்றப்படவில்லை. வாய்ப்புகள் பட்டியல் இயங்கும்.',source:'வாய்ப்புகள் நிறுவன வேலைப் பக்கங்களிலிருந்து நேரடியாக; Indeed, Google for Jobs மூலம் தேர்வில். ஒவ்வொரு காலையும் புதுப்பிக்கப்படுகின்றன; 90 நாட்களுக்கு மேல் பழையவை மறைக்கப்படும்.',check:'பின்கள் ஒவ்வொரு நிறுவனமும் வெளியிட்ட சென்னை அலுவலகத்தில் உள்ளன. சரியான பணியிடத்தை வேலைப் பக்கத்தில் சரிபார்க்கவும்.',stale:'கடைசி புதுப்பிப்பு {n} நாட்களுக்கு முன்; சில வாய்ப்புகள் மூடப்பட்டிருக்கலாம்.',fields:'துறைகள்',srcL:'மூலம்',srcAll:'அனைத்து மூலங்கள்',srcCo:'நிறுவன வேலைப் பக்கங்கள்',srcSoli:'Soli Maps-இல் பதிவிட்டவை',via:'{s} வழியாக',applyOn:'{s}-இல் விண்ணப்பிக்க',applyCo:'விண்ணப்பிக்க',applySoli:'விண்ணப்பிக்க',post:'வேலை பதிவிட',unl:'வாய்ப்புகளில் அலுவலகம் குறிப்பிடப்படவில்லை',see:'காட்டு',more:'மேலும் {n} காட்டு',fresh:'புதிது',loadErr:'வாய்ப்புகளை ஏற்ற முடியவில்லை. பக்கத்தை மீண்டும் ஏற்றவும்.',companies:'நிறுவனங்கள்',areas:'பகுதிகள்',noOpen:'இப்போது வாய்ப்புகள் எதுவும் இல்லை.',visit:'வேலைப் பக்கத்தைப் பார்க்க',office:'சென்னை அலுவலகம்',approxOff:'அலுவலகப் பகுதி (தோராயமாக)'}};
+en:{tag:"Jobs near you, <em>straight from the company.</em>",vp1:'Pinned on the real office',vp2:'Only company career pages',vp3:'Fresh every morning',openings:'Openings',jobs:'openings',jobsCo:'openings from company sites',cosShort:'companies',cos:'companies on the map',updated:'Updated',area:'Area or company',find:'Search',ph:'Role or company',all:'All of Chennai',none:'Office not named',clear:'Clear filters',today:'today',d1:'1 day ago',dn:'{n} days ago',showing:'{n}',empty:'No openings match. Try another area, field or source.',hint:'Drag to move · right-click and drag to tilt or turn',nomap:"The 3D map couldn't load on this browser. The list of openings still works.",source:'Openings come straight from company career pages, plus Indeed and Google for Jobs under Source. Refreshed every morning; listings older than 90 days are hidden.',check:'Pins sit on each company\'s published Chennai office. Check the job page for the exact work location.',stale:'Last refresh was {n} days ago, so some openings may have closed.',fields:'Fields',srcL:'Source',srcAll:'All sources',srcCo:'Company career pages',srcSoli:'Posted on Soli Maps',via:'via {s}',applyOn:'Apply on {s}',applyCo:'Apply',applySoli:'Apply',post:'Hiring? Post a job',unl:"openings don't name an office",see:'Show them',more:'Show {n} more',fresh:'New',loadErr:'Could not load openings. Please reload the page.',companies:'Companies',areas:'Areas',noOpen:'No openings listed right now.',visit:'Visit careers page',office:'Chennai office',approxOff:'Office area (approx.)',hide:'Hide',show:'Show',about:'About these listings'},
+ta:{tag:'உங்கள் அருகில் வேலை, <em>நிறுவனத்திடமிருந்தே நேரடியாக.</em>',vp1:'உண்மையான அலுவலகத்தில் பின்',vp2:'நிறுவன வேலைப் பக்கங்கள் மட்டும்',vp3:'தினமும் காலையில் புதுப்பிப்பு',openings:'வேலை வாய்ப்புகள்',jobs:'வாய்ப்புகள்',jobsCo:'நிறுவனத் தள வாய்ப்புகள்',cosShort:'நிறுவனங்கள்',cos:'நிறுவனங்கள் வரைபடத்தில்',updated:'புதுப்பிப்பு',area:'பகுதி அல்லது நிறுவனம்',find:'தேடல்',ph:'பணி அல்லது நிறுவனம்',all:'முழு சென்னை',none:'அலுவலகம் குறிப்பிடப்படவில்லை',clear:'வடிகட்டிகளை அழி',today:'இன்று',d1:'1 நாள் முன்',dn:'{n} நாட்களுக்கு முன்',showing:'{n}',empty:'பொருந்தும் வாய்ப்புகள் இல்லை. வேறு பகுதி, துறை அல்லது மூலத்தை முயற்சிக்கவும்.',hint:'நகர்த்த இழுக்கவும் · சாய்க்க/சுழற்ற வலது க்ளிக் செய்து இழுக்கவும்',nomap:'இந்த உலாவியில் 3D வரைபடம் ஏற்றப்படவில்லை. வாய்ப்புகள் பட்டியல் இயங்கும்.',source:'வாய்ப்புகள் நிறுவன வேலைப் பக்கங்களிலிருந்து நேரடியாக; Indeed, Google for Jobs மூலம் தேர்வில். ஒவ்வொரு காலையும் புதுப்பிக்கப்படுகின்றன; 90 நாட்களுக்கு மேல் பழையவை மறைக்கப்படும்.',check:'பின்கள் ஒவ்வொரு நிறுவனமும் வெளியிட்ட சென்னை அலுவலகத்தில் உள்ளன. சரியான பணியிடத்தை வேலைப் பக்கத்தில் சரிபார்க்கவும்.',stale:'கடைசி புதுப்பிப்பு {n} நாட்களுக்கு முன்; சில வாய்ப்புகள் மூடப்பட்டிருக்கலாம்.',fields:'துறைகள்',srcL:'மூலம்',srcAll:'அனைத்து மூலங்கள்',srcCo:'நிறுவன வேலைப் பக்கங்கள்',srcSoli:'Soli Maps-இல் பதிவிட்டவை',via:'{s} வழியாக',applyOn:'{s}-இல் விண்ணப்பிக்க',applyCo:'விண்ணப்பிக்க',applySoli:'விண்ணப்பிக்க',post:'வேலை பதிவிட',unl:'வாய்ப்புகளில் அலுவலகம் குறிப்பிடப்படவில்லை',see:'காட்டு',more:'மேலும் {n} காட்டு',fresh:'புதிது',loadErr:'வாய்ப்புகளை ஏற்ற முடியவில்லை. பக்கத்தை மீண்டும் ஏற்றவும்.',companies:'நிறுவனங்கள்',areas:'பகுதிகள்',noOpen:'இப்போது வாய்ப்புகள் எதுவும் இல்லை.',visit:'வேலைப் பக்கத்தைப் பார்க்க',office:'சென்னை அலுவலகம்',approxOff:'அலுவலகப் பகுதி (தோராயமாக)',hide:'மறை',show:'காட்டு',about:'இந்த பட்டியல்கள் பற்றி'}};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const ageOf=d=>Math.max(0,Math.floor((Date.now()-new Date(d+'T00:00:00+05:30').getTime())/864e5));
@@ -259,10 +273,12 @@ function list(){
 }
 function render(){texts();filters();list();if(MAP)MAP.update()}
 function refresh(){filters();list();if(MAP)MAP.update()}
-function setArea(a){S.area=a;shown=30;$('#list').scrollTop=0;refresh();if(MAP)MAP.focus(a)}
+function setArea(a){if(a!=='all')panelOpen(true);S.area=a;shown=30;$('#list').scrollTop=0;refresh();if(MAP)MAP.focus(a)}
 const setLang=l=>{lang=l;try{localStorage.setItem('soli-lang',l)}catch(e){}render();if(MAP)MAP.lang()};
 $('#l-en').addEventListener('click',()=>setLang('en'));
 $('#l-ta').addEventListener('click',()=>setLang('ta'));
+$('#ptog').addEventListener('click',()=>panelOpen(!PANEL_OPEN(),true));
+try{if(innerWidth>860&&localStorage.getItem('soli-panel')==='0')panelOpen(false)}catch(e){}
 $('#area').addEventListener('change',e=>setArea(e.target.value));
 $('#src').addEventListener('change',e=>{S.src=e.target.value;shown=30;refresh()});
 $('#q').addEventListener('input',e=>{shown=30;S.q=e.target.value.trim().toLowerCase();refresh()});
@@ -298,10 +314,12 @@ function makeMap(){
   if(!window.maplibregl)throw new Error('no maplibre');
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,wide=()=>innerWidth>860;
   const HOME={center:wide()?[80.19,12.99]:[80.18,12.975],zoom:wide()?10.35:10.05,pitch:50,bearing:-16};
-  const pad=()=>wide()?{left:Math.min(380,innerWidth*.3)*.35,right:Math.min(420,innerWidth*.38)+16,top:0,bottom:0}:{left:0,right:0,top:(document.querySelector('.brand')||{}).offsetHeight+10||0,bottom:20};
+  const pad=()=>wide()?{left:Math.min(340,innerWidth*.3)*.35,right:PANEL_OPEN()?Math.min(420,innerWidth*.38)+16:0,top:0,bottom:0}:{left:0,right:0,top:(document.querySelector('.brand')||{}).offsetHeight+10||0,bottom:20};
   const map=new maplibregl.Map({container:'map',style:STYLE,...HOME,zoom:HOME.zoom-(reduce?0:.7),maxBounds:[[79.2,12.2],[81,13.8]],minZoom:8.5,maxZoom:18,maxPitch:75,pixelRatio:Math.min(devicePixelRatio,2),attributionControl:{compact:true,customAttribution:'<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> © <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener">OpenMapTiles</a> © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>'},dragRotate:true,touchPitch:true});
   map.setPadding(pad());
   addEventListener('resize',()=>map.setPadding(pad()));
+  MAP_PAD=()=>map.easeTo({padding:pad(),duration:reduce?0:500});
+  const hint=$('.hint');map.once('dragstart',()=>hint&&hint.classList.add('gone'));map.once('rotatestart',()=>hint&&hint.classList.add('gone'));
   map.on('load',()=>{if(!reduce)map.easeTo({...HOME,duration:1600});MAP.lang()});
   const box=$('#map'),markers=new Map();
   const zoomCls=()=>box.classList.toggle('zclose',map.getZoom()>=14.5);
