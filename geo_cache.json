@@ -56,5 +56,89 @@
 "lon": 80.1629598,
 "name": "Featherlite The Address, Old Pallavaram, Pallavaram, Chennai Metropolitan Area, Pallavaram, Chengalpattu, Tamil Nadu, India",
 "t": "2026-11-25"
+},
+"Zoho Corporation, Chengalpattu": {
+"lat": 12.8299205,
+"lon": 80.050421,
+"name": "Zoho Corporation, Potheri, Maraimalai Nagar, Chennai Metropolitan Area, Chengalpattu, Tamil Nadu, India",
+"t": "2026-11-25"
+},
+"Ramanujan IT City": {
+"miss": true,
+"t": "2026-11-25"
+},
+"Ramanujan IT SEZ": {
+"miss": true,
+"t": "2026-11-25"
+},
+"Intellion Park, Taramani": {
+"miss": true,
+"t": "2026-11-25"
+},
+"DLF IT Park, Manapakkam": {
+"lat": 13.022617,
+"lon": 80.1768919,
+"name": "DLF IT Park Road, DLF IT Park, Ward 157, Zone 12 Alandur, Chennai, Chennai Metropolitan Area, Alandur, Chennai District, Tamil Nadu, 600089, India",
+"t": "2026-11-25"
+},
+"Ramco Systems, Taramani": {
+"miss": true,
+"t": "2026-11-25"
+},
+"Ramco Systems, Chennai": {
+"miss": true,
+"t": "2026-11-25"
+},
+"Ocean Bay, Guindy": {
+"lat": 13.0122153,
+"lon": 80.2094427,
+"name": "Ocean Bay, Water Works Road, Guindy Industrial Estate, Ward 170, Zone 13 Adyar, Chennai, Chennai Metropolitan Area, Guindy, Chennai District, Tamil Nadu, 600032",
+"t": "2026-11-25"
+},
+"Yarlagadda Towers, Nungambakkam": {
+"miss": true,
+"t": "2026-11-25"
+},
+"Yarlagadda Towers": {
+"miss": true,
+"t": "2026-11-25"
+},
+"Prestige Polygon, Chennai": {
+"lat": 13.0328374,
+"lon": 80.2443589,
+"name": "Prestige Polygon, Ward 122, Zone 9 Teynampet, Chennai, Chennai Metropolitan Area, Guindy, Chennai District, Tamil Nadu, India",
+"t": "2026-11-25"
+},
+"Olympia Quest, Guindy": {
+"miss": true,
+"t": "2026-11-25"
+},
+"SIDCO Industrial Estate, Guindy": {
+"lat": 13.0143097,
+"lon": 80.2018919,
+"name": "SIDCO Industrial Estate South Phase Road, Guindy Industrial Estate, Ward 170, Zone 13 Adyar, Chennai, Chennai Metropolitan Area, Alandur, Chennai District, Tami",
+"t": "2026-11-25"
+},
+"Prestige Zackria Metropolitan, Anna Salai, Chennai": {
+"miss": true,
+"t": "2026-11-25"
+},
+"Prestige Zackria Metropolitan": {
+"lat": 13.059639,
+"lon": 80.2587857,
+"name": "Prestige Zackria Metropolitan, Ward 111, Zone 9 Teynampet, Chennai, Chennai Metropolitan Area, Chennai District, Tamil Nadu, India",
+"t": "2026-11-25"
+},
+"Baid Hi Tech Park, Thiruvanmiyur, Chennai": {
+"miss": true,
+"t": "2026-11-25"
+},
+"Baid Hi-Tech Park": {
+"miss": true,
+"t": "2026-11-25"
+},
+"Baid Hitech Park": {
+"miss": true,
+"t": "2026-11-25"
 }
 }
