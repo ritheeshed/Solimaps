@@ -8,7 +8,7 @@ and writes feeds.json, which the site merges with jobs.json (Indeed) and posts.j
 
 Standard library only, so the GitHub Action needs no installs.
 """
-import json, os, re, sys, time, math, datetime, urllib.request, urllib.parse
+import json, os, re, sys, time, math, datetime, urllib.request, urllib.parse, urllib.error
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 IST = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
@@ -338,6 +338,7 @@ DIRECTORY = load_json("companies.json", {"companies": []}).get("companies", [])
 GEO_CACHE = load_json("geo_cache.json", {})
 PREV = {j.get("u"): j.get("d") for j in (load_json("feeds.json", {}) or {}).get("jobs", []) if j.get("u")}
 CO_AREAS = {}
+APPROX = set()
 HTML_UA = {"User-Agent": "Mozilla/5.0 (compatible; SoliMapsBot/1.0; +https://ritheeshed.github.io/Solimaps/)",
            "Accept": "text/html,application/xhtml+xml"}
 
@@ -374,7 +375,10 @@ def geocode_directory():
         if not qs:
             continue
         found = None
+        approx = False
         for q in qs:
+            approx = q.startswith("~")
+            q = q.lstrip("~").strip()
             hit = GEO_CACHE.get(q)
             stale = hit and hit.get("miss") and (TODAY - datetime.date.fromisoformat(hit.get("t", "2000-01-01"))).days > 14
             if hit is None or stale:
@@ -392,6 +396,8 @@ def geocode_directory():
                 break
         if found:
             CO_AREAS[c["id"]] = (found["lat"], found["lon"])
+            if approx:
+                APPROX.add(c["id"])
         else:
             LOG.append(f"geocode: no match for {c['name']} ({' / '.join(qs)})")
     LOG.append(f"geocode: {len(CO_AREAS)} of {len(DIRECTORY)} companies pinned ({looked} new lookups)")
@@ -646,13 +652,18 @@ def fetch_logos():
         if c["id"] in have:
             LOGOS[c["name"]] = "logos/" + have[c["id"]]
             continue
-        urls = []
+        urls, exists = [], False
         try:
             page, final = fetch_html("https://" + site + "/")
             urls += icon_links(page, final)
+            exists = True
+        except urllib.error.HTTPError:
+            exists = True
         except Exception:
             pass
-        urls += ["https://" + site + "/apple-touch-icon.png", f"https://www.google.com/s2/favicons?domain={site}&sz=128"]
+        urls += ["https://" + site + "/apple-touch-icon.png"]
+        if exists:
+            urls.append(f"https://www.google.com/s2/favicons?domain={site}&sz=128")
         for u in urls:
             try:
                 data, ctype = fetch_bytes(u)
@@ -689,9 +700,9 @@ def main():
     areas = {k: v for k, v in NEW_AREAS.items() if k in used}
     for c in DIRECTORY:
         k = "co_" + c["id"]
-        if k in used:
+        if c["id"] in CO_AREAS:
             la, lo = CO_AREAS[c["id"]]
-            areas[k] = {"en": c["name"], "ta": c["name"], "lat": round(la, 6), "lon": round(lo, 6), "exact": True, "co": True, "office": c.get("office", ""), "logo": LOGOS.get(c["name"], "")}
+            areas[k] = {"en": c["name"], "ta": c["name"], "lat": round(la, 6), "lon": round(lo, 6), "exact": True, "co": True, "office": c.get("office", ""), "logo": LOGOS.get(c["name"], ""), "approx": c["id"] in APPROX, "careers": c.get("careers", "")}
     with open(os.path.join(ROOT, "geo_cache.json"), "w", encoding="utf-8") as f:
         json.dump(GEO_CACHE, f, ensure_ascii=False, indent=0)
     feed = {"updated": TODAY.isoformat(), "areas": areas, "logos": LOGOS,
