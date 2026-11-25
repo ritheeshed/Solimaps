@@ -61,7 +61,10 @@
   "checked": "2026-11-25"
  },
  "rocketlane": {
-  "kind": "none",
+  "kind": "kula",
+  "args": [
+   "rocketlane"
+  ],
   "checked": "2026-11-25"
  },
  "gallabox": {
@@ -252,7 +255,10 @@
   "checked": "2026-11-25"
  },
  "planys": {
-  "kind": "none",
+  "kind": "page",
+  "args": [
+   "https://in.linkedin.com/company/planys"
+  ],
   "checked": "2026-11-25"
  },
  "datamoo": {

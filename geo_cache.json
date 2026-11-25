@@ -256,5 +256,25 @@
 "lon": 80.2073398,
 "name": "Zone 8 Anna Nagar, Chennai, Chennai Metropolitan Area, Chennai District, Tamil Nadu, India",
 "t": "2026-11-25"
+},
+"Olympia Technology Park, Guindy, Chennai": {
+"lat": 13.0148782,
+"lon": 80.203512,
+"name": "Olympia Technology Park, Inner Ring Road, Ward 170, Zone 13 Adyar, Chennai, Chennai Metropolitan Area, Guindy, Chennai District, Tamil Nadu, 600032, India",
+"t": "2026-11-25"
+},
+"IndiQube Wave, Anna Salai, Chennai": {
+"miss": true,
+"t": "2026-11-25"
+},
+"438 TR Sundaram Avenue, Chennai": {
+"miss": true,
+"t": "2026-11-25"
+},
+"Thousand Lights, Chennai": {
+"lat": 13.0585155,
+"lon": 80.2587833,
+"name": "ஆயிரம் விளக்கு, Anna Salai (Mount Road), Ward 111, Zone 9 Teynampet, Chennai, Chennai Metropolitan Area, Chennai District, Tamil Nadu, 600014, India",
+"t": "2026-11-25"
 }
 }
