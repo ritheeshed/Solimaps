@@ -66,9 +66,10 @@
 "careers": "https://boards.greenhouse.io/fourkites",
 "office": "DLF Cybercity, Manapakkam, Chennai",
 "geo": [
+"DLF IT Park, Manapakkam",
+"DLF Cyber City, Chennai",
 "DLF Cybercity, Manapakkam, Chennai",
-"DLF Cybercity, Ramapuram",
-"DLF IT Park, Ramapuram"
+"~Manapakkam, Chennai"
 ],
 "site": "fourkites.com"
 },
@@ -118,8 +119,8 @@
 "office": "IndiQube Ocean Bay, Guindy Industrial Estate, Ekkaduthangal, Chennai 600032",
 "geo": [
 "IndiQube Ocean Bay, Ekkaduthangal",
-"IndiQube Ocean Bay, Guindy, Chennai",
-"~Ekkaduthangal, Chennai"
+"~Ekkaduthangal, Chennai",
+"~Guindy, Chennai"
 ],
 "site": "facilio.com"
 },
