@@ -116,6 +116,8 @@ select:hover,input[type=search]:hover{border-color:#E9CFCC}
 .mk.grp .bub{background:#E5484D;box-shadow:0 0 0 3px #fff,0 6px 16px #e5484d55}
 .mk.grp .bub img,.mk.grp .bub .mono,.mk.grp .ct,.mk.grp .bub b{display:none}
 .mk.grp .bub::after{content:attr(data-n);color:#fff;font-weight:600;font-size:13px}
+.mk.grp0 .bub{background:#fff;box-shadow:0 0 0 1.5px #E5484D,0 6px 16px #2b202224}.mk.grp0 .bub::after{color:#E5484D;font-size:12px}
+.mk.off{visibility:hidden;pointer-events:none}
 .maplibregl-ctrl-attrib{font-size:10.5px}
 @media(max-width:860px){.app{height:auto;min-height:0}#map{position:relative;height:72vh;min-height:460px}
 .float.brand,.float.panel{position:relative;inset:auto;width:auto;border-radius:0;border:0;border-bottom:1px solid var(--line);box-shadow:none;backdrop-filter:none;background:var(--bg)}
@@ -307,8 +309,13 @@ function makeMap(){
     for(const o of arr){o.m.grp=null;o.m.el.classList.remove('grp');o.m.el.hidden=false;
       const L=S.area===o.a||o.m.spread?null:lead.find(l=>!l.m.spread&&Math.abs(l.p.x-o.p.x)<46&&Math.abs(l.p.y-o.p.y)<46&&l.a!==S.area);
       if(L){(L.m.grp=L.m.grp||[L.a]).push(o.a);o.m.el.hidden=true}else lead.push(o)}
-    for(const l of lead)if(l.m.grp){const n=l.m.grp.reduce((s,k)=>s+markers.get(k).n,0);l.m.el.classList.add('grp');l.m.el.querySelector('.bub').dataset.n=n;l.m.el.setAttribute('aria-label',`${n} ${t('jobs')}`)}
+    for(const l of lead)if(l.m.grp){const n=l.m.grp.reduce((s,k)=>s+markers.get(k).n,0),c=l.m.grp.length;l.m.el.classList.add('grp');l.m.el.classList.toggle('grp0',!n);l.m.el.querySelector('.bub').dataset.n=n||c;l.m.el.setAttribute('aria-label',n?`${n} ${t('jobs')}`:`${c} ${t('companies')}`)}
+    cull();
   }
+  // markers beyond the horizon in a tilted view get projected to wrong places: hide anything outside the visible area
+  let raf=0;
+  function cull(){const b=map.getBounds();for(const[a,m]of markers){const ar=D.areas[a];m.el.classList.toggle('off',!b.contains([ar.lon,ar.lat]))}}
+  map.on('move',()=>{if(!raf)raf=requestAnimationFrame(()=>{raf=0;cull()})});
   map.on('moveend',()=>group());
   function style(){for(const[a,m]of markers){m.el.classList.toggle('on',S.area===a);m.el.classList.toggle('dim',S.area!=='all'&&S.area!==a);m.el.style.zIndex=S.area===a?999:(m.co?500:0)+m.n}}
   function focus(a){
