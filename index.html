@@ -149,6 +149,30 @@ select:hover,input[type=search]:hover{border-color:#E9CFCC}
 .float.panel{position:relative;inset:auto;width:auto;border-radius:20px 20px 0 0;border:0;border-top:1px solid var(--line);box-shadow:0 -8px 24px #2b20220f;backdrop-filter:none;background:var(--bg);margin-top:-14px;z-index:4}
 .float.panel::before{content:"";display:block;width:36px;height:4px;border-radius:4px;background:var(--line);margin:8px auto 0}
 .tools{left:10px;bottom:28px}.hint,#rotl,#rotr,#north,.ptog,.maplibregl-ctrl-attrib{display:none}.foot .credits{display:block}.list{overflow:visible}}
+
+/* sign-in gate */
+body.gated .app{filter:blur(6px) saturate(.9);pointer-events:none;user-select:none}
+#gate{position:fixed;inset:0;z-index:5000;display:grid;place-items:center;padding:20px;background:light-dark(#fff8f799,#15111299)}
+#gate[hidden]{display:none}
+.gcard{width:min(400px,100%);padding:28px 26px 22px;border-radius:24px;background:var(--bg);border:1px solid var(--line);box-shadow:0 1px 2px #2b20220a,0 24px 60px #2b20222e;display:grid;gap:16px}
+.gcard .logo{font-size:19px}
+.gcard h2{margin:0;font-size:26px;line-height:1.15;font-weight:400;letter-spacing:-.035em;text-wrap:balance}
+.gcard h2 em{font-style:normal;color:var(--red)}
+.gcard .vp{gap:6px}.gcard .vp li{font-size:13.5px}
+.gstat{margin:0;font-size:12.5px;color:var(--mute)}.gstat b{color:var(--ink);font-weight:600}
+.gbtn{min-height:44px;display:flex;justify-content:center}
+.gnote{margin:0;font-size:11.5px;line-height:1.5;color:var(--mute);text-align:center}
+.gnote a{color:inherit}
+.gerr{margin:0;font-size:12.5px;color:var(--red2);text-align:center}
+.gtop{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.me{position:relative}
+.me>button{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--soft);padding:0;cursor:pointer;overflow:hidden;display:grid;place-items:center;font-size:13px;font-weight:600;color:var(--red)}
+.me>button img{width:100%;height:100%;object-fit:cover}
+.me .pop{position:absolute;right:0;top:40px;z-index:4000;min-width:220px;padding:12px;border-radius:14px;background:var(--bg);border:1px solid var(--line);box-shadow:var(--shadow);display:grid;gap:8px;font-size:13px}
+.me .pop[hidden]{display:none}
+.me .pop b{font-weight:600}.me .pop small{color:var(--mute);word-break:break-all}
+.me .pop button{justify-self:start;border:0;background:none;padding:0;color:var(--red);font-weight:500;cursor:pointer;min-height:28px}
+@media(max-width:860px){#gate{place-items:end center;padding:0}.gcard{border-radius:24px 24px 0 0;width:100%;padding:24px 20px 26px}.me .pop{right:-4px}}
 @media(prefers-reduced-motion:reduce){.mk .bub,.mk .stk{transition:none;animation:none!important}}
 </style>
 </head>
@@ -166,6 +190,7 @@ select:hover,input[type=search]:hover{border-color:#E9CFCC}
     <div class="brow">
       <div class="seg" role="group" aria-label="Language"><button type="button" id="l-en" aria-pressed="true">English</button><button type="button" id="l-ta" aria-pressed="false">தமிழ்</button></div>
       <a class="post" id="post" href="#" target="_blank" rel="noopener" hidden data-t="post">Hiring? Post a job</a>
+      <div class="me" id="me" hidden><button type="button" id="meBtn" aria-haspopup="true" aria-expanded="false" aria-label="Your account"></button><div class="pop" id="mePop" hidden><span><b id="meName"></b><br><small id="meMail"></small></span><button type="button" id="signOut">Sign out</button><button type="button" id="delMe">Delete my details</button></div></div>
     </div>
   </header>
   <section id="map" aria-label="3D map of Chennai with company pins">
@@ -200,6 +225,18 @@ select:hover,input[type=search]:hover{border-color:#E9CFCC}
     <div class="list" id="list"></div>
     <div class="foot"><p id="stale"></p><p class="credits">Map data <a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> · <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener">© OpenMapTiles</a> · <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a></p><details><summary data-t="about">About these listings</summary><p data-t="source"></p><p data-t="check"></p></details></div>
   </section>
+</div>
+<div id="gate" hidden role="dialog" aria-modal="true" aria-labelledby="gTitle">
+  <div class="gcard">
+    <div class="gtop"><p class="logo"><i aria-hidden="true"></i>Soli Maps</p>
+      <div class="seg" role="group" aria-label="Language"><button type="button" id="g-en">English</button><button type="button" id="g-ta">தமிழ்</button></div></div>
+    <h2 id="gTitle" data-gt="title"></h2>
+    <ul class="vp" id="gVp"></ul>
+    <p class="gstat" id="gStat"></p>
+    <div class="gbtn" id="gBtn"></div>
+    <p class="gerr" id="gErr" hidden></p>
+    <p class="gnote" data-gh="note"></p>
+  </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script>
@@ -415,6 +452,73 @@ Promise.all([getJSON('jobs.json'),getJSON('feeds.json').catch(()=>null),getJSON(
   render();
 }).catch(()=>{$('#list').innerHTML=`<p class="empty">${esc(t('loadErr'))}</p>`});
 }
+</script>
+<script>
+/* Sign in with Google before the map. Fill both values to switch the gate on; while either is empty the site stays open. */
+const SOLI_AUTH={
+  clientId:'',   // Google Cloud > APIs & Services > Credentials > OAuth client ID (Web), e.g. 1234-abc.apps.googleusercontent.com
+  sheetUrl:''    // Apps Script web-app URL from auth/apps-script.gs, e.g. https://script.google.com/macros/s/AKfy.../exec
+};
+(()=>{
+  const $=s=>document.querySelector(s),KEY='soli-user',DAYS=180;
+  const G={
+    en:{title:'Jobs near you, <em>straight from the company.</em>',vp:['Pinned on the real office','Only real company openings','Fresh every morning'],
+        note:'We save your name and email to run your Soli Maps account and send occasional job updates. Nothing else, never sold. <a href="privacy.html" target="_blank" rel="noopener">Privacy</a>',
+        err:'Sign-in did not finish. Please try again.',del:'Delete your saved name and email from Soli Maps?',deleted:'Your details were deleted.'},
+    ta:{title:'உங்கள் அருகில் வேலை, <em>நிறுவனத்திடமிருந்தே நேரடியாக.</em>',vp:['உண்மையான அலுவலகத்தில் பின்','உண்மையான நிறுவன வேலைகள் மட்டும்','தினமும் காலையில் புதுப்பிப்பு'],
+        note:'உங்கள் Soli Maps கணக்கிற்கும் அவ்வப்போது வேலை அறிவிப்புகளுக்கும் உங்கள் பெயர், மின்னஞ்சலை மட்டும் சேமிக்கிறோம். விற்பதில்லை. <a href="privacy.html" target="_blank" rel="noopener">தனியுரிமை</a>',
+        err:'உள்நுழைவு முடியவில்லை. மீண்டும் முயலவும்.',del:'Soli Maps-இல் சேமித்த உங்கள் பெயர், மின்னஞ்சலை நீக்கவா?',deleted:'உங்கள் விவரங்கள் நீக்கப்பட்டன.'}};
+  const ico=['<path d="M8 1.5a5 5 0 0 0-5 5c0 3.6 5 8 5 8s5-4.4 5-8a5 5 0 0 0-5-5Zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z" fill="currentColor"/>','<path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>','<path d="M13 8a5 5 0 1 1-1.5-3.6M13 2.5v3h-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'];
+  const L=()=>{try{return localStorage.getItem('soli-lang')==='ta'?'ta':'en'}catch(e){return 'en'}};
+  const read=()=>{try{const u=JSON.parse(localStorage.getItem(KEY)||'null');return u&&u.e&&Date.now()-u.t<DAYS*864e5?u:null}catch(e){return null}};
+  const write=u=>{try{u?localStorage.setItem(KEY,JSON.stringify(u)):localStorage.removeItem(KEY)}catch(e){}};
+  const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+  const send=body=>fetch(SOLI_AUTH.sheetUrl,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)}).then(r=>r.json()).catch(()=>({ok:false}));
+  const decode=jwt=>{const b=jwt.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');return JSON.parse(decodeURIComponent(escape(atob(b))))};
+  const on=!!(SOLI_AUTH.clientId&&SOLI_AUTH.sheetUrl);
+
+  function showMe(u){
+    const me=$('#me');if(!me)return;me.hidden=!u;if(!u)return;
+    $('#meBtn').innerHTML=u.p?`<img src="${esc(u.p)}" alt="" referrerpolicy="no-referrer">`:esc((u.n||u.e)[0].toUpperCase());
+    $('#meName').textContent=u.n||'';$('#meMail').textContent=u.e;
+  }
+  function texts(){
+    const g=G[L()];document.querySelectorAll('[data-gt]').forEach(e=>e.innerHTML=g[e.dataset.gt]);document.querySelectorAll('[data-gh]').forEach(e=>e.innerHTML=g[e.dataset.gh]);
+    $('#gVp').innerHTML=g.vp.map((t,i)=>`<li><i><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true">${ico[i]}</svg></i><span>${esc(t)}</span></li>`).join('');
+    $('#g-en').setAttribute('aria-pressed',L()==='en');$('#g-ta').setAttribute('aria-pressed',L()==='ta');
+    const st=$('#stats');$('#gStat').innerHTML=st?st.innerHTML:'';
+  }
+  function button(){
+    if(!window.google||!google.accounts)return setTimeout(button,150);
+    google.accounts.id.initialize({client_id:SOLI_AUTH.clientId,callback:done,auto_select:true,cancel_on_tap_outside:false,use_fedcm_for_prompt:true});
+    $('#gBtn').innerHTML='';
+    google.accounts.id.renderButton($('#gBtn'),{theme:matchMedia('(prefers-color-scheme: dark)').matches?'filled_black':'outline',size:'large',shape:'pill',text:'continue_with',width:Math.min(320,$('.gcard').clientWidth-52),locale:L()==='ta'?'ta':'en'});
+    google.accounts.id.prompt();
+  }
+  async function done(res){
+    try{
+      const c=decode(res.credential),k=crypto.randomUUID?crypto.randomUUID():String(Math.random()).slice(2);
+      const q=new URLSearchParams(location.search);
+      const u={n:c.name||'',e:c.email,p:c.picture||'',t:Date.now(),k};
+      write(u);
+      send({action:'signin',credential:res.credential,key:k,lang:L(),utm_source:q.get('utm_source')||'',utm_medium:q.get('utm_medium')||'',utm_campaign:q.get('utm_campaign')||'',ref:document.referrer||''});
+      enter(u);
+    }catch(e){const er=$('#gErr');er.textContent=G[L()].err;er.hidden=false}
+  }
+  function enter(u){$('#gate').hidden=true;document.body.classList.remove('gated');$('.app').inert=false;showMe(u)}
+  function lock(){document.body.classList.add('gated');$('.app').inert=true;$('#gate').hidden=false;texts();
+    const s=document.createElement('script');s.src='https://accounts.google.com/gsi/client';s.async=true;s.onload=button;document.head.appendChild(s);
+    const st=$('#stats');if(st)new MutationObserver(texts).observe(st,{childList:true,subtree:true});}
+
+  if(!on)return;
+  const u=read();
+  if(u){showMe(u);send({action:'seen',email:u.e,key:u.k});}else lock();
+  for(const[id,l]of[['#g-en','en'],['#g-ta','ta']])$(id).addEventListener('click',()=>{const b=$(l==='en'?'#l-en':'#l-ta');if(b)b.click();texts();if(window.google&&google.accounts)button()});
+  $('#meBtn').addEventListener('click',e=>{e.stopPropagation();const p=$('#mePop');p.hidden=!p.hidden;$('#meBtn').setAttribute('aria-expanded',!p.hidden)});
+  document.addEventListener('click',e=>{if(!e.target.closest('#me'))$('#mePop').hidden=true});
+  $('#signOut').addEventListener('click',()=>{write(null);try{google.accounts.id.disableAutoSelect()}catch(e){}location.reload()});
+  $('#delMe').addEventListener('click',async()=>{const u=read();if(!u||!confirm(G[L()].del))return;await send({action:'delete',email:u.e,key:u.k});write(null);try{google.accounts.id.disableAutoSelect()}catch(e){}location.reload()});
+})();
 </script>
 </body>
 </html>
