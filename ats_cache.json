@@ -4,14 +4,14 @@
   "args": [
    "careers.zohocorp.com"
   ],
-  "checked": "2026-11-25"
+  "checked": "2026-11-26"
  },
  "freshworks": {
   "kind": "smartrecruiters",
   "args": [
    "Freshworks"
   ],
-  "checked": "2026-11-25"
+  "checked": "2026-11-26"
  },
  "chargebee": {
   "kind": "none",
@@ -24,7 +24,7 @@
    "wd503",
    "Uniphore"
   ],
-  "checked": "2026-11-25"
+  "checked": "2026-11-26"
  },
  "kissflow": {
   "kind": "none",
@@ -35,7 +35,7 @@
   "args": [
    "fourkites"
   ],
-  "checked": "2026-11-25"
+  "checked": "2026-11-26"
  },
  "ramco": {
   "kind": "none",
@@ -50,32 +50,32 @@
   "args": [
    "disprz"
   ],
-  "checked": "2026-11-25"
+  "checked": "2026-11-26"
  },
  "facilio": {
   "kind": "none",
   "checked": "2026-11-25"
  },
  "superops": {
-  "kind": "page",
+  "kind": "keka",
   "args": [
-   "https://superops.com/careers"
+   "superops"
   ],
-  "checked": "2026-11-25"
+  "checked": "2026-11-26"
  },
  "rocketlane": {
   "kind": "kula",
   "args": [
    "rocketlane"
   ],
-  "checked": "2026-11-25"
+  "checked": "2026-11-26"
  },
  "gallabox": {
   "kind": "page",
   "args": [
    "https://wellfound.com/company/gallabox"
   ],
-  "checked": "2026-11-25"
+  "checked": "2026-11-26"
  },
  "highperformr": {
   "kind": "none",
@@ -122,7 +122,7 @@
   "args": [
    "https://www.kaleidofin.com/careers"
   ],
-  "checked": "2026-11-25"
+  "checked": "2026-11-26"
  },
  "vivriti": {
   "kind": "none",
@@ -137,7 +137,7 @@
   "args": [
    "https://www.fundsindia.com/careers"
   ],
-  "checked": "2026-11-25"
+  "checked": "2026-11-26"
  },
  "credopay": {
   "kind": "none",
@@ -160,7 +160,7 @@
   "args": [
    "https://detecttechnologies.com/current-openings"
   ],
-  "checked": "2026-11-25"
+  "checked": "2026-11-26"
  },
  "eplane": {
   "kind": "none",
@@ -211,21 +211,21 @@
   "args": [
    "https://www.qubecinema.com:443/careers/"
   ],
-  "checked": "2026-11-25"
+  "checked": "2026-11-26"
  },
  "syncfusion": {
   "kind": "page",
   "args": [
    "https://www.syncfusion.com/careers/"
   ],
-  "checked": "2026-11-25"
+  "checked": "2026-11-26"
  },
  "nference": {
   "kind": "keka",
   "args": [
    "nference"
   ],
-  "checked": "2026-11-25"
+  "checked": "2026-11-26"
  },
  "aquaconnect": {
   "kind": "none",
@@ -236,14 +236,14 @@
   "args": [
    "cynlr"
   ],
-  "checked": "2026-11-25"
+  "checked": "2026-11-26"
  },
  "prescience": {
   "kind": "keka",
   "args": [
    "prescience"
   ],
-  "checked": "2026-11-25"
+  "checked": "2026-11-26"
  },
  "stellapps": {
   "kind": "none",
@@ -262,7 +262,7 @@
   "args": [
    "https://in.linkedin.com/company/planys"
   ],
-  "checked": "2026-11-25"
+  "checked": "2026-11-26"
  },
  "datamoo": {
   "kind": "none",
