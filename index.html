@@ -58,15 +58,19 @@ img{display:block}
 .htext h1{font-size:clamp(38px,5.8vw,74px)}
 .htext .lede{max-width:660px;margin-inline:auto}
 .htext .cta{justify-content:center}
-.vid{position:relative;width:100%;margin-top:48px;border-radius:24px;border:1px solid var(--line);background:var(--bg);box-shadow:0 40px 100px #2b202226,0 4px 12px #2b20220f;overflow:hidden}
+.vid{position:relative;width:100%;margin-top:48px;border-radius:28px;border:0;background:var(--bg);box-shadow:0 40px 100px #2b202226,0 4px 12px #2b20220f;overflow:hidden}
 .vid::before{content:"";position:absolute;inset:-40% -10% auto;height:120%;background:radial-gradient(50% 50% at 50% 0%,#e5484d14,transparent 70%);pointer-events:none}
 .vchrome{display:flex;align-items:center;gap:7px;height:42px;padding:0 16px;border-bottom:1px solid var(--line);background:var(--soft)}
 .vchrome i{width:11px;height:11px;border-radius:50%;background:var(--line)}
 .vchrome span{margin:0 auto;padding:4px 18px;border-radius:999px;background:var(--bg);border:1px solid var(--line);font-size:12px;color:var(--mute);transform:translateX(-24px)}
-.vbody{position:relative;aspect-ratio:1440/900;background:var(--land);overflow:hidden}
+.vbody{position:relative;aspect-ratio:16/9;background:#2a201b;overflow:hidden}
 .vbody .stage{position:absolute;inset:0;margin:auto;height:100%;width:auto;aspect-ratio:560/520;border:0;border-radius:0;box-shadow:none;background:transparent}
 .vbody video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s}
 .vbody.ready video{opacity:1}.vbody.ready .stage{visibility:hidden}
+.vbody .tag{left:22px;top:22px}
+.vbody .jc{left:22px;right:auto;bottom:22px;width:min(380px,calc(100% - 44px));animation-delay:1.2s}
+.vbody::after{content:"";position:absolute;inset:auto 0 0 0;height:40%;background:linear-gradient(transparent,#00000033);pointer-events:none;z-index:1}
+.vbody .jc,.vbody .tag,.vbody .vbtn{z-index:5}
 .vbtn{position:absolute;right:14px;bottom:14px;z-index:6;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:light-dark(#ffffffe6,#1d1718e6);color:var(--ink);display:grid;place-items:center;cursor:pointer;box-shadow:var(--shadow)}
 .vbtn .pl{display:none}.vbtn.paused .pl{display:block}.vbtn.paused .pz{display:none}
 .proof{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:30px}
@@ -356,7 +360,7 @@ footer a{text-decoration:none}footer a:hover{color:var(--ink)}
   .ipanel{grid-template-columns:1fr;padding:24px;gap:22px}
   .hero{padding:28px 0 24px}
   .vid{margin-top:32px;border-radius:18px}.vchrome{height:34px}.vchrome span{font-size:11px}
-  .vbody{aspect-ratio:4/3}.vbody video{object-position:32% 50%}
+  .vbody{aspect-ratio:4/5}.vbody video{object-position:62% 50%}.vbody .tag{left:12px;top:12px}.vbody .jc{left:10px;right:56px;bottom:10px;width:auto}
   .nav .links{display:none}.nav .seg{margin-left:auto}
   .cards,.steps{grid-template-columns:1fr}
   .steps::before,.steps::after{left:27px;right:auto;top:28px;bottom:28px;width:2px;height:auto}
@@ -409,8 +413,7 @@ footer a{text-decoration:none}footer a:hover{color:var(--ink)}
     </div>
 
     <div class="vid rv d2">
-      <div class="vchrome" aria-hidden="true"><i></i><i></i><i></i><span>solimaps.com/map</span></div>
-      <div class="vbody">
+            <div class="vbody">
     <div class="stage" id="stage" role="img" aria-label="Animated map of Chennai with company logos pinned on their offices and a route from your area to a job">
       <svg viewBox="0 0 560 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         <defs><pattern id="gp" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M28 0H0V28" fill="none" class="grid"/></pattern></defs>
@@ -437,17 +440,18 @@ footer a{text-decoration:none}footer a:hover{color:var(--ink)}
       </svg>
       <div class="you" id="you" style="left:66%;top:56%"><i></i><span data-t="you">You</span></div>
       <div id="pins"></div>
-      <div class="tag" id="tag1" style="left:20px;top:20px;animation-delay:2.3s"><b data-count="hiring">0</b> <span data-t="tagOpen">companies hiring now</span></div>
-      <div class="jc" id="jc" aria-live="polite">
+            </div>
+        <video id="hv" muted loop playsinline preload="metadata" poster="assets/film.jpg" aria-label="A young professional in Chennai at her window desk in the morning: tired of scrolling job lists, she opens her laptop and smiles">
+          <source src="assets/film.webm" type="video/webm">
+          <source src="assets/film.mp4" type="video/mp4">
+        </video>
+      <div class="tag" id="tag1" style="animation-delay:1.6s"><b data-count="hiring">0</b> <span data-t="tagOpen">companies hiring now</span></div>
+        <div class="jc" id="jc" aria-live="polite">
         <div class="lg swap" id="jcLg"></div>
         <div class="tx swap"><div class="k" data-t="jcKick">New on the map</div><h3 id="jcT"></h3><p id="jcC"></p></div>
         <span class="ap swap" data-t="apply">Apply ↗</span>
       </div>
-      </div>
-        <video id="hv" muted loop playsinline preload="metadata" poster="assets/hero.jpg" aria-label="Screen recording of the Soli Maps map: company logos on their offices, filtering by role and flying to an office">
-          <source src="assets/hero.webm" type="video/webm">
-          <source src="assets/hero.mp4" type="video/mp4">
-        </video>
+
         <button type="button" class="vbtn" id="vbtn" aria-label="Pause video" hidden><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path class="pz" d="M3 2h3v10H3zM8 2h3v10H8z" fill="currentColor"/><path class="pl" d="M3 1.5l9 5.5-9 5.5z" fill="currentColor"/></svg></button>
       </div>
     </div>
