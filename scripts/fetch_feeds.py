@@ -684,6 +684,11 @@ def read_page(url, name):
     return items, how2 or how, ("page", [final]) if items else None
 
 
+# links that are not a single job (career landing pages, aggregator search pages)
+JUNK_TITLE = re.compile(r"^(explore|view|see|browse|search|join)\b.*\b(careers?|jobs|openings|roles|positions)\b|\bjobs in\b|^\d[\d,]*\+?\s.*\bjobs\b|^careers? at\b|^(careers?|jobs|open (positions|roles)|current openings|life at .*)$", re.I)
+AGGREGATOR = re.compile(r"(^|\.)(linkedin|indeed|naukri|glassdoor|foundit|monsterindia|instahyre|wellfound|angel|shine|timesjobs)\.", re.I)
+
+
 def fetch_directory():
     for c in DIRECTORY:
         name = c["name"]
@@ -738,8 +743,12 @@ def fetch_directory():
             ATS_CACHE[c["id"]] = {"kind": src[0], "args": src[1], "checked": TODAY.isoformat()} if src else {"kind": "none", "checked": TODAY.isoformat()}
         elif src:
             ATS_CACHE[c["id"]] = {"kind": src[0], "args": src[1], "checked": TODAY.isoformat()}
+        base = (src[1][0] if src and src[0] == "page" else None) or c.get("careers") or ("https://" + c["site"] + "/" if c.get("site") else "")
         for title, loc, date, jtype, u in items:
             if not title or not u:
+                continue
+            u = urljoin(base, u) if base else u
+            if not u.startswith("http") or JUNK_TITLE.search(tidy(title)) or AGGREGATOR.search(urlparse(u).netloc):
                 continue
             if loc and not in_chennai(loc):
                 continue
