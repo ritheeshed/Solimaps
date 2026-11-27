@@ -1,0 +1,19 @@
+{
+ "console": [
+  "info: Successfully preconnected to https://fonts.gstatic.com/",
+  "info: Successfully preconnected to https://fonts.googleapis.com/"
+ ],
+ "failed": [],
+ "tiles": 18,
+ "state": {
+  "canvas": [
+   780,
+   1184,
+   390,
+   592
+  ],
+  "gl": true,
+  "lost": false,
+  "mapH": 592
+ }
+}
