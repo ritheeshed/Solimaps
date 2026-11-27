@@ -63,13 +63,14 @@ img{display:block}
 .vchrome{display:flex;align-items:center;gap:7px;height:42px;padding:0 16px;border-bottom:1px solid var(--line);background:var(--soft)}
 .vchrome i{width:11px;height:11px;border-radius:50%;background:var(--line)}
 .vchrome span{margin:0 auto;padding:4px 18px;border-radius:999px;background:var(--bg);border:1px solid var(--line);font-size:12px;color:var(--mute);transform:translateX(-24px)}
-.vbody{position:relative;aspect-ratio:16/9;background:#2a201b;overflow:hidden}
+.vbody{position:relative;aspect-ratio:2/1;background:#F4EEE8;overflow:hidden}
 .vbody .stage{position:absolute;inset:0;margin:auto;height:100%;width:auto;aspect-ratio:560/520;border:0;border-radius:0;box-shadow:none;background:transparent}
 .vbody video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s}
 .vbody.ready video{opacity:1}.vbody.ready .stage{visibility:hidden}
+.vbody .tag,.vbody .jc{display:none!important}
 .vbody .tag{left:22px;top:22px}
 .vbody .jc{left:22px;right:auto;bottom:22px;width:min(380px,calc(100% - 44px));animation-delay:1.2s}
-.vbody::after{content:"";position:absolute;inset:auto 0 0 0;height:40%;background:linear-gradient(transparent,#00000033);pointer-events:none;z-index:1}
+
 .vbody .jc,.vbody .tag,.vbody .vbtn{z-index:5}
 .vbtn{position:absolute;right:14px;bottom:14px;z-index:6;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:light-dark(#ffffffe6,#1d1718e6);color:var(--ink);display:grid;place-items:center;cursor:pointer;box-shadow:var(--shadow)}
 .vbtn .pl{display:none}.vbtn.paused .pl{display:block}.vbtn.paused .pz{display:none}
@@ -360,7 +361,7 @@ footer a{text-decoration:none}footer a:hover{color:var(--ink)}
   .ipanel{grid-template-columns:1fr;padding:24px;gap:22px}
   .hero{padding:28px 0 24px}
   .vid{margin-top:32px;border-radius:18px}.vchrome{height:34px}.vchrome span{font-size:11px}
-  .vbody{aspect-ratio:4/5}.vbody video{object-position:62% 50%}.vbody .tag{left:12px;top:12px}.vbody .jc{left:10px;right:56px;bottom:10px;width:auto}
+  .vbody{aspect-ratio:2/1}.vbody .tag{left:12px;top:12px}.vbody .jc{left:10px;right:56px;bottom:10px;width:auto}
   .nav .links{display:none}.nav .seg{margin-left:auto}
   .cards,.steps{grid-template-columns:1fr}
   .steps::before,.steps::after{left:27px;right:auto;top:28px;bottom:28px;width:2px;height:auto}
@@ -441,9 +442,9 @@ footer a{text-decoration:none}footer a:hover{color:var(--ink)}
       <div class="you" id="you" style="left:66%;top:56%"><i></i><span data-t="you">You</span></div>
       <div id="pins"></div>
             </div>
-        <video id="hv" muted loop playsinline preload="metadata" poster="assets/hero.jpg" aria-label="Screen recording of the Soli Maps map: company logos on their offices, filtering by role and flying to an office">
-          <source src="assets/hero.webm" type="video/webm">
-          <source src="assets/hero.mp4" type="video/mp4">
+        <video id="hv" muted loop playsinline preload="metadata" poster="assets/intro.jpg" aria-label="Soli Maps product intro: searching for product jobs near OMR, Soli Maps reading company career pages and skipping consultancy posts, real openings from Freshworks and other Chennai companies, the office pinned on the 3D map, and applying on the company's own careers page">
+          <source src="assets/intro.webm" type="video/webm">
+          <source src="assets/intro.mp4" type="video/mp4">
         </video>
       <div class="tag" id="tag1" style="animation-delay:1.6s"><b data-count="hiring">0</b> <span data-t="tagOpen">companies hiring now</span></div>
         <div class="jc" id="jc" aria-live="polite">
