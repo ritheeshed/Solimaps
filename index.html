@@ -51,9 +51,27 @@ img{display:block}
 .btn svg{transition:transform .2s var(--ease)}.btn:hover svg{transform:translateX(3px)}
 
 /* hero */
-.hero{position:relative;padding:56px 0 40px;overflow:hidden}
-.hero::before{content:"";position:absolute;inset:-20% -10% auto;height:620px;background:radial-gradient(60% 60% at 70% 30%,light-dark(#FDEEEC,#2a1c1d) 0%,transparent 70%);z-index:-1}
-.hero .wrap{display:grid;grid-template-columns:1.02fr 1fr;gap:56px;align-items:center}
+.hero{position:relative;padding:64px 0 36px;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:-20% -10% auto;height:820px;background:radial-gradient(60% 50% at 50% 20%,light-dark(#FDEEEC,#2a1c1d) 0%,transparent 70%);z-index:-1}
+.hero .wrap{display:grid;justify-items:center;gap:0}
+.htext{text-align:center;max-width:960px;display:flex;flex-direction:column;align-items:center}
+.htext h1{font-size:clamp(38px,5.8vw,74px)}
+.htext .lede{max-width:660px;margin-inline:auto}
+.htext .cta{justify-content:center}
+.vid{position:relative;width:100%;margin-top:48px;border-radius:24px;border:1px solid var(--line);background:var(--bg);box-shadow:0 40px 100px #2b202226,0 4px 12px #2b20220f;overflow:hidden}
+.vid::before{content:"";position:absolute;inset:-40% -10% auto;height:120%;background:radial-gradient(50% 50% at 50% 0%,#e5484d14,transparent 70%);pointer-events:none}
+.vchrome{display:flex;align-items:center;gap:7px;height:42px;padding:0 16px;border-bottom:1px solid var(--line);background:var(--soft)}
+.vchrome i{width:11px;height:11px;border-radius:50%;background:var(--line)}
+.vchrome span{margin:0 auto;padding:4px 18px;border-radius:999px;background:var(--bg);border:1px solid var(--line);font-size:12px;color:var(--mute);transform:translateX(-24px)}
+.vbody{position:relative;aspect-ratio:1440/900;background:var(--land);overflow:hidden}
+.vbody .stage{position:absolute;inset:0;margin:auto;height:100%;width:auto;aspect-ratio:560/520;border:0;border-radius:0;box-shadow:none;background:transparent}
+.vbody video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s}
+.vbody.ready video{opacity:1}.vbody.ready .stage{visibility:hidden}
+.vbtn{position:absolute;right:14px;bottom:14px;z-index:6;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:light-dark(#ffffffe6,#1d1718e6);color:var(--ink);display:grid;place-items:center;cursor:pointer;box-shadow:var(--shadow)}
+.vbtn .pl{display:none}.vbtn.paused .pl{display:block}.vbtn.paused .pz{display:none}
+.proof{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:30px}
+.proof .stats{justify-content:center;gap:10px 44px;margin:0}
+.proof .stats li{align-items:center;text-align:center}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;margin:0 0 18px;padding:5px 12px 5px 6px;border-radius:999px;background:var(--soft);border:1px solid var(--line);font-size:13px;color:var(--mute)}
 .eyebrow b{display:inline-grid;place-items:center;height:22px;padding:0 9px;border-radius:999px;background:var(--red);color:#fff;font-size:11.5px;font-weight:600;letter-spacing:.01em}
 h1{margin:0;font-size:clamp(36px,5.2vw,62px);line-height:1.04;font-weight:500;letter-spacing:-.045em;text-wrap:balance}
@@ -337,7 +355,8 @@ footer a{text-decoration:none}footer a:hover{color:var(--ink)}
   .dsite{width:100%}
   .ipanel{grid-template-columns:1fr;padding:24px;gap:22px}
   .hero{padding:28px 0 24px}
-  .hero .wrap{grid-template-columns:1fr;gap:30px}
+  .vid{margin-top:32px;border-radius:18px}.vchrome{height:34px}.vchrome span{font-size:11px}
+  .vbody{aspect-ratio:4/3}.vbody video{object-position:32% 50%}
   .nav .links{display:none}.nav .seg{margin-left:auto}
   .cards,.steps{grid-template-columns:1fr}
   .steps::before,.steps::after{left:27px;right:auto;top:28px;bottom:28px;width:2px;height:auto}
@@ -352,7 +371,7 @@ footer a{text-decoration:none}footer a:hover{color:var(--ink)}
   .float{display:none}
   footer nav{margin-left:0}
 }
-@media(max-width:520px){.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stats span{font-size:11.5px;line-height:1.3}.jc{left:10px;right:10px;bottom:10px;grid-template-columns:40px 1fr}.jc .ap{display:none}.stats b{font-size:24px}.nav .btn.sm{display:none}}
+@media(max-width:520px){.stats,.proof .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 20px}.stats span{font-size:11.5px;line-height:1.3}.jc{left:10px;right:10px;bottom:10px;grid-template-columns:40px 1fr}.jc .ap{display:none}.stats b{font-size:24px}.nav .btn.sm{display:none}}
 @media(prefers-reduced-motion:reduce){
   .dlayer,.dsite,.cursor{transition:none!important}
   *,*::before,*::after{animation-duration:.001s!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.001s!important;scroll-behavior:auto!important}
@@ -376,25 +395,23 @@ footer a{text-decoration:none}footer a:hover{color:var(--ink)}
 <main>
 <section class="hero" id="signin" aria-labelledby="h1">
   <div class="wrap">
-    <div>
-      <p class="eyebrow rv"><b data-t="eyeTag">New</b><span data-t="eyebrow">Chennai's job map · for freshers and 1–5 yr professionals</span></p>
+    <div class="htext">
+      <p class="eyebrow rv"><b data-t="eyeTag">Free</b><span data-t="eyebrow">Chennai's job map · for freshers and 1–5 yr professionals</span></p>
       <h1 id="h1" class="rv d1" data-th="h1">Most job sites show you everything. <em>We show you what's real, and where.</em></h1>
       <p class="lede rv d2" data-t="lede">No consultancy posts. No listings that closed months ago. No surprise 2-hour commutes. Every opening comes straight from the company, pinned on its office, checked every morning.</p>
       <div class="cta rv d3">
         <div class="gbox" id="g1" hidden></div>
         <a class="btn red" href="map.html" id="mapBtn" data-go><span data-t="ctaMain">See real openings near you</span><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a class="btn ghost" href="#how" data-t="seeHow">See how it works</a>
         <span class="hi" id="hi" hidden></span>
       </div>
-      <p class="ctanote rv d3" id="ctanote" data-t="ctanote">Free for job seekers · Sign in with Google in 5 seconds</p>
-      <ul class="stats rv d3" aria-live="polite">
-        <li><b data-count="jobs">0</b><span data-t="stJobs">company openings</span></li>
-        <li><b data-count="cos">0</b><span data-t="stCos">Chennai companies</span></li>
-        <li><b data-count="iitm">0</b><span data-t="stIitm">at IIT Madras Research Park</span></li>
-      </ul>
-      <p class="live rv d3"><i aria-hidden="true"></i><span id="upd" data-t="updToday">Updated this morning</span></p>
+      <p class="ctanote rv d3" id="ctanote" data-t="ctanote">Free · Sign in with Google in 5 seconds</p>
     </div>
 
-    <div class="stage rv d2" id="stage" role="img" aria-label="Animated map of Chennai with company logos pinned on their offices and a route from your area to a job">
+    <div class="vid rv d2">
+      <div class="vchrome" aria-hidden="true"><i></i><i></i><i></i><span>solimaps.com/map</span></div>
+      <div class="vbody">
+    <div class="stage" id="stage" role="img" aria-label="Animated map of Chennai with company logos pinned on their offices and a route from your area to a job">
       <svg viewBox="0 0 560 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         <defs><pattern id="gp" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M28 0H0V28" fill="none" class="grid"/></pattern></defs>
         <rect width="560" height="520" fill="url(#gp)"/>
@@ -426,6 +443,23 @@ footer a{text-decoration:none}footer a:hover{color:var(--ink)}
         <div class="tx swap"><div class="k" data-t="jcKick">New on the map</div><h3 id="jcT"></h3><p id="jcC"></p></div>
         <span class="ap swap" data-t="apply">Apply ↗</span>
       </div>
+      </div>
+        <video id="hv" muted loop playsinline preload="metadata" poster="assets/hero.jpg" aria-label="Screen recording of the Soli Maps map: company logos on their offices, filtering by role and flying to an office">
+          <source src="assets/hero.webm" type="video/webm">
+          <source src="assets/hero.mp4" type="video/mp4">
+        </video>
+        <button type="button" class="vbtn" id="vbtn" aria-label="Pause video" hidden><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path class="pz" d="M3 2h3v10H3zM8 2h3v10H8z" fill="currentColor"/><path class="pl" d="M3 1.5l9 5.5-9 5.5z" fill="currentColor"/></svg></button>
+      </div>
+    </div>
+
+    <div class="proof rv d3">
+      <ul class="stats" aria-live="polite">
+        <li><b data-count="jobs">0</b><span data-t="stJobs">company openings</span></li>
+        <li><b data-count="hiring">0</b><span data-t="stHiring">companies hiring now</span></li>
+        <li><b data-count="cos">0</b><span data-t="stCos">Chennai companies</span></li>
+        <li><b data-count="iitm">0</b><span data-t="stIitm">at IIT Madras Research Park</span></li>
+      </ul>
+      <p class="live"><i aria-hidden="true"></i><span id="upd" data-t="updToday">Updated this morning</span></p>
     </div>
   </div>
 </section>
@@ -579,7 +613,7 @@ let lang='en';try{lang=localStorage.getItem('soli-lang')==='ta'?'ta':'en'}catch(
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
 
 const T={
-en:{navFor:"Who it's for",howH:"Real openings near you, in four taps",howS:"Watch it run, or tap a step.",d0h:"Sign in with Google",d0p:"Five seconds. No forms, no CV upload.",d1h:"Pick your area",d1p:"The map flies there. Only offices in that area light up.",d2h:"Filter by your role",d2p:"Tech, marketing, ops, design… every one straight from the company.",d3h:"Apply on the company's site",d3p:"One tap takes you to their own careers page. No middleman.",dArea:"Area or company",dAll:"All of Chennai",dPick:"Perungudi & OMR",dModal:"See real openings near you",dG:"Continue with Google",dGo:"Apply on their site",dVia:"careers page",forK:"Who it's for",forH:"Built for where you are right now",i0t:"Freshers",i1t:"1–5 years, switching",i2t:"Companies hiring",icp:[{"who": "For freshers", "h": "Your first job, without the fake ones.", "b": [["No registration fees, no consultancies.", " Every opening is posted by the company itself."], ["See the office before the interview.", " Know if it's a bus ride from home or a 2-hour trip."], ["Fresher and internship roles, newest first.", " Checked every morning, so you're not applying to dead posts."]], "cta": "See openings", "href": "map.html", "stat": "zero", "sl": "what you pay to search or apply. No registration fee, ever."}, {"who": "For 1–5 years, switching", "h": "Your next move, closer to home.", "b": [["Shortlist by commute.", " Pick OMR, Guindy or Ambattur and see only the offices there."], ["Product companies and startups, not just IT services.", " {names} and startups from IIT Madras Research Park."], ["Straight to the hiring team's page.", " You apply on the company's own careers site, not through an agent."]], "cta": "See who is hiring", "href": "map.html", "stat": "hiring", "sl": "Chennai companies hiring right now"}, {"who": "For companies hiring in Chennai", "h": "Be where Chennai job seekers are looking.", "b": [["Nothing to post.", " We read your careers page every morning and keep your openings current."], ["Your logo on your office.", " Candidates see exactly where they'd work before they apply."], ["Free while we're early.", " Send us your careers page and you're on the map."]], "cta": "Add your company", "href": "#companies", "stat": "cos", "sl": "Chennai companies already on the map"}],v3pain:"“You apply, wait, then find out the job closed months ago.”",v2pain:"“Chennai” could mean Siruseri or Ambattur. That can be two hours of your day.",v1pain:"“So many listings are consultancies collecting CVs, or asking for a fee.”",ctaMain:"See real openings near you",navWhy:'Why Soli Maps',navHow:'How it works',navCos:'For companies',openMap:'Open the map',eyeTag:'Free',eyebrow:"Chennai's job map · for freshers and 1–5 yr professionals",
+en:{seeHow:'See how it works',stHiring:'companies hiring now',navFor:"Who it's for",howH:"Real openings near you, in four taps",howS:"Watch it run, or tap a step.",d0h:"Sign in with Google",d0p:"Five seconds. No forms, no CV upload.",d1h:"Pick your area",d1p:"The map flies there. Only offices in that area light up.",d2h:"Filter by your role",d2p:"Tech, marketing, ops, design… every one straight from the company.",d3h:"Apply on the company's site",d3p:"One tap takes you to their own careers page. No middleman.",dArea:"Area or company",dAll:"All of Chennai",dPick:"Perungudi & OMR",dModal:"See real openings near you",dG:"Continue with Google",dGo:"Apply on their site",dVia:"careers page",forK:"Who it's for",forH:"Built for where you are right now",i0t:"Freshers",i1t:"1–5 years, switching",i2t:"Companies hiring",icp:[{"who": "For freshers", "h": "Your first job, without the fake ones.", "b": [["No registration fees, no consultancies.", " Every opening is posted by the company itself."], ["See the office before the interview.", " Know if it's a bus ride from home or a 2-hour trip."], ["Fresher and internship roles, newest first.", " Checked every morning, so you're not applying to dead posts."]], "cta": "See openings", "href": "map.html", "stat": "zero", "sl": "what you pay to search or apply. No registration fee, ever."}, {"who": "For 1–5 years, switching", "h": "Your next move, closer to home.", "b": [["Shortlist by commute.", " Pick OMR, Guindy or Ambattur and see only the offices there."], ["Product companies and startups, not just IT services.", " {names} and startups from IIT Madras Research Park."], ["Straight to the hiring team's page.", " You apply on the company's own careers site, not through an agent."]], "cta": "See who is hiring", "href": "map.html", "stat": "hiring", "sl": "Chennai companies hiring right now"}, {"who": "For companies hiring in Chennai", "h": "Be where Chennai job seekers are looking.", "b": [["Nothing to post.", " We read your careers page every morning and keep your openings current."], ["Your logo on your office.", " Candidates see exactly where they'd work before they apply."], ["Free while we're early.", " Send us your careers page and you're on the map."]], "cta": "Add your company", "href": "#companies", "stat": "cos", "sl": "Chennai companies already on the map"}],v3pain:"“You apply, wait, then find out the job closed months ago.”",v2pain:"“Chennai” could mean Siruseri or Ambattur. That can be two hours of your day.",v1pain:"“So many listings are consultancies collecting CVs, or asking for a fee.”",ctaMain:"See real openings near you",navWhy:'Why Soli Maps',navHow:'How it works',navCos:'For companies',openMap:'Open the map',eyeTag:'Free',eyebrow:"Chennai's job map · for freshers and 1–5 yr professionals",
 h1:"Most job sites show you everything. <em>We show you what's real, and where.</em>",
 lede:"No consultancy posts. No listings that closed months ago. No surprise 2-hour commutes. Every opening comes straight from the company, pinned on its office, checked every morning.",
 ctanote:"Free · Sign in with Google in 5 seconds",ctanoteOff:"Free · No sign-up needed yet",
@@ -605,7 +639,7 @@ faq:[['Is Soli Maps free?','Yes, for job seekers. Apply links take you straight 
 finH:"Stop scrolling lists. See where the jobs actually are.",finP:"Real openings from Chennai companies, on one map, checked every morning. Free.",made:'Made in Chennai',fMap:'Map',fPriv:'Privacy',
 hi:'Signed in as {n}',
 roles:{tech:'Tech',data:'Data',mkt:'Marketing & sales',fin:'Finance',hr:'HR',ops:'Ops & support',eng:'Engineering',des:'Design',edu:'Education',health:'Healthcare',intern:'Internships'}},
-ta:{navFor:'யாருக்காக',howH:"அருகிலுள்ள உண்மையான வேலைகள், நான்கு தட்டுகளில்",howS:"தானாக ஓடுவதைப் பாருங்கள், அல்லது ஒரு படியைத் தட்டுங்கள்.",d0h:"Google மூலம் உள்நுழைக",d0p:"ஐந்து விநாடி. படிவம் இல்லை, CV பதிவேற்றம் இல்லை.",d1h:"உங்கள் பகுதியைத் தேர்ந்தெடுங்கள்",d1p:"வரைபடம் அங்கே பறக்கும். அந்தப் பகுதியின் அலுவலகங்கள் மட்டும் ஒளிரும்.",d2h:"உங்கள் பணியால் வடிகட்டுங்கள்",d2p:"டெக், மார்க்கெட்டிங், ஆபரேஷன்ஸ், டிசைன்… ஒவ்வொன்றும் நிறுவனத்திடமிருந்தே நேரடியாக.",d3h:"நிறுவனத்தின் தளத்தில் விண்ணப்பியுங்கள்",d3p:"ஒரு தட்டில் அவர்களின் சொந்த வேலைப் பக்கத்துக்குச் செல்வீர்கள். இடைத்தரகர் இல்லை.",dArea:"பகுதி அல்லது நிறுவனம்",dAll:"முழு சென்னை",dPick:"பெருங்குடி & OMR",dModal:"அருகிலுள்ள உண்மையான வேலைகளைப் பாருங்கள்",dG:"Google மூலம் தொடருங்கள்",dGo:"அவர்கள் தளத்தில் விண்ணப்பி",dVia:"வேலைப் பக்கம்",forK:"யாருக்காக",forH:"நீங்கள் இப்போது இருக்கும் இடத்துக்காக உருவாக்கப்பட்டது",i0t:"ஃப்ரெஷர்கள்",i1t:"1–5 ஆண்டு, வேலை மாற்றம்",i2t:"ஆள் எடுக்கும் நிறுவனங்கள்",icp:[{"who": "ஃப்ரெஷர்களுக்கு", "h": "உங்கள் முதல் வேலை, போலிகள் இல்லாமல்.", "b": [["பதிவுக் கட்டணம் இல்லை, கன்சல்டன்சி இல்லை.", " ஒவ்வொரு வேலையும் நிறுவனமே பதிவிட்டது."], ["நேர்காணலுக்கு முன்பே அலுவலகத்தைப் பாருங்கள்.", " வீட்டிலிருந்து ஒரு பஸ் பயணமா, 2 மணி நேரப் பயணமா என்று தெரியும்."], ["ஃப்ரெஷர், இன்டர்ன்ஷிப் பணிகள், புதியவை முதலில்.", " ஒவ்வொரு காலையும் சரிபார்க்கப்படுவதால், மூடிய பதிவுகளுக்கு விண்ணப்பிக்க மாட்டீர்கள்."]], "cta": "வேலைகளைப் பாருங்கள்", "href": "map.html", "stat": "zero", "sl": "தேட அல்லது விண்ணப்பிக்க நீங்கள் செலுத்துவது. பதிவுக் கட்டணம் ஒருபோதும் இல்லை."}, {"who": "1–5 ஆண்டு அனுபவம், வேலை மாற்றம்", "h": "உங்கள் அடுத்த அடி, வீட்டுக்கு அருகில்.", "b": [["பயணத்தை வைத்து தேர்ந்தெடுங்கள்.", " OMR, கிண்டி அல்லது அம்பத்தூரைத் தேர்ந்தெடுத்து அங்குள்ள அலுவலகங்களை மட்டும் பாருங்கள்."], ["பெரிய IT சேவை நிறுவனங்கள் மட்டுமல்ல, ப்ராடக்ட் நிறுவனங்களும் ஸ்டார்ட்அப்களும்.", " {names}, IIT மெட்ராஸ் ஆராய்ச்சிப் பூங்கா ஸ்டார்ட்அப்கள்."], ["நேரடியாக ஆள் எடுக்கும் குழுவின் பக்கத்துக்கு.", " ஏஜென்ட் வழியாக அல்ல, நிறுவனத்தின் சொந்த வேலைத் தளத்தில் விண்ணப்பிக்கிறீர்கள்."]], "cta": "யார் ஆள் எடுக்கிறார்கள் எனப் பாருங்கள்", "href": "map.html", "stat": "hiring", "sl": "சென்னை நிறுவனங்கள் இப்போது ஆள் எடுக்கின்றன"}, {"who": "சென்னையில் ஆள் எடுக்கும் நிறுவனங்களுக்கு", "h": "சென்னை வேலை தேடுபவர்கள் பார்க்கும் இடத்தில் இருங்கள்.", "b": [["பதிவிட எதுவும் இல்லை.", " உங்கள் வேலைப் பக்கத்தை ஒவ்வொரு காலையும் படித்து, வேலைகளைப் புதுப்பித்து வைக்கிறோம்."], ["உங்கள் அலுவலகத்தில் உங்கள் லோகோ.", " விண்ணப்பிக்கும் முன்பே எங்கே வேலை செய்வார்கள் என்று விண்ணப்பதாரர்கள் பார்க்கிறார்கள்."], ["தொடக்கக் காலத்தில் இலவசம்.", " உங்கள் வேலைப் பக்கத்தை அனுப்புங்கள், வரைபடத்தில் சேர்ந்துவிடுவீர்கள்."]], "cta": "உங்கள் நிறுவனத்தைச் சேருங்கள்", "href": "#companies", "stat": "cos", "sl": "சென்னை நிறுவனங்கள் ஏற்கனவே வரைபடத்தில்"}],v3pain:"“விண்ணப்பித்து காத்திருந்த பின், அந்த வேலை மாதங்களுக்கு முன்பே மூடியது தெரிய வருகிறது.”",v2pain:"“சென்னை” என்றால் சிறுசேரியாகவும் இருக்கலாம், அம்பத்தூராகவும் இருக்கலாம். அது உங்கள் நாளில் இரண்டு மணி நேரம்.",v1pain:"“பல விளம்பரங்கள் CV சேகரிக்கும் கன்சல்டன்சிகள், அல்லது கட்டணம் கேட்பவை.”",ctaMain:"அருகிலுள்ள உண்மையான வேலைகளைப் பாருங்கள்",navWhy:'ஏன் Soli Maps',navHow:'எப்படி வேலை செய்கிறது',navCos:'நிறுவனங்களுக்கு',openMap:'வரைபடத்தைத் திற',eyeTag:'இலவசம்',eyebrow:"சென்னையின் வேலை வரைபடம் · ஃப்ரெஷர்கள், 1–5 ஆண்டு அனுபவமுள்ளவர்களுக்காக",
+ta:{seeHow:'எப்படி வேலை செய்கிறது',stHiring:'நிறுவனங்கள் இப்போது ஆள் எடுக்கின்றன',navFor:'யாருக்காக',howH:"அருகிலுள்ள உண்மையான வேலைகள், நான்கு தட்டுகளில்",howS:"தானாக ஓடுவதைப் பாருங்கள், அல்லது ஒரு படியைத் தட்டுங்கள்.",d0h:"Google மூலம் உள்நுழைக",d0p:"ஐந்து விநாடி. படிவம் இல்லை, CV பதிவேற்றம் இல்லை.",d1h:"உங்கள் பகுதியைத் தேர்ந்தெடுங்கள்",d1p:"வரைபடம் அங்கே பறக்கும். அந்தப் பகுதியின் அலுவலகங்கள் மட்டும் ஒளிரும்.",d2h:"உங்கள் பணியால் வடிகட்டுங்கள்",d2p:"டெக், மார்க்கெட்டிங், ஆபரேஷன்ஸ், டிசைன்… ஒவ்வொன்றும் நிறுவனத்திடமிருந்தே நேரடியாக.",d3h:"நிறுவனத்தின் தளத்தில் விண்ணப்பியுங்கள்",d3p:"ஒரு தட்டில் அவர்களின் சொந்த வேலைப் பக்கத்துக்குச் செல்வீர்கள். இடைத்தரகர் இல்லை.",dArea:"பகுதி அல்லது நிறுவனம்",dAll:"முழு சென்னை",dPick:"பெருங்குடி & OMR",dModal:"அருகிலுள்ள உண்மையான வேலைகளைப் பாருங்கள்",dG:"Google மூலம் தொடருங்கள்",dGo:"அவர்கள் தளத்தில் விண்ணப்பி",dVia:"வேலைப் பக்கம்",forK:"யாருக்காக",forH:"நீங்கள் இப்போது இருக்கும் இடத்துக்காக உருவாக்கப்பட்டது",i0t:"ஃப்ரெஷர்கள்",i1t:"1–5 ஆண்டு, வேலை மாற்றம்",i2t:"ஆள் எடுக்கும் நிறுவனங்கள்",icp:[{"who": "ஃப்ரெஷர்களுக்கு", "h": "உங்கள் முதல் வேலை, போலிகள் இல்லாமல்.", "b": [["பதிவுக் கட்டணம் இல்லை, கன்சல்டன்சி இல்லை.", " ஒவ்வொரு வேலையும் நிறுவனமே பதிவிட்டது."], ["நேர்காணலுக்கு முன்பே அலுவலகத்தைப் பாருங்கள்.", " வீட்டிலிருந்து ஒரு பஸ் பயணமா, 2 மணி நேரப் பயணமா என்று தெரியும்."], ["ஃப்ரெஷர், இன்டர்ன்ஷிப் பணிகள், புதியவை முதலில்.", " ஒவ்வொரு காலையும் சரிபார்க்கப்படுவதால், மூடிய பதிவுகளுக்கு விண்ணப்பிக்க மாட்டீர்கள்."]], "cta": "வேலைகளைப் பாருங்கள்", "href": "map.html", "stat": "zero", "sl": "தேட அல்லது விண்ணப்பிக்க நீங்கள் செலுத்துவது. பதிவுக் கட்டணம் ஒருபோதும் இல்லை."}, {"who": "1–5 ஆண்டு அனுபவம், வேலை மாற்றம்", "h": "உங்கள் அடுத்த அடி, வீட்டுக்கு அருகில்.", "b": [["பயணத்தை வைத்து தேர்ந்தெடுங்கள்.", " OMR, கிண்டி அல்லது அம்பத்தூரைத் தேர்ந்தெடுத்து அங்குள்ள அலுவலகங்களை மட்டும் பாருங்கள்."], ["பெரிய IT சேவை நிறுவனங்கள் மட்டுமல்ல, ப்ராடக்ட் நிறுவனங்களும் ஸ்டார்ட்அப்களும்.", " {names}, IIT மெட்ராஸ் ஆராய்ச்சிப் பூங்கா ஸ்டார்ட்அப்கள்."], ["நேரடியாக ஆள் எடுக்கும் குழுவின் பக்கத்துக்கு.", " ஏஜென்ட் வழியாக அல்ல, நிறுவனத்தின் சொந்த வேலைத் தளத்தில் விண்ணப்பிக்கிறீர்கள்."]], "cta": "யார் ஆள் எடுக்கிறார்கள் எனப் பாருங்கள்", "href": "map.html", "stat": "hiring", "sl": "சென்னை நிறுவனங்கள் இப்போது ஆள் எடுக்கின்றன"}, {"who": "சென்னையில் ஆள் எடுக்கும் நிறுவனங்களுக்கு", "h": "சென்னை வேலை தேடுபவர்கள் பார்க்கும் இடத்தில் இருங்கள்.", "b": [["பதிவிட எதுவும் இல்லை.", " உங்கள் வேலைப் பக்கத்தை ஒவ்வொரு காலையும் படித்து, வேலைகளைப் புதுப்பித்து வைக்கிறோம்."], ["உங்கள் அலுவலகத்தில் உங்கள் லோகோ.", " விண்ணப்பிக்கும் முன்பே எங்கே வேலை செய்வார்கள் என்று விண்ணப்பதாரர்கள் பார்க்கிறார்கள்."], ["தொடக்கக் காலத்தில் இலவசம்.", " உங்கள் வேலைப் பக்கத்தை அனுப்புங்கள், வரைபடத்தில் சேர்ந்துவிடுவீர்கள்."]], "cta": "உங்கள் நிறுவனத்தைச் சேருங்கள்", "href": "#companies", "stat": "cos", "sl": "சென்னை நிறுவனங்கள் ஏற்கனவே வரைபடத்தில்"}],v3pain:"“விண்ணப்பித்து காத்திருந்த பின், அந்த வேலை மாதங்களுக்கு முன்பே மூடியது தெரிய வருகிறது.”",v2pain:"“சென்னை” என்றால் சிறுசேரியாகவும் இருக்கலாம், அம்பத்தூராகவும் இருக்கலாம். அது உங்கள் நாளில் இரண்டு மணி நேரம்.",v1pain:"“பல விளம்பரங்கள் CV சேகரிக்கும் கன்சல்டன்சிகள், அல்லது கட்டணம் கேட்பவை.”",ctaMain:"அருகிலுள்ள உண்மையான வேலைகளைப் பாருங்கள்",navWhy:'ஏன் Soli Maps',navHow:'எப்படி வேலை செய்கிறது',navCos:'நிறுவனங்களுக்கு',openMap:'வரைபடத்தைத் திற',eyeTag:'இலவசம்',eyebrow:"சென்னையின் வேலை வரைபடம் · ஃப்ரெஷர்கள், 1–5 ஆண்டு அனுபவமுள்ளவர்களுக்காக",
 h1:"மற்ற வேலை தளங்கள் எல்லாவற்றையும் காட்டுகின்றன. <em>நாங்கள் உண்மையானதை, அது எங்கே என்பதோடு காட்டுகிறோம்.</em>",
 lede:"கன்சல்டன்சி பதிவுகள் இல்லை. மாதங்களுக்கு முன் மூடிய விளம்பரங்கள் இல்லை. எதிர்பாராத 2 மணி நேரப் பயணம் இல்லை. ஒவ்வொரு வேலையும் நிறுவனத்திடமிருந்தே நேரடியாக, அதன் அலுவலகத்தில் பின் செய்யப்பட்டு, ஒவ்வொரு காலையும் சரிபார்க்கப்படுகிறது.",
 ctanote:"இலவசம் · Google மூலம் 5 விநாடியில் உள்நுழைக",ctanoteOff:"இலவசம் · இப்போது பதிவு தேவையில்லை",
@@ -715,6 +749,16 @@ function show(i){
   const mx=(y.x+o.p.x)/2,my=Math.min(y.y,o.p.y)-60;
   $('#route').setAttribute('d',`M${y.x} ${y.y}Q${mx} ${my} ${o.p.x} ${o.p.y-6}`);
 }
+
+/* ---------- hero video ---------- */
+(()=>{const v=$('#hv'),body=v.parentElement,btn=$('#vbtn');
+  const ready=()=>{body.classList.add('ready');btn.hidden=false};
+  v.addEventListener('loadeddata',ready);v.addEventListener('playing',ready);if(v.readyState>=2)ready();
+  const set=paused=>{btn.classList.toggle('paused',paused);btn.setAttribute('aria-label',paused?'Play video':'Pause video')};
+  btn.addEventListener('click',()=>{if(v.paused){v.play();set(false)}else{v.pause();set(true)}});
+  if(REDUCE){v.preload='metadata';set(true);v.addEventListener('loadedmetadata',ready)}
+  else{new IntersectionObserver(es=>{for(const e of es){if(e.isIntersecting&&!btn.classList.contains('paused'))v.play().catch(()=>{});else v.pause()}},{threshold:.2}).observe(v)}
+})();
 
 /* ---------- counters + reveal ---------- */
 let counted=false;
