@@ -235,7 +235,7 @@ select:hover,input[type=search]:hover{border-color:#E9CFCC}
 <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script>
 {
-const CATS={tech:['Tech','தொழில்நுட்பம்'],data:['Data','தரவு'],mkt:['Marketing & sales','மார்க்கெட்டிங் & விற்பனை'],fin:['Finance','நிதி'],hr:['HR','மனிதவளம்'],ops:['Operations','செயல்பாடு'],eng:['Engineering','பொறியியல்'],des:['Design','வடிவமைப்பு'],edu:['Education','கல்வி'],health:['Healthcare','மருத்துவம்'],intern:['Internships','பயிற்சிப் பணி']};
+const CATS={tech:['Tech','Tech'],data:['Data','Data'],mkt:['Marketing & sales','Marketing & sales'],fin:['Finance','Finance'],hr:['HR','HR'],ops:['Operations','Ops & support'],eng:['Engineering','Engineering'],des:['Design','Design'],edu:['Education','Teaching'],health:['Healthcare','Healthcare'],intern:['Internships','Internships']};
 const CK=Object.keys(CATS);
 let MAP_PAD=()=>{};
 const PANEL_OPEN=()=>!document.querySelector('.panel').classList.contains('min');
@@ -245,7 +245,62 @@ function panelOpen(open,save){const P=document.querySelector('.panel'),b=documen
   if(innerWidth>860)MAP_PAD()}
 const T={
 en:{newK:'New on the map',newSee:'Show on map',newClose:'Close',tag:"Jobs near you, <em>straight from the company.</em>",vp1:'Pinned on the real office',vp2:'Only real company openings',srcOurs:'Companies on the map',vp3:'Fresh every morning',openings:'Openings',jobs:'openings',jobsCo:'openings from company sites',cosShort:'companies',cos:'companies on the map',updated:'Updated',area:'Area or company',find:'Search',ph:'Role or company',all:'All of Chennai',none:'Office not named',clear:'Clear filters',today:'today',d1:'1 day ago',dn:'{n} days ago',showing:'{n}',empty:'No openings match. Try another area, field or source.',hint:'Drag to move · right-click and drag to tilt or turn',nomap:"The 3D map couldn't load on this browser. The list of openings still works.",source:'Openings come straight from company career pages, plus Indeed and Google for Jobs under Source. Refreshed every morning; listings older than 90 days are hidden.',check:'Pins sit on each company\'s published Chennai office. Check the job page for the exact work location.',stale:'Last refresh was {n} days ago, so some openings may have closed.',fields:'Fields',srcL:'Source',srcAll:'All sources',srcCo:'Company career pages',srcSoli:'Posted on Soli Maps',via:'via {s}',applyOn:'Apply on {s}',applyCo:'Apply',applySoli:'Apply',post:'Hiring? Post a job',unl:"openings don't name an office",see:'Show them',more:'Show {n} more',fresh:'New',loadErr:'Could not load openings. Please reload the page.',companies:'Companies',areas:'Areas',noOpen:'No openings listed right now.',visit:'Visit careers page',office:'Chennai office',approxOff:'Office area (approx.)',hide:'Hide',show:'Show',about:'About these listings'},
-ta:{newK:'வரைபடத்தில் புதிது',newSee:'வரைபடத்தில் காட்டு',newClose:'மூடு',tag:'உங்கள் அருகில் வேலை, <em>நிறுவனத்திடமிருந்தே நேரடியாக.</em>',vp1:'உண்மையான அலுவலகத்தில் பின்',vp2:'உண்மையான நிறுவன வேலைகள் மட்டும்',srcOurs:'வரைபடத்தில் உள்ள நிறுவனங்கள்',vp3:'தினமும் காலையில் புதுப்பிப்பு',openings:'வேலை வாய்ப்புகள்',jobs:'வாய்ப்புகள்',jobsCo:'நிறுவனத் தள வாய்ப்புகள்',cosShort:'நிறுவனங்கள்',cos:'நிறுவனங்கள் வரைபடத்தில்',updated:'புதுப்பிப்பு',area:'பகுதி அல்லது நிறுவனம்',find:'தேடல்',ph:'பணி அல்லது நிறுவனம்',all:'முழு சென்னை',none:'அலுவலகம் குறிப்பிடப்படவில்லை',clear:'வடிகட்டிகளை அழி',today:'இன்று',d1:'1 நாள் முன்',dn:'{n} நாட்களுக்கு முன்',showing:'{n}',empty:'பொருந்தும் வாய்ப்புகள் இல்லை. வேறு பகுதி, துறை அல்லது மூலத்தை முயற்சிக்கவும்.',hint:'நகர்த்த இழுக்கவும் · சாய்க்க/சுழற்ற வலது க்ளிக் செய்து இழுக்கவும்',nomap:'இந்த உலாவியில் 3D வரைபடம் ஏற்றப்படவில்லை. வாய்ப்புகள் பட்டியல் இயங்கும்.',source:'வாய்ப்புகள் நிறுவன வேலைப் பக்கங்களிலிருந்து நேரடியாக; Indeed, Google for Jobs மூலம் தேர்வில். ஒவ்வொரு காலையும் புதுப்பிக்கப்படுகின்றன; 90 நாட்களுக்கு மேல் பழையவை மறைக்கப்படும்.',check:'பின்கள் ஒவ்வொரு நிறுவனமும் வெளியிட்ட சென்னை அலுவலகத்தில் உள்ளன. சரியான பணியிடத்தை வேலைப் பக்கத்தில் சரிபார்க்கவும்.',stale:'கடைசி புதுப்பிப்பு {n} நாட்களுக்கு முன்; சில வாய்ப்புகள் மூடப்பட்டிருக்கலாம்.',fields:'துறைகள்',srcL:'மூலம்',srcAll:'அனைத்து மூலங்கள்',srcCo:'நிறுவன வேலைப் பக்கங்கள்',srcSoli:'Soli Maps-இல் பதிவிட்டவை',via:'{s} வழியாக',applyOn:'{s}-இல் விண்ணப்பிக்க',applyCo:'விண்ணப்பிக்க',applySoli:'விண்ணப்பிக்க',post:'வேலை பதிவிட',unl:'வாய்ப்புகளில் அலுவலகம் குறிப்பிடப்படவில்லை',see:'காட்டு',more:'மேலும் {n} காட்டு',fresh:'புதிது',loadErr:'வாய்ப்புகளை ஏற்ற முடியவில்லை. பக்கத்தை மீண்டும் ஏற்றவும்.',companies:'நிறுவனங்கள்',areas:'பகுதிகள்',noOpen:'இப்போது வாய்ப்புகள் எதுவும் இல்லை.',visit:'வேலைப் பக்கத்தைப் பார்க்க',office:'சென்னை அலுவலகம்',approxOff:'அலுவலகப் பகுதி (தோராயமாக)',hide:'மறை',show:'காட்டு',about:'இந்த பட்டியல்கள் பற்றி'}};
+ta:{
+ "newK": "Map-ல புதுசு",
+ "newSee": "Map-ல காட்டு",
+ "newClose": "மூடு",
+ "tag": "பக்கத்துல இருக்கற jobs, <em>company-கிட்ட இருந்து நேரடியா.</em>",
+ "vp1": "Real office மேலயே pin",
+ "vp2": "Company-யோட real openings மட்டும்",
+ "srcOurs": "Map-ல இருக்கற companies",
+ "vp3": "தினமும் காலையில fresh-ஆ",
+ "openings": "Openings",
+ "jobs": "openings",
+ "jobsCo": "company sites-ல இருந்து openings",
+ "cosShort": "companies",
+ "cos": "companies map-ல",
+ "updated": "Update ஆனது",
+ "area": "Area இல்ல company",
+ "find": "தேடு",
+ "ph": "Role இல்ல company",
+ "all": "முழு சென்னை",
+ "none": "Office பேர் போடல",
+ "clear": "Filters-ஐ clear பண்ணு",
+ "today": "இன்னைக்கு",
+ "d1": "நேத்து",
+ "dn": "{n} நாள் முன்னாடி",
+ "showing": "{n}",
+ "empty": "ஒண்ணும் match ஆகல. வேற area, field இல்ல source try பண்ணுங்க.",
+ "hint": "Drag பண்ணா நகரும் · right-click பண்ணி drag பண்ணா சாய்க்கலாம், திருப்பலாம்",
+ "nomap": "இந்த browser-ல 3D map load ஆகல. Openings list மட்டும் வேலை செய்யும்.",
+ "source": "Openings எல்லாம் company careers pages-ல இருந்து நேரடியா. Source-ல Indeed, Google for Jobs-உம் பார்க்கலாம். தினமும் காலையில refresh ஆகும்; 90 நாளுக்கு மேல பழசானது காட்ட மாட்டோம்.",
+ "check": "Company சொன்ன சென்னை office மேல தான் pin இருக்கும். சரியான work location-க்கு job page-ஐ ஒரு தடவை check பண்ணுங்க.",
+ "stale": "கடைசியா {n} நாள் முன்னாடி refresh ஆச்சு, சில openings close ஆகியிருக்கலாம்.",
+ "fields": "Fields",
+ "srcL": "Source",
+ "srcAll": "எல்லா sources",
+ "srcCo": "Company careers pages",
+ "srcSoli": "Soli Maps-ல post ஆனது",
+ "via": "{s} வழியா",
+ "applyOn": "{s}-ல apply பண்ணு",
+ "applyCo": "Apply பண்ணு",
+ "applySoli": "Apply பண்ணு",
+ "post": "Hire பண்றீங்களா? Job post பண்ணுங்க",
+ "unl": "openings-ல office பேர் இல்ல",
+ "see": "அதையும் காட்டு",
+ "more": "இன்னும் {n} பாரு",
+ "fresh": "புதுசு",
+ "loadErr": "Openings load ஆகல. Page-ஐ reload பண்ணுங்க.",
+ "companies": "Companies",
+ "areas": "Areas",
+ "noOpen": "இப்போதைக்கு openings இல்ல.",
+ "visit": "Careers page-க்கு போ",
+ "office": "சென்னை office",
+ "approxOff": "Office area (தோராயமா)",
+ "hide": "மறை",
+ "show": "காட்டு",
+ "about": "இந்த listings பத்தி"
+}};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const ageOf=d=>Math.max(0,Math.floor((Date.now()-new Date(d+'T00:00:00+05:30').getTime())/864e5));
@@ -494,7 +549,7 @@ Promise.all([getJSON('jobs.json'),getJSON('feeds.json').catch(()=>null),getJSON(
 /* Signed-out visitors go to the homepage to sign in; signed-in visitors get the account menu. */
 (()=>{
   const $=s=>document.querySelector(s),KEY='soli-user',DAYS=180;
-  const G={en:{del:'Delete your saved name and email from Soli Maps?'},ta:{del:'Soli Maps-இல் சேமித்த உங்கள் பெயர், மின்னஞ்சலை நீக்கவா?'}};
+  const G={en:{del:'Delete your saved name and email from Soli Maps?'},ta:{del:'Soli Maps-ல save ஆன உங்க பேர், email-ஐ delete பண்ணட்டுமா?'}};
   const L=()=>{try{return localStorage.getItem('soli-lang')==='ta'?'ta':'en'}catch(e){return 'en'}};
   const read=()=>{try{const u=JSON.parse(localStorage.getItem(KEY)||'null');return u&&u.e&&Date.now()-u.t<DAYS*864e5?u:null}catch(e){return null}};
   const write=u=>{try{u?localStorage.setItem(KEY,JSON.stringify(u)):localStorage.removeItem(KEY)}catch(e){}};
