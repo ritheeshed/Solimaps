@@ -378,6 +378,19 @@ function makeMap(){
   MAP_PAD=()=>map.easeTo({padding:pad(),duration:reduce?0:500});
   const hint=$('.hint');map.once('dragstart',()=>hint&&hint.classList.add('gone'));map.once('rotatestart',()=>hint&&hint.classList.add('gone'));
   map.on('load',()=>{if(!reduce)map.easeTo({...HOME,duration:1600});MAP.lang()});
+  // Backup map: if OpenFreeMap's tiles can't be reached on this network (some mobile networks, content blockers
+  // or private relays block them), switch to CARTO's map tiles so nobody is left with a blank map.
+  let tileOK=false,tileErr=0,backupOn=false;
+  map.on('sourcedata',e=>{if(e.sourceId==='omt'&&e.tile&&e.isSourceLoaded!==undefined)tileOK=true});
+  map.on('error',e=>{const u=String((e.error&&(e.error.url||e.error.message))||'');if(e.sourceId==='omt'||/openfreemap/.test(u)){tileErr++;if(tileErr>=3&&!tileOK)backup()}});
+  setTimeout(()=>{if(!tileOK)backup()},9000);
+  if(new URLSearchParams(location.search).has('backupmap'))map.once('load',backup);
+  function backup(){
+    if(backupOn)return;backupOn=true;console.warn('Soli Maps: OpenFreeMap tiles unreachable, using CARTO backup map');
+    map.setStyle({version:8,sources:{carto:{type:'raster',tiles:['a','b','c','d'].map(d=>`https://${d}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png`),tileSize:256,maxzoom:19}},
+      layers:[{id:'bg',type:'background',paint:{'background-color':'#F7F1F0'}},{id:'carto',type:'raster',source:'carto',paint:{'raster-saturation':-.3}}]});
+    const c=document.querySelector('.foot .credits');if(c&&!/CARTO/.test(c.textContent))c.insertAdjacentHTML('beforeend',' · <a href="https://carto.com/attributions" target="_blank" rel="noopener">© CARTO</a>');
+  }
   const box=$('#map'),markers=new Map();
   const zoomCls=()=>box.classList.toggle('zclose',map.getZoom()>=14.5);
   map.on('zoom',zoomCls);zoomCls();
