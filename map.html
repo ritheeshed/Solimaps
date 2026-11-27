@@ -386,10 +386,10 @@ function makeMap(){
   setTimeout(()=>{if(!tileOK)backup()},9000);
   if(new URLSearchParams(location.search).has('backupmap'))map.once('load',backup);
   function backup(){
-    if(backupOn)return;backupOn=true;console.warn('Soli Maps: OpenFreeMap tiles unreachable, using CARTO backup map');
-    map.setStyle({version:8,sources:{carto:{type:'raster',tiles:['a','b','c','d'].map(d=>`https://${d}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png`),tileSize:256,maxzoom:19}},
-      layers:[{id:'bg',type:'background',paint:{'background-color':'#F7F1F0'}},{id:'carto',type:'raster',source:'carto',paint:{'raster-saturation':-.3}}]});
-    const c=document.querySelector('.foot .credits');if(c&&!/CARTO/.test(c.textContent))c.insertAdjacentHTML('beforeend',' · <a href="https://carto.com/attributions" target="_blank" rel="noopener">© CARTO</a>');
+    if(backupOn)return;backupOn=true;console.warn('Soli Maps: OpenFreeMap tiles unreachable, using the OpenStreetMap backup map');
+    map.setStyle({version:8,sources:{osm:{type:'raster',tiles:['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],tileSize:256,maxzoom:19}},
+      layers:[{id:'bg',type:'background',paint:{'background-color':'#F7F1F0'}},{id:'osm',type:'raster',source:'osm',paint:{'raster-saturation':-.55,'raster-contrast':-.08,'raster-brightness-min':.08}}]});
+    const c=document.querySelector('.foot .credits');if(c&&!/backup/.test(c.textContent))c.insertAdjacentHTML('beforeend',' · backup map tiles by OpenStreetMap');
   }
   const box=$('#map'),markers=new Map();
   const zoomCls=()=>box.classList.toggle('zclose',map.getZoom()>=14.5);
