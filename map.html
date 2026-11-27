@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Map · Soli Maps</title>
+<meta name="description" content="Chennai jobs near you, straight from the company. Pinned on the real office. Only real company openings. Fresh every morning.">
+<meta property="og:title" content="Soli Maps — Chennai jobs near you, straight from the company">
+<meta property="og:description" content="Pinned on the real office. Only real company openings. Fresh every morning.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.solimaps.com/map.html">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23E5484D'/%3E%3Ccircle cx='16' cy='16' r='5.5' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=Noto+Sans+Tamil:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+<style>
+/* VOICE: calm, precise product — a well-made tool for 20–30 year-olds finding their next role in Chennai.
+   IDEA: an architect's white scale model of real Chennai, where each company shows up as its own logo, pinned on its office.
+   PICTURE: full-bleed 3D map (OpenStreetMap buildings, roads, water) in warm white and blush, logo pins sized for touch.
+   COLOUR and TYPE: white and warm blush with one soft red (#E5484D) for action; deep warm ink; Inter in light weights with tight tracking, Noto Sans Tamil.
+   LAYOUT: map fills the screen; brand top-left, openings panel right, map controls bottom-left; under 860px map on top, panel below. */
+:root{color-scheme:light dark;
+--bg:light-dark(#FFFFFF,#151112);--soft:light-dark(#FFF8F7,#1C1617);--tint:light-dark(#FDEEEC,#2A1E1F);
+--card:light-dark(#FFFFFFF2,#1D1718F2);--line:light-dark(#F0E4E2,#332A2B);--ink:light-dark(#2B2022,#F5ECEC);--mute:light-dark(#86767A,#B3A3A6);
+--red:light-dark(#E5484D,#F2676B);--red2:light-dark(#CE3B40,#F58A8D);--redsoft:light-dark(#FCE6E5,#3A2426);
+--shadow:0 1px 2px #2b20220a,0 10px 32px #2b20220f}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,"Noto Sans Tamil",system-ui,sans-serif;font-feature-settings:"cv11","ss01";-webkit-font-smoothing:antialiased;overflow-x:clip}
+button,select,input{font:inherit;color:inherit}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.app{position:relative;height:100vh;height:100dvh;min-height:560px}
+#map{position:absolute;inset:0;z-index:0;background:#F7F1F0}
+.float{position:absolute;z-index:3;background:var(--card);backdrop-filter:blur(16px) saturate(1.2);-webkit-backdrop-filter:blur(16px) saturate(1.2);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}
+/* brand */
+.brand{top:16px;left:16px;width:min(340px,calc(100% - 480px));padding:14px 16px 15px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:9px 10px}
+.brand>*{grid-column:1/-1}.brand>.logo{grid-area:1/1}.brand>.brow{grid-area:1/2}
+.logo{display:flex;align-items:center;gap:9px;margin:0;font-size:18px;font-weight:600;letter-spacing:-.035em;line-height:1}
+.logo i{width:19px;height:19px;border-radius:50%;background:var(--red);display:grid;place-items:center;flex:none}
+.logo i::after{content:"";width:7px;height:7px;border-radius:50%;background:#fff}
+.brand h1{margin:0;font-size:clamp(19px,1.6vw,22px);line-height:1.2;font-weight:400;letter-spacing:-.035em;text-wrap:balance}
+.brand h1 em{font-style:normal;color:var(--red)}
+.vp{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.vp li{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink)}
+.vp i{width:18px;height:18px;border-radius:50%;background:var(--redsoft);color:var(--red);display:grid;place-items:center;flex:none}
+.stats{margin:0;color:var(--mute);font-size:12.5px}
+.stats b{color:var(--ink);font-weight:600}
+.brow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.seg{display:flex;padding:2px;border-radius:999px;background:var(--soft);border:1px solid var(--line)}
+.seg button{border:0;background:none;border-radius:999px;min-height:27px;padding:0 10px;cursor:pointer;font-size:12px;font-weight:500;color:var(--mute)}
+.seg button[aria-pressed=true]{background:var(--bg);color:var(--ink);box-shadow:0 1px 3px #2b20221a}
+.post{display:inline-flex;align-items:center;min-height:34px;padding:0 14px;border-radius:999px;border:1px solid var(--red);color:var(--red);font-weight:500;font-size:13px;text-decoration:none}
+.post:hover{background:var(--redsoft)}
+/* map controls */
+.tools{position:absolute;z-index:3000;left:16px;bottom:30px;display:flex;gap:10px;align-items:center}
+.nav{display:flex;border-radius:14px;overflow:hidden;position:static}
+.nav button{width:40px;height:40px;border:0;background:none;cursor:pointer;display:grid;place-items:center;color:var(--ink);font-size:18px;font-weight:400}
+.nav button:hover{background:var(--soft);color:var(--red)}
+.nav .sep{width:1px;margin:8px 0;background:var(--line)}
+.nav #tilt{font-size:12px;font-weight:600;letter-spacing:-.01em}
+.nav #tilt[aria-pressed=true]{color:var(--red)}
+.hint{margin:0;padding:7px 12px;border-radius:12px;font-size:12px;color:var(--mute);position:static;transition:opacity .4s}.hint.gone{opacity:0;pointer-events:none}
+/* panel */
+.panel{top:16px;right:16px;bottom:16px;width:min(420px,38vw);display:flex;flex-direction:column;overflow:hidden}
+.ph{padding:18px 20px 10px;display:grid;gap:12px;border-bottom:1px solid var(--line)}
+.ph h2{margin:0;font-size:20px;font-weight:500;letter-spacing:-.03em;display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.ph h2 small{font-size:13px;font-weight:400;color:var(--mute);letter-spacing:0}
+.ph h2 .hr{display:flex;align-items:center;gap:10px}
+.ptog{display:inline-flex;align-items:center;gap:5px;min-height:28px;padding:0 10px;border:1px solid var(--line);border-radius:999px;background:var(--bg);color:var(--mute);font-size:12px;font-weight:500;letter-spacing:0;cursor:pointer}
+.ptog:hover{color:var(--red);border-color:#E9CFCC}.ptog svg{transition:transform .2s}
+.panel.min{bottom:auto;width:auto;min-width:240px}.panel.min .ph{border-bottom:0;padding-bottom:16px}
+.panel.min .ph>:not(h2),.panel.min .list,.panel.min .foot{display:none!important}.panel.min .ptog svg{transform:rotate(180deg)}
+.row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
+.fld{position:relative}
+.fld label{position:absolute;left:12px;top:7px;font-size:11px;color:var(--mute);pointer-events:none}
+select,input[type=search]{width:100%;min-height:48px;padding:18px 12px 4px;font-size:15px;border:1px solid var(--line);border-radius:12px;background:var(--bg);appearance:none;-webkit-appearance:none}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%2386767A' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:28px}
+select:hover,input[type=search]:hover{border-color:#E9CFCC}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 90%,#0000);mask-image:linear-gradient(90deg,#000 90%,#0000);padding-bottom:2px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;min-height:32px;padding:0 12px;border:1px solid var(--line);border-radius:999px;background:var(--bg);cursor:pointer;font-size:13px;color:var(--ink);white-space:nowrap}
+.chip em{font-style:normal;color:var(--mute);margin-left:4px;font-size:12px}
+.chip:hover{border-color:#E9CFCC}
+.chip[aria-pressed=true]{background:var(--redsoft);border-color:transparent;color:var(--red2)}.chip[aria-pressed=true] em{color:inherit}
+.note{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px;color:var(--mute)}
+.note button{border:0;background:none;color:var(--red);font-weight:500;cursor:pointer;min-height:32px;padding:0;white-space:nowrap}
+.note button:hover{text-decoration:underline}
+.list{overflow-y:auto;flex:1;padding:4px 0 8px}
+.job{display:grid;grid-template-columns:40px minmax(0,1fr);gap:12px;padding:14px 20px;border-bottom:1px solid var(--line);position:relative}
+.job:hover{background:var(--soft)}
+.lg{width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;overflow:hidden;font-weight:600;color:var(--red);font-size:15px}
+.lg img{width:28px;height:28px;object-fit:contain}
+.job h3{margin:0;font-size:15px;line-height:1.35;font-weight:500;letter-spacing:-.01em}
+.job .co{margin:1px 0 0;color:var(--ink);opacity:.8;font-size:13.5px}
+.meta{margin:4px 0 0;font-size:12.5px;color:var(--mute);display:flex;flex-wrap:wrap;gap:2px 10px}
+.meta .ar{border:0;background:none;padding:0;color:inherit;cursor:pointer;font-size:12.5px;display:inline-flex;align-items:center;gap:3px}
+.meta .ar:hover{color:var(--red)}
+.new{color:var(--red);font-weight:600}
+.apply{display:inline-flex;align-items:center;gap:4px;margin-top:10px;min-height:34px;padding:0 14px;border-radius:999px;background:var(--redsoft);color:var(--red2);text-decoration:none;font-weight:500;font-size:13px;transition:background .15s,color .15s}
+.apply:hover,.job:focus-within .apply{background:var(--red);color:#fff}
+.more{display:block;margin:14px auto;min-height:40px;padding:0 18px;border:1px solid var(--line);border-radius:999px;background:var(--bg);cursor:pointer;font-weight:500;font-size:13px}
+.empty{color:var(--mute);text-align:center;padding:48px 24px;font-size:14px}
+.foot{padding:10px 20px 14px;font-size:11.5px;color:var(--mute);border-top:1px solid var(--line);display:grid;gap:2px}
+.foot p{margin:0}.foot .credits{display:none;font-size:11px}.foot .credits a{color:inherit}.foot p:empty{display:none}
+.foot summary{cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:6px;font-size:12px;min-height:24px}.foot summary::-webkit-details-marker{display:none}
+.foot summary::before{content:"i";width:15px;height:15px;border-radius:50%;border:1px solid currentColor;display:grid;place-items:center;font-size:10px;font-weight:600;font-style:italic}
+.foot summary:hover{color:var(--red)}.foot details p{margin-top:4px}
+.nomap{position:absolute;inset:0;display:none;place-items:center;padding:24px;text-align:center;color:#86767A}
+/* pins: company logos */
+.mk{display:flex;flex-direction:column;align-items:center;width:max-content;cursor:pointer}
+.mk .bub{position:relative;width:42px;height:42px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 0 0 1px #2b20221a,0 6px 16px #2b202224;transition:transform .18s ease,box-shadow .18s ease}
+.mk .bub img{width:26px;height:26px;object-fit:contain;border-radius:4px}
+.mk .bub .mono{font-weight:600;font-size:16px;color:#E5484D}
+.mk .ct{position:absolute;top:-4px;right:-6px;min-width:19px;height:19px;padding:0 5px;border-radius:999px;background:#E5484D;color:#fff;font-size:11px;font-weight:600;display:grid;place-items:center;box-shadow:0 0 0 2px #fff}
+.mk .tip{width:6px;height:6px;margin-top:4px;border-radius:50%;background:#E5484D;box-shadow:0 0 0 2px #fff}
+.mk .nm{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:4px;font-size:12.5px;font-weight:600;letter-spacing:-.01em;color:#2B2022;white-space:nowrap;text-shadow:0 0 2px #fff,0 0 4px #fff,0 0 8px #fff;display:none;pointer-events:none}
+.zclose .mk .nm{display:block}.zclose .mk.grp .nm,.zclose .mk.quiet .nm{display:none}.zclose .mk.quiet:hover .nm,.zclose .mk.quiet:focus-visible .nm,.zclose .mk.quiet.on .nm{display:block}
+.mk:hover,.mk:focus-visible{z-index:2000!important}
+.mk .bub,.mk .stk{transform-origin:50% 100%}
+.mk:hover .bub,.mk:focus-visible .bub,.mk:hover .stk,.mk:focus-visible .stk{transform:scale(1.07);box-shadow:0 0 0 1px #2b20221a,0 10px 22px #2b20222e}
+.mk.on .bub{box-shadow:0 0 0 2px #E5484D,0 10px 22px #e5484d40;transform:scale(1.12)}
+.mk.dim{opacity:.35}
+.mk.zero .bub{box-shadow:0 0 0 1px #2b20221a,0 3px 8px #2b202214}.mk.zero .tip{background:#C9B8B9}
+.mk.area .bub{width:30px;height:30px;background:#FDEEEC;box-shadow:0 0 0 1px #E5484D33,0 4px 12px #2b20221f}
+.mk.area .bub b{font-size:12px;font-weight:600;color:#CE3B40}
+.mk .stk{display:none;align-items:center;height:42px;padding:0 11px 0 4px;border-radius:999px;background:#fff;box-shadow:0 0 0 1px #2b20221a,0 6px 16px #2b202224;transition:transform .18s ease,box-shadow .18s ease}
+.mk.grp .bub{display:none}.mk.grp .stk{display:flex}
+.stk .s{position:relative;width:34px;height:34px;flex:none;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 0 0 2px #fff,0 0 0 3px #2b202212;margin-left:-11px}
+.stk .s:first-child{margin-left:0}.stk .s:nth-child(1){z-index:3}.stk .s:nth-child(2){z-index:2}.stk .s:nth-child(3){z-index:1}
+.stk .s img{width:21px;height:21px;object-fit:contain;border-radius:3px}
+.stk .s .mono{font-weight:600;font-size:14px;color:#E5484D}
+.stk .s.ar{background:#FDEEEC}.stk .s.ar b{font-size:11.5px;font-weight:600;color:#CE3B40}
+.stk .plus{margin-left:7px;font-size:12.5px;font-weight:600;color:#CE3B40;letter-spacing:-.01em}
+@keyframes pop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+.mk.pop>.bub,.mk.pop>.stk{animation:pop .24s cubic-bezier(.2,.9,.3,1.2)}
+.mk.off{visibility:hidden;pointer-events:none}
+.maplibregl-ctrl-attrib{font-size:10.5px}
+@media(max-width:860px){.app{height:auto;min-height:0}
+/* phone: the map is the first screen, with a slim brand bar floating on it; filters and the list follow below */
+#map{position:relative;height:calc(100vh - 72px);height:calc(100svh - 72px);min-height:420px}
+.float.brand{top:10px;left:10px;right:10px;width:auto;padding:11px 12px 12px 14px;gap:6px 10px;border-radius:16px}
+.brand .logo{font-size:17px}
+.brand h1{font-size:16px;line-height:1.25;letter-spacing:-.02em}
+.brand .vp,.brand .stats{display:none}
+.float.panel{position:relative;inset:auto;width:auto;border-radius:20px 20px 0 0;border:0;border-top:1px solid var(--line);box-shadow:0 -8px 24px #2b20220f;backdrop-filter:none;background:var(--bg);margin-top:-14px;z-index:4}
+.float.panel::before{content:"";display:block;width:36px;height:4px;border-radius:4px;background:var(--line);margin:8px auto 0}
+.tools{left:10px;bottom:28px}.hint,#rotl,#rotr,#north,.ptog,.maplibregl-ctrl-attrib{display:none}.foot .credits{display:block}.list{overflow:visible}}
+
+/* account menu */
+.me{position:relative}
+.me>button{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--soft);padding:0;cursor:pointer;overflow:hidden;display:grid;place-items:center;font-size:13px;font-weight:600;color:var(--red)}
+.me>button img{width:100%;height:100%;object-fit:cover}
+.me .pop{position:absolute;right:0;top:40px;z-index:4000;min-width:220px;padding:12px;border-radius:14px;background:var(--bg);border:1px solid var(--line);box-shadow:var(--shadow);display:grid;gap:8px;font-size:13px}
+.me .pop[hidden]{display:none}
+.me .pop b{font-weight:600}.me .pop small{color:var(--mute);word-break:break-all}
+.me .pop button{justify-self:start;border:0;background:none;padding:0;color:var(--red);font-weight:500;cursor:pointer;min-height:28px}
+@media(max-width:860px){.me .pop{right:-4px}}
+@media(prefers-reduced-motion:reduce){.mk .bub,.mk .stk{transition:none;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="float brand">
+    <a class="logo" href="./" style="text-decoration:none;color:inherit"><i aria-hidden="true"></i>Soli Maps</a>
+    <h1 data-th="tag">Jobs near you, <em>straight from the company.</em></h1>
+    <ul class="vp">
+      <li><i><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5a5 5 0 0 0-5 5c0 3.6 5 8 5 8s5-4.4 5-8a5 5 0 0 0-5-5Zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z" fill="currentColor"/></svg></i><span data-t="vp1">Pinned on the real office</span></li>
+      <li><i><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span data-t="vp2">Only real company openings</span></li>
+      <li><i><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M13 8a5 5 0 1 1-1.5-3.6M13 2.5v3h-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span data-t="vp3">Fresh every morning</span></li>
+    </ul>
+    <p class="stats" id="stats"></p>
+    <div class="brow">
+      <div class="seg" role="group" aria-label="Language"><button type="button" id="l-en" aria-pressed="true">English</button><button type="button" id="l-ta" aria-pressed="false">தமிழ்</button></div>
+      <a class="post" id="post" href="#" target="_blank" rel="noopener" hidden data-t="post">Hiring? Post a job</a>
+      <div class="me" id="me" hidden><button type="button" id="meBtn" aria-haspopup="true" aria-expanded="false" aria-label="Your account"></button><div class="pop" id="mePop" hidden><span><b id="meName"></b><br><small id="meMail"></small></span><button type="button" id="signOut">Sign out</button><button type="button" id="delMe">Delete my details</button></div></div>
+    </div>
+  </header>
+  <section id="map" aria-label="3D map of Chennai with company pins">
+    <div class="tools">
+      <div class="float nav" role="group" aria-label="Map controls">
+        <button type="button" id="zin" aria-label="Zoom in">+</button>
+        <button type="button" id="zout" aria-label="Zoom out">−</button>
+        <div class="sep"></div>
+        <button type="button" id="tilt" aria-pressed="true" aria-label="Switch between 3D and flat view">3D</button>
+        <button type="button" id="rotl" aria-label="Turn left"><svg width="16" height="16" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9a6 6 0 1 0 1.8-4.3M3 2.5v3.8h3.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button type="button" id="rotr" aria-label="Turn right"><svg width="16" height="16" viewBox="0 0 18 18" aria-hidden="true"><path d="M15 9a6 6 0 1 1-1.8-4.3M15 2.5v3.8h-3.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button type="button" id="north" aria-label="Face north"><svg id="needle" width="16" height="16" viewBox="0 0 18 18" aria-hidden="true"><path d="M9 1.5 12.5 9h-7Z" fill="#E5484D"/><path d="M9 16.5 5.5 9h7Z" fill="currentColor" opacity=".35"/></svg></button>
+        <div class="sep"></div>
+        <button type="button" id="zreset" aria-label="Show all of Chennai"><svg width="16" height="16" viewBox="0 0 18 18" aria-hidden="true"><path d="M2.5 8.5 9 3l6.5 5.5M4.5 7v8h9V7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+      <p class="float hint" data-t="hint">Drag to move · right-click and drag to tilt or turn</p>
+    </div>
+    <div class="nomap" id="nomap"><p data-t="nomap">The 3D map couldn't load on this browser. The list of openings still works.</p></div>
+  </section>
+  <section class="float panel" aria-label="Openings">
+    <div class="ph">
+      <h2><span data-t="openings">Openings</span><span class="hr"><small id="count"></small><button type="button" class="ptog" id="ptog" aria-expanded="true" aria-controls="list"><span data-t="hide">Hide</span><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 7.5 6 4.5l3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></span></h2>
+      <div class="row">
+        <div class="fld"><label for="area" data-t="area">Area or company</label><select id="area"></select></div>
+        <div class="fld"><label for="src" data-t="srcL">Source</label><select id="src"></select></div>
+      </div>
+      <div class="fld"><label for="q" data-t="find">Search</label><input type="search" id="q" autocomplete="off"></div>
+      <div class="chips" id="chips" role="group"></div>
+      <div class="note" id="sticker" hidden><span><span id="unl"></span> <span data-t="unl">openings don't name an office</span></span><button type="button" id="seeUnl" data-t="see">Show them</button></div>
+      <div class="note" id="clearRow" hidden style="justify-content:flex-end"><button type="button" id="clear" data-t="clear">Clear filters</button></div>
+    </div>
+    <div class="list" id="list"></div>
+    <div class="foot"><p id="stale"></p><p class="credits">Map data <a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> · <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener">© OpenMapTiles</a> · <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a></p><details><summary data-t="about">About these listings</summary><p data-t="source"></p><p data-t="check"></p></details></div>
+  </section>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script>
+{
+const CATS={tech:['Tech','தொழில்நுட்பம்'],data:['Data','தரவு'],mkt:['Marketing & sales','மார்க்கெட்டிங் & விற்பனை'],fin:['Finance','நிதி'],hr:['HR','மனிதவளம்'],ops:['Operations','செயல்பாடு'],eng:['Engineering','பொறியியல்'],des:['Design','வடிவமைப்பு'],edu:['Education','கல்வி'],health:['Healthcare','மருத்துவம்'],intern:['Internships','பயிற்சிப் பணி']};
+const CK=Object.keys(CATS);
+let MAP_PAD=()=>{};
+const PANEL_OPEN=()=>!document.querySelector('.panel').classList.contains('min');
+function panelOpen(open,save){const P=document.querySelector('.panel'),b=document.getElementById('ptog');if(!P||open===PANEL_OPEN())return;
+  P.classList.toggle('min',!open);b.setAttribute('aria-expanded',open);const l=b.querySelector('span');l.dataset.t=open?'hide':'show';l.textContent=t(l.dataset.t);
+  if(save)try{localStorage.setItem('soli-panel',open?'1':'0')}catch(e){}
+  if(innerWidth>860)MAP_PAD()}
+const T={
+en:{tag:"Jobs near you, <em>straight from the company.</em>",vp1:'Pinned on the real office',vp2:'Only real company openings',srcOurs:'Companies on the map',vp3:'Fresh every morning',openings:'Openings',jobs:'openings',jobsCo:'openings from company sites',cosShort:'companies',cos:'companies on the map',updated:'Updated',area:'Area or company',find:'Search',ph:'Role or company',all:'All of Chennai',none:'Office not named',clear:'Clear filters',today:'today',d1:'1 day ago',dn:'{n} days ago',showing:'{n}',empty:'No openings match. Try another area, field or source.',hint:'Drag to move · right-click and drag to tilt or turn',nomap:"The 3D map couldn't load on this browser. The list of openings still works.",source:'Openings come straight from company career pages, plus Indeed and Google for Jobs under Source. Refreshed every morning; listings older than 90 days are hidden.',check:'Pins sit on each company\'s published Chennai office. Check the job page for the exact work location.',stale:'Last refresh was {n} days ago, so some openings may have closed.',fields:'Fields',srcL:'Source',srcAll:'All sources',srcCo:'Company career pages',srcSoli:'Posted on Soli Maps',via:'via {s}',applyOn:'Apply on {s}',applyCo:'Apply',applySoli:'Apply',post:'Hiring? Post a job',unl:"openings don't name an office",see:'Show them',more:'Show {n} more',fresh:'New',loadErr:'Could not load openings. Please reload the page.',companies:'Companies',areas:'Areas',noOpen:'No openings listed right now.',visit:'Visit careers page',office:'Chennai office',approxOff:'Office area (approx.)',hide:'Hide',show:'Show',about:'About these listings'},
+ta:{tag:'உங்கள் அருகில் வேலை, <em>நிறுவனத்திடமிருந்தே நேரடியாக.</em>',vp1:'உண்மையான அலுவலகத்தில் பின்',vp2:'உண்மையான நிறுவன வேலைகள் மட்டும்',srcOurs:'வரைபடத்தில் உள்ள நிறுவனங்கள்',vp3:'தினமும் காலையில் புதுப்பிப்பு',openings:'வேலை வாய்ப்புகள்',jobs:'வாய்ப்புகள்',jobsCo:'நிறுவனத் தள வாய்ப்புகள்',cosShort:'நிறுவனங்கள்',cos:'நிறுவனங்கள் வரைபடத்தில்',updated:'புதுப்பிப்பு',area:'பகுதி அல்லது நிறுவனம்',find:'தேடல்',ph:'பணி அல்லது நிறுவனம்',all:'முழு சென்னை',none:'அலுவலகம் குறிப்பிடப்படவில்லை',clear:'வடிகட்டிகளை அழி',today:'இன்று',d1:'1 நாள் முன்',dn:'{n} நாட்களுக்கு முன்',showing:'{n}',empty:'பொருந்தும் வாய்ப்புகள் இல்லை. வேறு பகுதி, துறை அல்லது மூலத்தை முயற்சிக்கவும்.',hint:'நகர்த்த இழுக்கவும் · சாய்க்க/சுழற்ற வலது க்ளிக் செய்து இழுக்கவும்',nomap:'இந்த உலாவியில் 3D வரைபடம் ஏற்றப்படவில்லை. வாய்ப்புகள் பட்டியல் இயங்கும்.',source:'வாய்ப்புகள் நிறுவன வேலைப் பக்கங்களிலிருந்து நேரடியாக; Indeed, Google for Jobs மூலம் தேர்வில். ஒவ்வொரு காலையும் புதுப்பிக்கப்படுகின்றன; 90 நாட்களுக்கு மேல் பழையவை மறைக்கப்படும்.',check:'பின்கள் ஒவ்வொரு நிறுவனமும் வெளியிட்ட சென்னை அலுவலகத்தில் உள்ளன. சரியான பணியிடத்தை வேலைப் பக்கத்தில் சரிபார்க்கவும்.',stale:'கடைசி புதுப்பிப்பு {n} நாட்களுக்கு முன்; சில வாய்ப்புகள் மூடப்பட்டிருக்கலாம்.',fields:'துறைகள்',srcL:'மூலம்',srcAll:'அனைத்து மூலங்கள்',srcCo:'நிறுவன வேலைப் பக்கங்கள்',srcSoli:'Soli Maps-இல் பதிவிட்டவை',via:'{s} வழியாக',applyOn:'{s}-இல் விண்ணப்பிக்க',applyCo:'விண்ணப்பிக்க',applySoli:'விண்ணப்பிக்க',post:'வேலை பதிவிட',unl:'வாய்ப்புகளில் அலுவலகம் குறிப்பிடப்படவில்லை',see:'காட்டு',more:'மேலும் {n} காட்டு',fresh:'புதிது',loadErr:'வாய்ப்புகளை ஏற்ற முடியவில்லை. பக்கத்தை மீண்டும் ஏற்றவும்.',companies:'நிறுவனங்கள்',areas:'பகுதிகள்',noOpen:'இப்போது வாய்ப்புகள் எதுவும் இல்லை.',visit:'வேலைப் பக்கத்தைப் பார்க்க',office:'சென்னை அலுவலகம்',approxOff:'அலுவலகப் பகுதி (தோராயமாக)',hide:'மறை',show:'காட்டு',about:'இந்த பட்டியல்கள் பற்றி'}};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ageOf=d=>Math.max(0,Math.floor((Date.now()-new Date(d+'T00:00:00+05:30').getTime())/864e5));
+let lang='en';try{lang=localStorage.getItem('soli-lang')||'en'}catch(e){}
+const POST_URL='';
+const S={area:'all',cats:new Set(),q:'',src:'ours'};let shown=30;
+let D=null,LIVE=[],MAP=null,DEF_SRC='ours',LOGOS={};
+const t=(k,v={})=>(T[lang][k]||T.en[k]).replace(/\{(\w)\}/g,(m,x)=>v[x]);
+const areaName=a=>a?(D.areas[a]?D.areas[a][lang]||D.areas[a].en:a):t('none');
+const catName=c=>CATS[c]?(lang==='ta'?CATS[c][1]:CATS[c][0]):c;
+const srcGroup=j=>j.src==='Company careers'?'co':j.src==='Soli Maps'?'soli':j.src;
+const qMatch=j=>!S.q||(j.t+' '+j.c).toLowerCase().includes(S.q);
+const ours=j=>srcGroup(j)==='co'||String(j.a||'').startsWith('co_');
+const srcOk=(j,s)=>s==='all'||(s==='ours'?ours(j):srcGroup(j)===s);
+const matchBase=j=>(!S.cats.size||S.cats.has(j.cat))&&qMatch(j)&&srcOk(j,S.src);
+const srcLabel=g=>g==='co'?t('srcCo'):g==='soli'?t('srcSoli'):g;
+const applyLabel=j=>j.src==='Company careers'?t('applyCo'):j.src==='Soli Maps'?t('applySoli'):t('applyOn',{s:j.src||'Indeed'});
+const matchArea=j=>S.area==='all'||(S.area==='none'?!j.a:j.a===S.area);
+const posted=d=>{const n=ageOf(d);return n===0?t('today'):n===1?t('d1'):t('dn',{n})};
+const logoOf=name=>LOGOS[name]||'';
+const mono=n=>esc((String(n||'?').replace(/[^A-Za-z0-9]/g,'')[0]||'?').toUpperCase());
+const logoTag=(name,cls)=>{const l=logoOf(name);return l?`<img src="${esc(l)}" alt="" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'mono',textContent:'${mono(name)}'}))">`:`<span class="mono">${mono(name)}</span>`};
+const pinIco='<svg width="10" height="12" viewBox="0 0 9 12" aria-hidden="true"><path d="M4.5 0A4.5 4.5 0 0 0 0 4.5C0 8 4.5 12 4.5 12S9 8 9 4.5A4.5 4.5 0 0 0 4.5 0Zm0 6.2a1.7 1.7 0 1 1 0-3.4 1.7 1.7 0 0 1 0 3.4Z" fill="currentColor"/></svg>';
+
+function texts(){
+  document.documentElement.lang=lang==='ta'?'ta':'en';
+  for(const el of document.querySelectorAll('[data-t]'))el.textContent=t(el.dataset.t);
+  for(const el of document.querySelectorAll('[data-th]'))el.innerHTML=t(el.dataset.th);
+  $('#q').placeholder=t('ph');$('#chips').setAttribute('aria-label',t('fields'));
+  $('#l-en').setAttribute('aria-pressed',lang==='en');$('#l-ta').setAttribute('aria-pressed',lang==='ta');
+  const upd=new Date(D.updated+'T06:00:00+05:30').toLocaleDateString(lang==='ta'?'ta-IN':'en-IN',{day:'numeric',month:'short'});
+  const pool=LIVE.filter(j=>srcOk(j,DEF_SRC)),cos=Object.values(D.areas).filter(a=>a.co).length;
+  $('#stats').innerHTML=`<b>${pool.length}</b> ${esc(t('jobs'))} · <b>${cos}</b> ${esc(t('cosShort'))} · ${esc(upd)}`;
+  const st=ageOf(D.updated);$('#stale').textContent=st>2?t('stale',{n:st}):'';
+}
+function filters(){
+  const sc={};for(const j of LIVE){const g=srcGroup(j);sc[g]=(sc[g]||0)+1}
+  const no=LIVE.filter(ours).length;$('#src').innerHTML=(no?`<option value="ours">${esc(t('srcOurs'))} (${no})</option>`:'')+`<option value="all">${esc(t('srcAll'))} (${LIVE.length})</option>`+Object.keys(sc).sort((a,b)=>(b==='co')-(a==='co')||(b==='soli')-(a==='soli')||sc[b]-sc[a]).map(g=>`<option value="${esc(g)}">${esc(srcLabel(g))} (${sc[g]})</option>`).join('');$('#src').value=S.src;
+  const base=LIVE.filter(matchBase),cnt={};
+  for(const j of base){const k=j.a||'none';cnt[k]=(cnt[k]||0)+1}
+  const keys=Object.keys(D.areas).filter(a=>cnt[a]||S.area===a||D.areas[a].co).sort((a,b)=>(cnt[b]||0)-(cnt[a]||0)||areaName(a).localeCompare(areaName(b)));
+  const opt=a=>`<option value="${esc(a)}">${esc(areaName(a))} (${cnt[a]||0})</option>`;
+  const cos=keys.filter(a=>D.areas[a].co),ars=keys.filter(a=>!D.areas[a].co);
+  $('#area').innerHTML=`<option value="all">${esc(t('all'))} (${base.length})</option>`+(cos.length?`<optgroup label="${esc(t('companies'))}">${cos.map(opt).join('')}</optgroup>`:'')+(ars.length?`<optgroup label="${esc(t('areas'))}">${ars.map(opt).join('')}</optgroup>`:'')+`<option value="none">${esc(t('none'))} (${cnt.none||0})</option>`;
+  $('#area').value=S.area;
+  const cc={};for(const j of LIVE)if(matchArea(j)&&qMatch(j)&&srcOk(j,S.src))cc[j.cat]=(cc[j.cat]||0)+1;
+  $('#chips').innerHTML=CK.filter(c=>cc[c]||S.cats.has(c)).map(c=>`<button type="button" class="chip" data-c="${c}" aria-pressed="${S.cats.has(c)}">${esc(catName(c))}<em>${cc[c]||0}</em></button>`).join('');
+  $('#unl').textContent=cnt.none||0;$('#sticker').hidden=!cnt.none||S.area==='none';
+}
+function list(){
+  const pin=j=>String(j.a||'').startsWith('co_')?2:j.a?1:0;
+  const js=LIVE.filter(j=>matchBase(j)&&matchArea(j)).sort((a,b)=>pin(b)-pin(a)||b.d.localeCompare(a.d));
+  $('#count').textContent=js.length;
+  $('#clearRow').hidden=S.area==='all'&&!S.cats.size&&!S.q&&S.src===DEF_SRC;
+  const sel=D.areas[S.area];
+  if(!js.length&&sel&&sel.co){$('#list').innerHTML=`<div class="empty"><div class="lg" style="margin:0 auto 12px;width:56px;height:56px">${logoTag(sel.en)}</div><p style="margin:0 0 4px;color:var(--ink);font-weight:500">${esc(sel.en)}</p><p style="margin:0 0 14px">${esc(sel.office||'')}</p><p style="margin:0 0 14px">${esc(t('noOpen'))}</p>${sel.careers?`<a class="apply" href="${esc(sel.careers)}" target="_blank" rel="noopener">${esc(t('visit'))} ↗</a>`:''}</div>`;return}
+  $('#list').innerHTML=js.length?js.slice(0,shown).map(j=>`<article class="job"><div class="lg">${logoTag(j.c)}</div><div><h3>${esc(j.t)}</h3><p class="co">${esc(j.c)}</p><p class="meta"><button type="button" class="ar" data-a="${esc(j.a||'none')}">${pinIco}${esc(j.a&&D.areas[j.a]&&D.areas[j.a].co?(D.areas[j.a].approx?t('approxOff'):t('office')):areaName(j.a))}</button>${j.ty?`<span>${esc(j.ty)}</span>`:''}<span>${ageOf(j.d)<=3?`<span class="new">${esc(t('fresh'))}</span> · `:''}${esc(posted(j.d))}</span>${j.src&&j.src!=='Soli Maps'&&j.src!=='Company careers'?`<span>${esc(t('via',{s:j.src}))}</span>`:''}</p><a class="apply" href="${esc(j.u)}" target="_blank" rel="noopener">${esc(applyLabel(j))} <span aria-hidden="true">↗</span></a></div></article>`).join(''):`<p class="empty">${esc(t('empty'))}</p>`;
+  if(js.length>shown)$('#list').insertAdjacentHTML('beforeend',`<button type="button" class="more" id="more">${esc(t('more',{n:js.length-shown}))}</button>`);
+}
+function render(){texts();filters();list();if(MAP)MAP.update()}
+function refresh(){filters();list();if(MAP)MAP.update()}
+function setArea(a){if(a!=='all')panelOpen(true);S.area=a;shown=30;$('#list').scrollTop=0;refresh();if(MAP)MAP.focus(a)}
+const setLang=l=>{lang=l;try{localStorage.setItem('soli-lang',l)}catch(e){}render();if(MAP)MAP.lang()};
+$('#l-en').addEventListener('click',()=>setLang('en'));
+$('#l-ta').addEventListener('click',()=>setLang('ta'));
+$('#ptog').addEventListener('click',()=>panelOpen(!PANEL_OPEN(),true));
+try{if(innerWidth>860&&localStorage.getItem('soli-panel')==='0')panelOpen(false)}catch(e){}
+$('#area').addEventListener('change',e=>setArea(e.target.value));
+$('#src').addEventListener('change',e=>{S.src=e.target.value;shown=30;refresh()});
+$('#q').addEventListener('input',e=>{shown=30;S.q=e.target.value.trim().toLowerCase();refresh()});
+$('#chips').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;const c=b.dataset.c;S.cats.has(c)?S.cats.delete(c):S.cats.add(c);shown=30;refresh()});
+$('#list').addEventListener('click',e=>{if(e.target.id==='more'){shown+=30;list();return}const b=e.target.closest('.ar');if(b){setArea(b.dataset.a);if(innerWidth<=860)$('#map').scrollIntoView({block:'start',behavior:'smooth'})}});
+$('#clear').addEventListener('click',()=>{S.cats.clear();S.q='';S.src=DEF_SRC;$('#q').value='';setArea('all')});
+$('#seeUnl').addEventListener('click',()=>setArea('none'));
+
+/* ---------- 3D map: real OpenStreetMap data (OpenFreeMap), styled as a warm white model ---------- */
+const W=['interpolate',['exponential',1.6],['zoom']];
+const roadW=(lo,hi)=>[...W,9,['match',['get','class'],['motorway','trunk'],lo*1.6,'primary',lo*1.2,'secondary',lo,lo*.5],17,['match',['get','class'],['motorway','trunk'],hi*1.4,'primary',hi*1.2,'secondary',hi,hi*.6]];
+const ROADS=['motorway','trunk','primary','secondary','tertiary','minor','service'];
+const nameField=()=>lang==='ta'?['coalesce',['get','name:ta'],['get','name:en'],['get','name']]:['coalesce',['get','name:en'],['get','name']];
+const STYLE={version:8,glyphs:'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf',
+ sources:{omt:{type:'vector',url:'https://tiles.openfreemap.org/planet'}},
+ light:{anchor:'viewport',color:'#ffffff',intensity:.28,position:[1.4,200,35]},
+ layers:[
+  {id:'bg',type:'background',paint:{'background-color':'#F7F1F0'}},
+  {id:'landuse',type:'fill',source:'omt','source-layer':'landuse',paint:{'fill-color':['match',['get','class'],['residential','suburb','neighbourhood'],'#F5EEED',['industrial','commercial','retail','railway'],'#F1E9E8','#F4EDEC']}},
+  {id:'landcover',type:'fill',source:'omt','source-layer':'landcover',filter:['in',['get','class'],['literal',['grass','wood','farmland','wetland','sand']]],paint:{'fill-color':['match',['get','class'],'wood','#E4EBDF','farmland','#EEF0E6','wetland','#E3ECE8','sand','#F6EEE3','#E8EEE3']}},
+  {id:'park',type:'fill',source:'omt','source-layer':'park',paint:{'fill-color':'#E6EDE1'}},
+  {id:'water',type:'fill',source:'omt','source-layer':'water',paint:{'fill-color':'#DCE8EE'}},
+  {id:'waterway',type:'line',source:'omt','source-layer':'waterway',paint:{'line-color':'#DCE8EE','line-width':[...W,9,.6,16,6]}},
+  {id:'aeroway',type:'line',source:'omt','source-layer':'aeroway',filter:['in',['get','class'],['literal',['runway','taxiway']]],paint:{'line-color':'#EBE0DF','line-width':[...W,10,2,16,40]}},
+  {id:'road-case',type:'line',source:'omt','source-layer':'transportation',minzoom:11,filter:['in',['get','class'],['literal',ROADS]],layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':'#EDE0DE','line-width':roadW(1.4,22)}},
+  {id:'road',type:'line',source:'omt','source-layer':'transportation',filter:['in',['get','class'],['literal',ROADS]],layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':'#FFFFFF','line-width':roadW(1,18)}},
+  {id:'rail',type:'line',source:'omt','source-layer':'transportation',filter:['in',['get','class'],['literal',['rail','transit']]],paint:{'line-color':'#D9C9C7','line-width':[...W,9,.6,16,2.5],'line-dasharray':[3,2]}},
+  {id:'building',type:'fill-extrusion',source:'omt','source-layer':'building',minzoom:13.5,paint:{'fill-extrusion-color':['interpolate',['linear'],['coalesce',['get','render_height'],6],0,'#FBF6F5',40,'#FFFFFF'],'fill-extrusion-height':['*',['max',['coalesce',['get','render_height'],6],6],1.5],'fill-extrusion-base':['coalesce',['get','render_min_height'],0],'fill-extrusion-opacity':['interpolate',['linear'],['zoom'],13.5,0,14.2,.96],'fill-extrusion-vertical-gradient':true}},
+  {id:'water-name',type:'symbol',source:'omt','source-layer':'water_name',layout:{'text-field':['coalesce',['get','name:en'],['get','name']],'text-font':['Noto Sans Italic'],'text-size':13},paint:{'text-color':'#8FA6B0','text-halo-color':'#ffffffaa','text-halo-width':1}},
+  {id:'place',type:'symbol',source:'omt','source-layer':'place',filter:['in',['get','class'],['literal',['city','town','suburb','village','quarter','neighbourhood']]],layout:{'text-field':['coalesce',['get','name:en'],['get','name']],'text-font':['Noto Sans Regular'],'text-size':['interpolate',['linear'],['zoom'],10,11,15,13.5],'text-padding':8},paint:{'text-color':'#A39193','text-halo-color':'#FBF7F6','text-halo-width':1.4}}
+ ]};
+function makeMap(){
+  if(!window.maplibregl)throw new Error('no maplibre');
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,wide=()=>innerWidth>860;
+  const HOME={center:wide()?[80.19,12.99]:[80.18,12.975],zoom:wide()?10.35:10.05,pitch:50,bearing:-16};
+  const pad=()=>wide()?{left:Math.min(340,innerWidth*.3)*.35,right:PANEL_OPEN()?Math.min(420,innerWidth*.38)+16:0,top:0,bottom:0}:{left:0,right:0,top:(document.querySelector('.brand')||{}).offsetHeight+10||0,bottom:20};
+  const map=new maplibregl.Map({container:'map',style:STYLE,...HOME,zoom:HOME.zoom-(reduce?0:.7),maxBounds:[[79.2,12.2],[81,13.8]],minZoom:8.5,maxZoom:18,maxPitch:75,pixelRatio:Math.min(devicePixelRatio,2),attributionControl:{compact:true,customAttribution:'<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> © <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener">OpenMapTiles</a> © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>'},dragRotate:true,touchPitch:true});
+  map.setPadding(pad());
+  addEventListener('resize',()=>map.setPadding(pad()));
+  MAP_PAD=()=>map.easeTo({padding:pad(),duration:reduce?0:500});
+  const hint=$('.hint');map.once('dragstart',()=>hint&&hint.classList.add('gone'));map.once('rotatestart',()=>hint&&hint.classList.add('gone'));
+  map.on('load',()=>{if(!reduce)map.easeTo({...HOME,duration:1600});MAP.lang()});
+  const box=$('#map'),markers=new Map();
+  const zoomCls=()=>box.classList.toggle('zclose',map.getZoom()>=14.5);
+  map.on('zoom',zoomCls);zoomCls();
+  function build(){
+    for(const[,m]of markers)m.mk.remove();markers.clear();
+    const by={};for(const a in D.areas)if(D.areas[a].co)by[a]={n:0};
+    for(const j of LIVE.filter(matchBase))if(j.a&&D.areas[j.a]){const b=by[j.a]=by[j.a]||{n:0};b.n++}
+    for(const a in by){
+      const ar=D.areas[a],n=by[a].n,co=!!ar.co,name=areaName(a);
+      if(!co&&!n)continue;
+      const el=document.createElement('div');el.className='mk '+(co?'co':'area')+(co&&!n?' zero':'');
+      el.setAttribute('role','button');el.tabIndex=0;el.setAttribute('aria-label',`${name}: ${n} ${t('jobs')}`);
+      el.innerHTML=co?`<div class="bub">${ar.logo?`<img src="${esc(ar.logo)}" alt="" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'mono',textContent:'${mono(ar.en)}'}))">`:`<span class="mono">${mono(ar.en)}</span>`}${n?`<span class="ct">${n}</span>`:''}</div><div class="stk"></div><span class="tip"></span><span class="nm">${esc(name)}</span>`
+        :`<div class="bub"><b>${n}</b></div><div class="stk"></div><span class="tip"></span><span class="nm">${esc(name)}</span>`;
+      const go=e=>{e.stopPropagation();const m=markers.get(a);if(m&&m.grp){const bb=new maplibregl.LngLatBounds();for(const k of m.grp)bb.extend([D.areas[k].lon,D.areas[k].lat]);const z=map.getZoom(),tiny=bb.getNorthEast().distanceTo(bb.getSouthWest())<80,cam=tiny?null:map.cameraForBounds(bb,{padding:110});let zz=tiny?15.4:Math.min(15.4,Math.max(z+1.5,cam&&cam.zoom||0));if(zz>=13.8&&zz<14.6)zz=14.6;map.easeTo({center:bb.getCenter(),zoom:zz,duration:reduce?0:850,essential:true});return}setArea(S.area===a?'all':a)};
+      el.addEventListener('click',go);el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go(e)}});
+      const mk=new maplibregl.Marker({element:el,anchor:'bottom'}).setLngLat([ar.lon,ar.lat]).addTo(map);
+      markers.set(a,{mk,el,n,co});
+    }
+    style();group();
+  }
+  const chip=k=>{const ar=D.areas[k],m=markers.get(k);if(!ar.co)return`<span class="s ar"><b>${m.n}</b></span>`;return`<span class="s">${ar.logo?`<img src="${esc(ar.logo)}" alt="" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'mono',textContent:'${mono(ar.en)}'}))">`:`<span class="mono">${mono(ar.en)}</span>`}</span>`};
+  function group(){
+    // nearby pins become a logo stack when zoomed out, and fan out around their centre when zoomed in
+    const close=map.getZoom()>=14.5;
+    const arr=[...markers].map(([a,m])=>({a,m,p:map.project([D.areas[a].lon,D.areas[a].lat])})).sort((x,y)=>(y.a===S.area)-(x.a===S.area)||y.m.co-x.m.co||y.m.n-x.m.n||!!D.areas[y.a].logo-!!D.areas[x.a].logo);
+    const lead=[],st=new Map();
+    for(const o of arr){o.m.grp=null;o.m.mk.setOffset([0,0]);st.set(o.m,'s');
+      const L=S.area===o.a?null:lead.find(l=>l.a!==S.area&&Math.abs(l.p.x-o.p.x)<(close?48:104)&&Math.abs(l.p.y-o.p.y)<(close?48:50));
+      if(L)(L.g=L.g||[L]).push(o);else lead.push(o)}
+    if(close){
+      // fan nearby pins out in rings around their centre; clusters whose rings would touch are merged first
+      const ring=n=>{let r=0,k=0,left=n-1;if(n<2)return 0;for(;left>0;k++){r=48+56*k;left-=Math.floor(2*Math.PI*r/56)}return r};
+      let cl=lead.map(l=>{const g=l.g||[l];return{g,x:g.reduce((s,o)=>s+o.p.x,0)/g.length,y:g.reduce((s,o)=>s+o.p.y,0)/g.length}});
+      for(let again=true;again;){again=false;
+        for(let i=0;i<cl.length&&!again;i++)for(let j=i+1;j<cl.length;j++){const A=cl[i],B=cl[j];if(A.g.length<2&&B.g.length<2)continue;
+          if(Math.hypot(A.x-B.x,A.y-B.y)<ring(A.g.length)+ring(B.g.length)+50){const g=A.g.concat(B.g);cl.splice(j,1);cl[i]={g,x:g.reduce((s,o)=>s+o.p.x,0)/g.length,y:g.reduce((s,o)=>s+o.p.y,0)/g.length};again=true;break}}}
+      for(const c of cl){if(c.g.length<2)continue;const N=c.g.length;
+        c.g.sort((x,y)=>y.m.n-x.m.n||y.m.co-x.m.co);
+        let i=0,k=0;const place=(o,dx,dy)=>{o.m.mk.setOffset([c.x+dx-o.p.x,c.y+dy-o.p.y]);st.set(o.m,'q')};
+        place(c.g[i++],0,0);
+        for(;i<N;k++){const r=48+56*k,cap=Math.floor(2*Math.PI*r/56),m=Math.min(cap,N-i);for(let j=0;j<m;j++,i++){const an=-Math.PI/2+2*Math.PI*j/m+k*.4;place(c.g[i],Math.cos(an)*r,Math.sin(an)*r)}}}
+    }
+    for(const l of lead){if(!l.g||close)continue;
+      else{const ks=l.g.map(o=>o.a);l.m.grp=ks;st.set(l.m,'g:'+ks.join());for(const o of l.g.slice(1))st.set(o.m,'h');
+        const box=l.m.el.querySelector('.stk'),key=ks.join();if(box.dataset.k!==key){box.dataset.k=key;box.innerHTML=ks.slice(0,3).map(chip).join('')+(ks.length>3?`<span class="plus">+${ks.length-3}</span>`:'')}
+        const n=ks.reduce((s,k)=>s+markers.get(k).n,0);l.m.el.setAttribute('aria-label',`${ks.length} ${t('cosShort')}${n?` · ${n} ${t('jobs')}`:''}`)}}
+    for(const[m,v]of st){const was=m.state;m.state=v;m.el.hidden=v==='h';m.el.classList.toggle('grp',v.startsWith('g'));m.el.classList.toggle('quiet',v==='q');
+      if(was!==undefined&&was!==v&&v!=='h'&&!reduce){m.el.classList.remove('pop');void m.el.offsetWidth;m.el.classList.add('pop')}}
+    style();cull();
+  }
+  // markers beyond the horizon in a tilted view get projected to wrong places: hide anything outside the visible area
+  let raf=0;
+  function cull(){const b=map.getBounds();for(const[a,m]of markers){const ar=D.areas[a];m.el.classList.toggle('off',!b.contains([ar.lon,ar.lat]))}}
+  map.on('move',()=>{if(!raf)raf=requestAnimationFrame(()=>{raf=0;cull()})});
+  map.on('moveend',()=>group());
+  function style(){for(const[a,m]of markers){m.el.classList.toggle('on',S.area===a);m.el.classList.toggle('dim',S.area!=='all'&&S.area!==a);m.el.style.zIndex=S.area===a?999:m.grp?800+m.grp.length:(m.co?500:0)+m.n}}
+  function focus(a){
+    if(a==='all'||a==='none'){map.flyTo({...HOME,duration:reduce?0:1400});return}
+    const ar=D.areas[a];if(ar)map.flyTo({center:[ar.lon,ar.lat],zoom:ar.co?15.4:14.2,pitch:60,bearing:map.getBearing(),duration:reduce?0:1800,essential:true});
+  }
+  $('#zin').addEventListener('click',()=>map.zoomIn());
+  $('#zout').addEventListener('click',()=>map.zoomOut());
+  $('#zreset').addEventListener('click',()=>map.flyTo({...HOME,duration:reduce?0:1200}));
+  const dur=reduce?0:450;
+  $('#rotl').addEventListener('click',()=>map.easeTo({bearing:map.getBearing()-45,duration:dur}));
+  $('#rotr').addEventListener('click',()=>map.easeTo({bearing:map.getBearing()+45,duration:dur}));
+  $('#north').addEventListener('click',()=>map.easeTo({bearing:0,duration:dur}));
+  $('#tilt').addEventListener('click',()=>map.easeTo({pitch:map.getPitch()>5?0:60,duration:dur}));
+  const sync=()=>{$('#needle').style.transform=`rotate(${-map.getBearing()}deg)`;const p=map.getPitch()>5;$('#tilt').textContent=p?'3D':'2D';$('#tilt').setAttribute('aria-pressed',p)};
+  map.on('rotate',sync);map.on('pitch',sync);sync();
+  const setNames=()=>{if(!map.getLayer('place'))return;map.setLayoutProperty('place','text-field',nameField())};
+  return{update:build,focus,lang:()=>{setNames();build()}};
+}
+
+const getJSON=f=>fetch(f,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()});
+Promise.all([getJSON('jobs.json'),getJSON('feeds.json').catch(()=>null),getJSON('posts.json').catch(()=>null)]).then(([base,feeds,posts])=>{
+  const areas={...(base.areas||{}),...((feeds&&feeds.areas)||{})},all=[],seen=new Set();
+  LOGOS=(feeds&&feeds.logos)||{};
+  const key=j=>(j.t+'|'+j.c).toLowerCase().replace(/[^a-z0-9|]/g,'');
+  const push=j=>{const k=key(j);if(seen.has(k))return;seen.add(k);all.push(j)};
+  for(const p of (posts&&posts.jobs)||[]){if(typeof p.la==='number'&&typeof p.lo==='number'){const a='xy'+p.la.toFixed(4)+'_'+p.lo.toFixed(4);areas[a]=areas[a]||{en:p.c,ta:p.c,lat:p.la,lon:p.lo,exact:true,co:true};push({...p,a,src:'Soli Maps'})}else push({...p,src:'Soli Maps'})}
+  for(const j of base.jobs||[])push({...j,src:j.src||'Indeed'});
+  for(const j of (feeds&&feeds.jobs)||[])push(j);
+  D={...base,areas,updated:[base.updated,feeds&&feeds.updated].filter(Boolean).sort().pop()};LIVE=all.filter(j=>ageOf(j.d)<=(base.maxAgeDays||90));
+  if(!LIVE.some(ours)){DEF_SRC='all';S.src='all'}
+  const qp=new URLSearchParams(location.search);
+  if(CATS[qp.get('cat')])S.cats.add(qp.get('cat'));
+  if(qp.get('q')){S.q=qp.get('q').slice(0,60);$('#q').value=S.q}
+  if(POST_URL){$('#post').href=POST_URL;$('#post').hidden=false}
+  try{MAP=makeMap()}catch(e){console.error(e);$('#nomap').style.display='grid'}
+  render();
+  if(qp.get('area')&&D.areas[qp.get('area')])setArea(qp.get('area'));
+}).catch(()=>{$('#list').innerHTML=`<p class="empty">${esc(t('loadErr'))}</p>`});
+}
+</script>
+<script src="auth/config.js"></script>
+<script>
+/* Signed-out visitors go to the homepage to sign in; signed-in visitors get the account menu. */
+(()=>{
+  const $=s=>document.querySelector(s),KEY='soli-user',DAYS=180;
+  const G={en:{del:'Delete your saved name and email from Soli Maps?'},ta:{del:'Soli Maps-இல் சேமித்த உங்கள் பெயர், மின்னஞ்சலை நீக்கவா?'}};
+  const L=()=>{try{return localStorage.getItem('soli-lang')==='ta'?'ta':'en'}catch(e){return 'en'}};
+  const read=()=>{try{const u=JSON.parse(localStorage.getItem(KEY)||'null');return u&&u.e&&Date.now()-u.t<DAYS*864e5?u:null}catch(e){return null}};
+  const write=u=>{try{u?localStorage.setItem(KEY,JSON.stringify(u)):localStorage.removeItem(KEY)}catch(e){}};
+  const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+  const send=body=>fetch(SOLI_AUTH.sheetUrl,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)}).then(r=>r.json()).catch(()=>({ok:false}));
+  function showMe(u){
+    const me=$('#me');if(!me)return;me.hidden=!u;if(!u)return;
+    $('#meBtn').innerHTML=u.p?`<img src="${esc(u.p)}" alt="" referrerpolicy="no-referrer">`:esc((u.n||u.e)[0].toUpperCase());
+    $('#meName').textContent=u.n||'';$('#meMail').textContent=u.e;
+  }
+
+  const SOLI_AUTH=window.SOLI_AUTH||{};
+  if(!(SOLI_AUTH.clientId&&SOLI_AUTH.sheetUrl))return;
+  const u=read();
+  if(!u){location.replace('./?next='+encodeURIComponent(location.pathname.split('/').pop()+location.search)+'#signin');return}
+  showMe(u);send({action:'seen',email:u.e,key:u.k});
+  $('#meBtn').addEventListener('click',e=>{e.stopPropagation();const p=$('#mePop');p.hidden=!p.hidden;$('#meBtn').setAttribute('aria-expanded',!p.hidden)});
+  document.addEventListener('click',e=>{if(!e.target.closest('#me'))$('#mePop').hidden=true});
+  $('#signOut').addEventListener('click',()=>{write(null);location.replace('./')});
+  $('#delMe').addEventListener('click',async()=>{const u=read();if(!u||!confirm(G[L()].del))return;await send({action:'delete',email:u.e,key:u.k});write(null);location.replace('./')});
+})();
+</script>
+</body>
+</html>

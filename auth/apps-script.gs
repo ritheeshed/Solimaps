@@ -1,5 +1,5 @@
 /**
- * Soli Maps sign-ins -> this Google Sheet.
+ * Soli Maps sign-ins and company requests -> this Google Sheet.
  *
  * Setup (one time, free):
  * 1. Create a Google Sheet (any name). Extensions > Apps Script. Delete what is there and paste this whole file.
@@ -77,6 +77,15 @@ function doPost(e) {
       if (!r || !body.key || sh.getRange(r, 11).getValue() !== body.key) return out_({ ok: false });
       if (body.action === 'delete') sh.deleteRow(r);
       else { sh.getRange(r, 2).setValue(now); sh.getRange(r, 5).setValue(Number(sh.getRange(r, 5).getValue() || 0) + 1); }
+      return out_({ ok: true });
+    }
+    if (body.action === 'company') {
+      const company = clip_(body.company, 80), careers = clip_(body.careers, 200), email = clip_(body.email, 120);
+      if (!company || !/^https?:\/\//.test(careers) || !/^\S+@\S+\.\S+$/.test(email)) return out_({ ok: false });
+      const ss = SpreadsheetApp.getActiveSpreadsheet();
+      let cs = ss.getSheetByName('Companies');
+      if (!cs) { cs = ss.insertSheet('Companies'); cs.appendRow(['Sent', 'Company', 'Careers page', 'Work email', 'Language']); cs.setFrozenRows(1); cs.getRange(1, 1, 1, 5).setFontWeight('bold'); }
+      cs.appendRow([now, company, careers, email, clip_(body.lang, 5)]);
       return out_({ ok: true });
     }
     return out_({ ok: false });
