@@ -11,11 +11,14 @@
  * Only Google-verified sign-ins for this client ID are saved. Each person gets one row.
  */
 const CLIENT_ID = 'PASTE-YOUR-CLIENT-ID.apps.googleusercontent.com';
+// Only for a standalone script (script.google.com, not opened from the Sheet): the Sheet's ID from its URL, /d/<ID>/edit
+const SHEET_ID = '';
+function book_() { return SHEET_ID ? SpreadsheetApp.openById(SHEET_ID) : SpreadsheetApp.getActiveSpreadsheet(); }
 const TAB = 'Users';
 const HEAD = ['First seen', 'Last seen', 'Name', 'Email', 'Visits', 'Language', 'UTM source', 'UTM medium', 'UTM campaign', 'Came from', 'Key'];
 
 function sheet_() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = book_();
   let sh = ss.getSheetByName(TAB);
   if (!sh) {
     sh = ss.insertSheet(TAB);
@@ -85,7 +88,7 @@ function doPost(e) {
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return out_({ ok: false });
       const wa = clip_(body.whatsapp, 10).replace(/\D/g, '');
       if (wa && !/^[6-9]\d{9}$/.test(wa)) return out_({ ok: false });
-      const ss = SpreadsheetApp.getActiveSpreadsheet();
+      const ss = book_();
       const WH = ['Joined', 'Email', 'WhatsApp', 'Area', 'Role', 'Language', 'UTM source', 'UTM medium', 'UTM campaign', 'UTM content', 'Came from', 'Updated'];
       let ws = ss.getSheetByName('Waitlist');
       if (!ws) { ws = ss.insertSheet('Waitlist'); ws.appendRow(WH); ws.setFrozenRows(1); ws.getRange(1, 1, 1, WH.length).setFontWeight('bold'); ws.getRange('C:C').setNumberFormat('@'); }
@@ -108,7 +111,7 @@ function doPost(e) {
     if (body.action === 'company') {
       const company = clip_(body.company, 80), careers = clip_(body.careers, 200), email = clip_(body.email, 120);
       if (!company || !/^https?:\/\//.test(careers) || !/^\S+@\S+\.\S+$/.test(email)) return out_({ ok: false });
-      const ss = SpreadsheetApp.getActiveSpreadsheet();
+      const ss = book_();
       let cs = ss.getSheetByName('Companies');
       if (!cs) { cs = ss.insertSheet('Companies'); cs.appendRow(['Sent', 'Company', 'Careers page', 'Work email', 'Language']); cs.setFrozenRows(1); cs.getRange(1, 1, 1, 5).setFontWeight('bold'); }
       cs.appendRow([now, company, careers, email, clip_(body.lang, 5)]);
