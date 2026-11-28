@@ -206,6 +206,7 @@ footer a{text-decoration:none}
   .wrap{width:calc(100% - 28px)}
   nav .wrap{height:56px}
   .navmap{display:none}
+  .eyebrow{white-space:nowrap;font-size:10px;letter-spacing:.05em}.eyebrow b{font-size:10px;letter-spacing:.05em}
   h1{margin-top:12px;font-size:36px}
   html[lang=ta] h1{font-size:28px}
   .lede{font-size:16.5px;margin-top:10px}
@@ -534,7 +535,7 @@ function mapStart(){
   map.on('sourcedata',e=>{if(e.sourceId==='omt'&&e.tile)ok=true});
   map.on('error',e=>{if(e.sourceId==='omt'||/openfreemap/.test(String(e.error&&(e.error.url||e.error.message)||''))){if(++err>=3&&!ok)backup()}});
   setTimeout(()=>{if(!ok)backup()},9000);
-  map.on('load',mapPins);
+  map.on('load',()=>{mapPins();const a=map.getContainer().querySelector('.maplibregl-ctrl-attrib');if(a)a.classList.remove('maplibregl-compact-show')});
   let rt=0;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(map){map.fitBounds(bnd(),{padding:pad(),duration:0});cull()}},200)});
 }
 function backup(){if(!map||map._bk)return;map._bk=1;map.setStyle({version:8,sources:{osm:{type:'raster',tiles:['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],tileSize:256,maxzoom:19}},layers:[{id:'bg',type:'background',paint:{'background-color':'#F7F1F0'}},{id:'osm',type:'raster',source:'osm',paint:{'raster-saturation':-.7,'raster-contrast':-.15,'raster-brightness-min':.12}}]})}
