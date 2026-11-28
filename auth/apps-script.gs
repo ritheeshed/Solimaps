@@ -1,5 +1,6 @@
 /**
- * Soli Maps sign-ins and company requests -> this Google Sheet.
+ * Soli Maps sign-ins, waitlist and company requests -> this Google Sheet.
+ * The waitlist (waitlist/ page) only needs step 1, 3 and 4: paste the /exec URL into auth/config.js as sheetUrl.
  *
  * Setup (one time, free):
  * 1. Create a Google Sheet (any name). Extensions > Apps Script. Delete what is there and paste this whole file.
@@ -79,6 +80,31 @@ function doPost(e) {
       else { sh.getRange(r, 2).setValue(now); sh.getRange(r, 5).setValue(Number(sh.getRange(r, 5).getValue() || 0) + 1); }
       return out_({ ok: true });
     }
+    if (body.action === 'waitlist') {
+      const email = clip_(body.email, 120).trim().toLowerCase();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return out_({ ok: false });
+      const wa = clip_(body.whatsapp, 10).replace(/\D/g, '');
+      if (wa && !/^[6-9]\d{9}$/.test(wa)) return out_({ ok: false });
+      const ss = SpreadsheetApp.getActiveSpreadsheet();
+      const WH = ['Joined', 'Email', 'WhatsApp', 'Area', 'Role', 'Language', 'UTM source', 'UTM medium', 'UTM campaign', 'UTM content', 'Came from', 'Updated'];
+      let ws = ss.getSheetByName('Waitlist');
+      if (!ws) { ws = ss.insertSheet('Waitlist'); ws.appendRow(WH); ws.setFrozenRows(1); ws.getRange(1, 1, 1, WH.length).setFontWeight('bold'); ws.getRange('C:C').setNumberFormat('@'); }
+      const last = ws.getLastRow();
+      if (last >= 2) {
+        const emails = ws.getRange(2, 2, last - 1, 1).getValues();
+        for (let i = 0; i < emails.length; i++) {
+          if (String(emails[i][0]).toLowerCase() === email) {
+            const r = i + 2;
+            if (wa) ws.getRange(r, 3).setValue(wa);
+            ws.getRange(r, 4, 1, 2).setValues([[clip_(body.area, 40), clip_(body.role, 40)]]);
+            ws.getRange(r, 12).setValue(now);
+            return out_({ ok: true, n: i + 1 });
+          }
+        }
+      }
+      ws.appendRow([now, email, wa, clip_(body.area, 40), clip_(body.role, 40), clip_(body.lang, 5), clip_(body.utm_source, 80), clip_(body.utm_medium, 80), clip_(body.utm_campaign, 80), clip_(body.utm_content, 80), clip_(body.ref), now]);
+      return out_({ ok: true, n: Math.max(1, ws.getLastRow() - 1) });
+    }
     if (body.action === 'company') {
       const company = clip_(body.company, 80), careers = clip_(body.careers, 200), email = clip_(body.email, 120);
       if (!company || !/^https?:\/\//.test(careers) || !/^\S+@\S+\.\S+$/.test(email)) return out_({ ok: false });
@@ -94,4 +120,4 @@ function doPost(e) {
   }
 }
 
-function doGet() { return out_({ ok: true, service: 'Soli Maps sign-ins' }); }
+function doGet() { return out_({ ok: true, service: 'Soli Maps sign-ins and waitlist' }); }
