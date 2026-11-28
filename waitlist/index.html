@@ -3,21 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Soli Maps waitlist · Get Chennai job alerts on WhatsApp before everyone else</title>
-<meta name="description" content="Join the Soli Maps waitlist. Get a WhatsApp alert the morning a Chennai company near you posts your role. Straight from the company, pinned on its office. Free for freshers and 1–5 year professionals.">
-<meta property="og:title" content="Stop finding jobs after they're gone · Soli Maps">
-<meta property="og:description" content="Early access: a WhatsApp alert the morning a company near you posts your role. No consultancies, no fees, no surprise 2-hour commutes.">
+<title>Soli Maps · Chennai is hiring. Just not where you're looking.</title>
+<meta name="description" content="Company openings in Chennai, pinned on their real office. Many only post on their own careers page. Join early access and get a WhatsApp the morning one opens near you.">
+<meta property="og:title" content="Chennai is hiring. Just not where you're looking.">
+<meta property="og:description" content="Company openings pinned on their real Chennai office. Early access: a WhatsApp the morning one opens near you.">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://ritheeshed.github.io/Solimaps/assets/hero.jpg">
 <meta name="theme-color" content="#E5484D">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23E5484D'/%3E%3Ccircle cx='16' cy='16' r='5.5' fill='%23fff'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://tiles.openfreemap.org" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=Noto+Sans+Tamil:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
 <style>
-:root{color-scheme:light dark;
---bg:light-dark(#FFFFFF,#151112);--soft:light-dark(#FFF8F7,#1C1617);--tint:light-dark(#FDEEEC,#2A1E1F);--card:light-dark(#FFFFFF,#1D1718);
---line:light-dark(#F0E4E2,#332A2B);--ink:light-dark(#2B2022,#F5ECEC);--mute:light-dark(#86767A,#B3A3A6);
---red:#E5484D;--red2:#CE3B40;--redsoft:light-dark(#FCE6E5,#3A2224);--ok:#1F9D63;
+:root{color-scheme:light;
+--bg:#FFFFFF;--soft:#FFF8F7;--tint:#FDEEEC;--line:#F0E4E2;--ink:#2B2022;--mute:#7E6E72;
+--red:#E5484D;--red2:#CE3B40;--redsoft:#FCE6E5;--ok:#1F9D63;
 --shadow:0 1px 2px #2b20220a,0 12px 36px #2b202214;--ease:cubic-bezier(.2,.8,.2,1)}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -25,42 +27,46 @@ body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-
 html[lang=ta] body{font-family:Inter,"Noto Sans Tamil",system-ui,sans-serif}
 a{color:inherit}
 img{display:block}
-.wrap{width:min(1160px,100% - 40px);margin-inline:auto}
+.wrap{width:min(1200px,100% - 48px);margin-inline:auto}
 button,input,select{font:inherit;color:inherit}
+b{font-weight:600}
 
 /* nav */
-nav{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid transparent;transition:border-color .3s}
-nav.scrolled{border-color:var(--line)}
+nav{position:fixed;top:0;left:0;right:0;z-index:30;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+nav.scrolled{background:#ffffffe8;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
 nav .wrap{display:flex;align-items:center;gap:14px;height:64px}
 .logo{display:flex;align-items:center;gap:9px;font-weight:600;font-size:18px;letter-spacing:-.02em;text-decoration:none}
 .logo i{width:20px;height:20px;border-radius:50%;background:var(--red);display:grid;place-items:center}
 .logo i:after{content:"";width:7px;height:7px;border-radius:50%;background:#fff}
 .sp{flex:1}
-.seg{display:flex;padding:3px;border-radius:999px;background:var(--soft);border:1px solid var(--line)}
+.seg{display:flex;padding:3px;border-radius:999px;background:#ffffffd0;border:1px solid var(--line);backdrop-filter:blur(8px)}
 .seg button{border:0;background:none;padding:5px 11px;border-radius:999px;font-size:13px;color:var(--mute);cursor:pointer}
-.seg button[aria-pressed=true]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px #0001}
-.navmap{font-size:14px;color:var(--mute);text-decoration:none}
-.navmap:hover{color:var(--ink)}
+.seg button[aria-pressed=true]{background:#fff;color:var(--ink);box-shadow:0 1px 3px #0001}
+.navmap{font-size:14px;font-weight:500;text-decoration:none;padding:8px 14px;border-radius:999px;background:#ffffffd0;border:1px solid var(--line)}
 
-/* hero */
-.hero{position:relative;padding:44px 0 70px;overflow:hidden}
-.hero:before{content:"";position:absolute;inset:-30% -10% auto;height:620px;background:radial-gradient(closest-side,#E5484D1f,transparent);pointer-events:none}
-.hgrid{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:4px 12px 4px 4px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-size:13px;color:var(--mute)}
-.eyebrow b{padding:2px 9px;border-radius:999px;background:var(--red);color:#fff;font-size:12px;font-weight:600}
-.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--red);box-shadow:0 0 0 0 #E5484D88;animation:pulse 1.8s infinite}
-@keyframes pulse{70%{box-shadow:0 0 0 8px #E5484D00}100%{box-shadow:0 0 0 0 #E5484D00}}
-h1{margin:18px 0 0;font-size:clamp(40px,5.4vw,66px);line-height:1.02;font-weight:500;letter-spacing:-.045em;text-wrap:balance}
+/* hero on the faded map */
+.hero{position:relative;min-height:min(100svh,920px);display:flex;align-items:center;padding:100px 0 80px;overflow:hidden;background:#F7F1F0}
+#bgmap{position:absolute;inset:0;z-index:0}
+#bgmap .maplibregl-ctrl-attrib{font-size:10px;background:#ffffffb0}
+.fade{position:absolute;inset:0;z-index:1;pointer-events:none;background:#ffffffc4}
+.fade:after{content:"";position:absolute;inset:auto 0 0;height:120px;background:linear-gradient(0deg,#fff,#fff0)}
+.hcopy{position:relative;z-index:2;max-width:580px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:4px 12px 4px 4px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:13px;color:var(--mute);box-shadow:0 2px 8px #2b20220d}
+.eyebrow b{padding:2px 9px;border-radius:999px;background:var(--red);color:#fff;font-size:12px}
+.live{width:7px;height:7px;border-radius:50%;background:var(--red);animation:pulse 1.8s infinite;flex:none}
+@keyframes pulse{0%{box-shadow:0 0 0 0 #E5484D88}70%{box-shadow:0 0 0 8px #E5484D00}100%{box-shadow:0 0 0 0 #E5484D00}}
+h1{margin:18px 0 0;font-size:clamp(42px,5.2vw,68px);line-height:1.02;font-weight:600;letter-spacing:-.05em;text-wrap:balance}
 h1 em{font-style:normal;color:var(--red)}
-html[lang=ta] h1{font-size:clamp(34px,4.4vw,54px);line-height:1.15;letter-spacing:-.02em}
-.lede{margin:18px 0 0;font-size:18px;color:var(--mute);max-width:540px;text-wrap:pretty}
-.lede b{color:var(--ink);font-weight:600}
+html[lang=ta] h1{font-size:clamp(32px,3.9vw,50px);line-height:1.18;letter-spacing:-.02em}
+.lede{margin:18px 0 0;font-size:18px;line-height:1.5;color:#4A3C3F;max-width:540px;text-wrap:pretty}
+.lede b{color:var(--ink)}
 
 /* form */
-.formcard{margin-top:26px;padding:20px;border-radius:24px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);max-width:540px}
-.offer{display:flex;gap:10px;align-items:flex-start;margin:-4px 0 16px;padding:10px 12px;border-radius:14px;background:var(--redsoft);font-size:14px;line-height:1.4}
-.offer svg{flex:none;margin-top:2px;color:var(--red)}
-.offer b{font-weight:600}
+.formcard{margin-top:24px;padding:18px;border-radius:22px;background:#fff;border:1px solid var(--line);box-shadow:0 20px 50px -18px #2b202240,0 1px 2px #2b20220d}
+.offer{display:flex;gap:10px;align-items:center;margin:0 0 14px;font-size:14.5px;line-height:1.4}
+.offer .wa{flex:none;width:36px;height:36px;border-radius:10px;background:#E8F7EF;color:#1F9D63;display:grid;place-items:center}
+.offer b{display:block;font-size:15px}
+.offer span{color:var(--mute)}
 .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .fld{display:flex;flex-direction:column;gap:5px}
 .fld.full{grid-column:1/-1}
@@ -69,137 +75,131 @@ html[lang=ta] h1{font-size:clamp(34px,4.4vw,54px);line-height:1.15;letter-spacin
 .fld input,.fld select{height:48px;padding:0 14px;border-radius:12px;border:1px solid var(--line);background:var(--soft);font-size:16px;outline:none;transition:border-color .2s,box-shadow .2s;width:100%;appearance:none;-webkit-appearance:none}
 .fld select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4' fill='none' stroke='%2386767A' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:34px}
 .fld input:focus,.fld select:focus{border-color:var(--red);box-shadow:0 0 0 4px #E5484D22}
-.fld .wa{display:flex;align-items:center;border:1px solid var(--line);border-radius:12px;background:var(--soft);transition:border-color .2s,box-shadow .2s}
-.fld .wa:focus-within{border-color:var(--red);box-shadow:0 0 0 4px #E5484D22}
-.fld .wa span{padding:0 0 0 14px;color:var(--mute);font-size:16px}
-.fld .wa input{border:0;background:none;box-shadow:none!important;padding-left:8px}
-.fld.bad input,.fld.bad select,.fld.bad .wa{border-color:var(--red)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:52px;padding:0 24px;border-radius:999px;border:0;background:var(--red);color:#fff;font-weight:600;font-size:16px;text-decoration:none;cursor:pointer;box-shadow:0 8px 22px #E5484D45;transition:transform .2s var(--ease),background .2s,box-shadow .2s}
+.fld .ph{display:flex;align-items:center;border:1px solid var(--line);border-radius:12px;background:var(--soft);transition:border-color .2s,box-shadow .2s}
+.fld .ph:focus-within{border-color:var(--red);box-shadow:0 0 0 4px #E5484D22}
+.fld .ph span{padding:0 0 0 14px;color:var(--mute);font-size:16px}
+.fld .ph input{border:0;background:none;box-shadow:none!important;padding-left:8px}
+.fld.bad input,.fld.bad select,.fld.bad .ph{border-color:var(--red)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:52px;padding:0 24px;border-radius:999px;border:0;background:var(--red);color:#fff;font-weight:600;font-size:16px;text-decoration:none;cursor:pointer;box-shadow:0 8px 22px #E5484D45;transition:transform .2s var(--ease),background .2s}
 .btn:hover{background:var(--red2);transform:translateY(-1px)}
-.btn:active{transform:translateY(0)}
 .btn[disabled]{opacity:.7;cursor:wait}
-.btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:none}
-.formcard .btn{width:100%;margin-top:14px}
+.btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.formcard .btn{width:100%;margin-top:12px}
 .fnote{margin:10px 0 0;font-size:12.5px;color:var(--mute);text-align:center}
-.fmsg{margin:10px 0 0;font-size:14px;color:var(--red);text-align:center;min-height:0}
+.fmsg{margin:10px 0 0;font-size:14px;color:var(--red);text-align:center}
 .fmsg:empty{display:none}
-
-/* success */
-.done{display:none;text-align:center;padding:10px 4px}
+.done{display:none;text-align:center;padding:8px 4px}
 .formcard.ok form,.formcard.ok .offer{display:none}
 .formcard.ok .done{display:block;animation:pop .5s var(--ease)}
 @keyframes pop{from{opacity:0;transform:scale(.96)}}
-.done .tick{width:56px;height:56px;margin:0 auto 12px;border-radius:50%;background:#1F9D6318;color:var(--ok);display:grid;place-items:center}
+.done .tick{width:54px;height:54px;margin:0 auto 12px;border-radius:50%;background:#1F9D6318;color:var(--ok);display:grid;place-items:center}
 .done h3{margin:0;font-size:24px;font-weight:600;letter-spacing:-.03em}
-.done p{margin:8px auto 0;max-width:400px;color:var(--mute);font-size:15px}
-.done .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.done p{margin:8px auto 0;max-width:420px;color:var(--mute);font-size:15px}
+.done .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
 .done .btn{width:auto;height:46px;font-size:15px;margin:0}
 
-/* phone with alerts */
-.phone{position:relative;justify-self:center;width:min(340px,100%);aspect-ratio:9/18.5;border-radius:44px;padding:12px;background:#1b1415;box-shadow:0 40px 80px -20px #2b202255,0 0 0 1px #ffffff14 inset}
-.screen{position:relative;height:100%;border-radius:34px;overflow:hidden;background:linear-gradient(170deg,#3a2326,#1d1416 55%,#2c1a1c)}
-.screen:before{content:"";position:absolute;left:50%;top:10px;width:92px;height:26px;margin-left:-46px;border-radius:20px;background:#000;z-index:3}
-.clock{position:absolute;left:0;right:0;top:64px;text-align:center;color:#fff}
-.clock b{display:block;font-size:62px;font-weight:300;letter-spacing:-.04em;line-height:1}
-.clock span{font-size:14px;opacity:.75}
-.feed{position:absolute;left:10px;right:10px;top:178px;bottom:14px;display:flex;flex-direction:column;gap:8px}
-.note{display:flex;gap:10px;padding:11px 12px;border-radius:18px;background:#ffffffe6;color:#2B2022;box-shadow:0 6px 16px #0003;backdrop-filter:blur(10px);transform-origin:top center}
-.note.in{animation:drop .6s var(--ease) both}
-@keyframes drop{from{opacity:0;transform:translateY(-16px) scale(.96)}}
-.note .ic{flex:none;width:34px;height:34px;border-radius:9px;background:#fff;border:1px solid #F0E4E2;display:grid;place-items:center;overflow:hidden}
-.note .ic img{width:24px;height:24px;object-fit:contain}
-.note .ic .m{font-weight:600;font-size:14px;color:var(--red)}
-.note .tx{min-width:0;flex:1}
-.note .hd{display:flex;justify-content:space-between;font-size:11px;color:#86767A}
-.note .hd b{font-weight:600;color:#2B2022}
-.note .tt{margin-top:1px;font-size:13px;font-weight:600;line-height:1.3;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.note .sb{margin-top:2px;font-size:12px;color:#86767A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.note .sb i{font-style:normal;color:var(--red);font-weight:600}
-.cap{margin:14px 0 0;text-align:center;font-size:12px;color:var(--mute)}
+/* map pins: calm, half-faded */
+.pin{width:36px;height:36px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 0 0 1px #2b20221a,0 4px 12px #2b202226;opacity:.5}
+.pin img{width:22px;height:22px;object-fit:contain;border-radius:3px}
+.pin .m{font-weight:600;font-size:13px;color:var(--red)}
+.pin.hire{opacity:.62}
+.pin.hire:after{content:"";position:absolute;right:-1px;top:-1px;width:9px;height:9px;border-radius:50%;background:var(--red);box-shadow:0 0 0 2px #fff}
+.pin.hide{display:none}
 
-/* proof */
-.proof{border-block:1px solid var(--line);background:var(--soft)}
-.proof ul{display:grid;grid-template-columns:repeat(3,1fr);margin:0;padding:22px 0;list-style:none;text-align:center}
-.proof li+li{border-left:1px solid var(--line)}
-.proof b{display:block;font-size:30px;font-weight:600;letter-spacing:-.04em}
+/* proof strip */
+.proof{position:relative;z-index:3;margin-top:-40px}
+.proof .bar{display:grid;grid-template-columns:repeat(4,1fr);border-radius:20px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);overflow:hidden}
+.proof .bar div{padding:18px 20px}
+.proof .bar div+div{border-left:1px solid var(--line)}
+.proof b{display:block;font-size:28px;letter-spacing:-.04em;line-height:1.1}
 .proof span{font-size:13px;color:var(--mute)}
-.mq{overflow:hidden;padding:18px 0;-webkit-mask:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
-.mq ul{display:flex;gap:12px;width:max-content;margin:0;padding:0;list-style:none;animation:mq 46s linear infinite}
-.mq li{display:flex;align-items:center;gap:9px;height:42px;padding:0 14px 0 6px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-size:14px;font-weight:500;white-space:nowrap}
-.mq li span{width:30px;height:30px;border-radius:50%;background:#fff;display:grid;place-items:center;border:1px solid var(--line)}
-.mq li img{width:20px;height:20px;object-fit:contain}
+.mq{overflow:hidden;padding:22px 0 0;-webkit-mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.mq ul{display:flex;gap:10px;width:max-content;margin:0;padding:0;list-style:none;animation:mq 50s linear infinite}
+.mq li{display:flex;align-items:center;gap:8px;height:40px;padding:0 13px 0 5px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:14px;font-weight:500;white-space:nowrap}
+.mq li span{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);background:#fff}
+.mq li img{width:19px;height:19px;object-fit:contain}
 .mq li .m{font-size:13px;font-weight:600;color:var(--red)}
+.mq li small{color:var(--red);font-weight:600}
 @keyframes mq{to{transform:translateX(-50%)}}
 
 /* sections */
-section{padding:80px 0}
+section{padding:88px 0}
 .kick{margin:0 0 10px;font-size:13px;font-weight:600;color:var(--red);letter-spacing:.02em}
-h2{margin:0;font-size:clamp(28px,3.6vw,44px);line-height:1.08;font-weight:500;letter-spacing:-.04em;text-wrap:balance}
-html[lang=ta] h2{letter-spacing:-.02em;line-height:1.2}
-.sub{margin:14px 0 0;color:var(--mute);font-size:17px;max-width:600px}
-.head{max-width:740px;margin-bottom:36px}
+h2{margin:0;font-size:clamp(30px,3.6vw,46px);line-height:1.08;font-weight:600;letter-spacing:-.045em;text-wrap:balance}
+html[lang=ta] h2{letter-spacing:-.02em;line-height:1.22;font-size:clamp(26px,3vw,38px)}
+.sub{margin:14px 0 0;color:var(--mute);font-size:17px;max-width:620px}
+.head{max-width:760px;margin-bottom:40px}
 
-.pains{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-.pain{display:grid;grid-template-rows:auto 1fr;border-radius:22px;border:1px solid var(--line);overflow:hidden;background:var(--card)}
-.pain .q{padding:20px 22px;background:var(--soft);font-size:17px;line-height:1.45;color:var(--ink)}
-.pain .q:before{content:"“";display:block;height:22px;font-size:44px;line-height:1;color:var(--red);font-family:Georgia,serif}
-.pain .f{display:flex;gap:10px;padding:16px 22px;font-size:15px;color:var(--mute)}
+.pains{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pain{border-radius:22px;border:1px solid var(--line);overflow:hidden;background:#fff;display:flex;flex-direction:column}
+.pain .q{padding:22px 24px 20px;background:var(--soft);font-size:18px;line-height:1.42;font-weight:500;letter-spacing:-.01em;flex:1}
+.pain .q small{display:block;margin-bottom:10px;font-size:12px;font-weight:600;color:var(--red);letter-spacing:.03em;text-transform:uppercase}
+html[lang=ta] .pain .q small{text-transform:none}
+.pain .f{display:flex;gap:10px;padding:16px 24px 18px;font-size:15px;color:var(--mute)}
 .pain .f svg{flex:none;margin-top:3px;color:var(--ok)}
-.pain .f b{color:var(--ink);font-weight:600}
+.pain .f b{color:var(--ink)}
 
-.perks{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.perk{padding:24px;border-radius:22px;background:var(--soft);border:1px solid var(--line)}
-.perk .n{width:38px;height:38px;border-radius:12px;background:var(--red);color:#fff;display:grid;place-items:center;font-weight:600}
-.perk h3{margin:16px 0 6px;font-size:19px;font-weight:600;letter-spacing:-.02em}
-.perk p{margin:0;color:var(--mute);font-size:15px}
-.perk.hot{background:var(--card);border-color:#E5484D55;box-shadow:0 0 0 4px #E5484D12}
-.perk .tag{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:999px;background:var(--redsoft);color:var(--red);font-size:11px;font-weight:600;vertical-align:middle}
+.areas{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.alist{margin:0;padding:0;list-style:none;display:grid;gap:9px}
+.alist li{display:grid;grid-template-columns:150px 1fr 44px;align-items:center;gap:12px;font-size:15px}
+.alist .barw{height:10px;border-radius:999px;background:var(--tint);overflow:hidden}
+.alist .barw i{display:block;height:100%;border-radius:999px;background:var(--red);transform-origin:left}
+.alist b{text-align:right}
+.areas .note{margin:18px 0 0;font-size:13px;color:var(--mute)}
 
-.faq{max-width:780px}
-.faq details{border:1px solid var(--line);border-radius:16px;padding:0 20px;margin-bottom:10px;background:var(--card)}
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.step{padding:24px;border-radius:22px;background:#fff;border:1px solid var(--line)}
+.step .n{width:36px;height:36px;border-radius:11px;background:var(--red);color:#fff;display:grid;place-items:center;font-weight:600}
+.step h3{margin:16px 0 6px;font-size:19px;font-weight:600;letter-spacing:-.02em}
+.step p{margin:0;color:var(--mute);font-size:15px}
+
+.faq{max-width:800px}
+.faq details{border:1px solid var(--line);border-radius:16px;padding:0 20px;margin-bottom:10px;background:#fff}
 .faq summary{list-style:none;cursor:pointer;padding:17px 0;font-weight:500;display:flex;justify-content:space-between;gap:12px}
 .faq summary::-webkit-details-marker{display:none}
 .faq summary:after{content:"+";font-size:20px;line-height:1;color:var(--mute);transition:transform .25s}
 .faq details[open] summary:after{transform:rotate(45deg)}
 .faq details p{margin:0 0 18px;color:var(--mute)}
 
-.final{margin:0 auto 70px;padding:56px 28px;border-radius:32px;background:#241A1C;color:#fff;text-align:center}
-.final h2{color:#fff;max-width:760px;margin-inline:auto}
+.final{margin:0 auto 80px;padding:60px 28px;border-radius:32px;background:#241A1C;color:#fff;text-align:center}
+.final h2{color:#fff;max-width:780px;margin-inline:auto}
 .final p{margin:14px auto 26px;color:#ffffffb0;max-width:560px}
 footer{border-top:1px solid var(--line);padding:26px 0 calc(26px + env(safe-area-inset-bottom));font-size:13px;color:var(--mute)}
 footer .wrap{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
 footer a{text-decoration:none}
 
-/* sticky mobile CTA */
 .stick{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:40;display:none;transform:translateY(140%);transition:transform .35s var(--ease)}
 .stick .btn{width:100%}
 .stick.on{transform:none}
-
-.rv{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
 .rv.in{opacity:1;transform:none}
 
 @media (max-width:900px){
-  .hgrid{grid-template-columns:1fr;gap:40px}
-  .phone{width:min(300px,82%)}
-  .perks{grid-template-columns:1fr}
+  .hero{align-items:flex-start;padding:80px 0 64px;min-height:auto}
+  .hcopy{max-width:none}
+  .proof .bar{grid-template-columns:1fr 1fr}
+  .proof .bar div:nth-child(3){border-left:0}
+  .proof .bar div:nth-child(n+3){border-top:1px solid var(--line)}
+  .pains{grid-template-columns:1fr}
+  .areas{grid-template-columns:1fr;gap:28px}
+  .how{grid-template-columns:1fr}
 }
 @media (max-width:640px){
   .wrap{width:calc(100% - 28px)}
   nav .wrap{height:56px}
   .navmap{display:none}
-  .hero{padding:22px 0 50px}
-  h1{margin-top:14px;font-size:36px}
-  html[lang=ta] h1{font-size:31px}
+  .fade{background:#ffffffc9}
+  h1{margin-top:14px;font-size:38px}
+  html[lang=ta] h1{font-size:29px}
   .lede{font-size:16px;margin-top:12px}
-  .formcard{margin-top:18px;padding:16px;border-radius:20px}
+  .formcard{padding:16px;border-radius:20px}
   .fgrid{grid-template-columns:1fr;gap:9px}
-  .fld input,.fld select,.fld .wa{height:46px}
-  .offer{font-size:13px;margin-bottom:12px;padding:9px 11px}
-  .eyebrow{font-size:12px}
-  .formcard .btn{margin-top:12px}
-  .pains{grid-template-columns:1fr}
+  .fld input,.fld select,.fld .ph{height:46px}
+  .pin{width:30px;height:30px}.pin img{width:18px;height:18px}
+  .pain .q{font-size:16.5px}
+  .alist li{grid-template-columns:118px 1fr 34px;font-size:14px}
   .proof b{font-size:24px}
-  section{padding:60px 0}
+  section{padding:64px 0}
   .stick{display:block}
   .final{margin-bottom:96px;padding:44px 20px;border-radius:26px}
 }
@@ -210,78 +210,83 @@ footer a{text-decoration:none}
 <nav id="nav"><div class="wrap">
   <a class="logo" href="../"><i></i>Soli Maps</a>
   <div class="sp"></div>
-  <a class="navmap" href="../map.html" data-t="navMap">See the live map</a>
+  <a class="navmap" href="../map.html" data-t="navMap">Open the live map</a>
   <div class="seg" role="group" aria-label="Language"><button type="button" id="l-en" aria-pressed="true">English</button><button type="button" id="l-ta" aria-pressed="false">தமிழ்</button></div>
 </div></nav>
 
-<header class="hero"><div class="wrap hgrid">
-  <div>
-    <span class="eyebrow"><b data-t="eyeTag">Early access</b><span class="dot"></span><span data-t="eyebrow">First 500 get WhatsApp job alerts</span></span>
-    <h1 data-th="h1">Stop finding jobs<br><em>after they're gone.</em></h1>
-    <p class="lede" data-th="lede">Get a WhatsApp alert the morning a company near you posts your role. <b>Straight from the company.</b> No consultancies, no fees, no 2‑hour commute.</p>
+<header class="hero">
+  <div id="bgmap" aria-hidden="true"></div>
+  <div class="fade"></div>
+  <div class="wrap"><div class="hcopy">
+    <span class="eyebrow"><b data-t="eyeTag">Early access</b><span class="live"></span><span data-t="eyebrow">500 spots · Chennai only</span></span>
+    <h1 data-th="h1">Chennai is hiring.<br><em>Just not where you're looking.</em></h1>
+    <p class="lede" id="lede"></p>
 
     <div class="formcard" id="join">
-      <div class="offer"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z" fill="currentColor"/></svg><span data-th="offer"><b>Early-access perk:</b> WhatsApp alerts for your area and role, before we open Soli Maps alerts to everyone.</span></div>
+      <div class="offer"><div class="wa"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></div><div><b data-t="offerH">Early access: WhatsApp job alerts</b><span data-t="offerS">For your area, the morning it's posted.</span></div></div>
       <form id="wf" novalidate>
         <div class="fgrid">
           <div class="fld full"><label for="em" data-t="lEmail">Email</label><input id="em" type="email" autocomplete="email" inputmode="email" required placeholder="you@gmail.com"></div>
           <div class="fld"><label for="ar" data-t="lArea">Where do you want to work?</label><select id="ar" required></select></div>
           <div class="fld"><label for="ro" data-t="lRole">Your role</label><select id="ro" required></select></div>
-          <div class="fld full"><label for="wa" data-th="lWa">WhatsApp number <small>(for alerts, optional)</small></label><div class="wa"><span>+91</span><input id="wa" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="17" placeholder="98765 43210"></div></div>
+          <div class="fld full"><label for="wa" data-th="lWa">WhatsApp number <small>(for alerts, optional)</small></label><div class="ph"><span>+91</span><input id="wa" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="17" placeholder="98765 43210"></div></div>
         </div>
-        <button class="btn" type="submit" id="go"><span data-t="cta">Join the waitlist</span><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="btn" type="submit" id="go"><span data-t="cta">Get early access</span><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <p class="fmsg" id="fmsg" role="alert"></p>
-        <p class="fnote" data-t="fnote">Free. No spam. We never share your number.</p>
+        <p class="fnote" data-t="fnote">Free. No spam. Your number is never shared.</p>
       </form>
       <div class="done" id="done">
         <div class="tick"><svg width="26" height="26" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <h3 id="doneH">You're in.</h3>
-        <p id="doneP">We'll turn on your alerts in the order people joined. Meanwhile, the live map is open.</p>
+        <p id="doneP"></p>
         <div class="row">
           <a class="btn" id="share" target="_blank" rel="noopener"><span data-t="share">Send to a friend on WhatsApp</span></a>
-          <a class="btn ghost" href="../map.html" data-t="seeMap">See the live map</a>
+          <a class="btn ghost" href="../map.html" data-t="seeMap">Open the live map</a>
         </div>
       </div>
     </div>
-  </div>
+  </div></div>
+</header>
 
-  <div>
-    <div class="phone" aria-hidden="true"><div class="screen">
-      <div class="clock"><b>8:02</b><span id="pday">Monday</span></div>
-      <div class="feed" id="feed"></div>
-    </div></div>
-    <p class="cap" data-t="cap">What your mornings look like: real openings from the map, as alerts.</p>
+<div class="proof"><div class="wrap">
+  <div class="bar">
+    <div><b data-count="jobs">–</b><span data-t="pJobs">company openings live now</span></div>
+    <div><b data-count="hiring">–</b><span data-t="pHiring">Chennai companies hiring</span></div>
+    <div><b data-count="fresh">–</b><span data-t="pFresh">posted in the last 7 days</span></div>
+    <div><b>₹0</b><span data-t="pFree">to join, search or apply</span></div>
   </div>
-</div></header>
-
-<div class="proof">
-  <div class="wrap"><ul>
-    <li><b data-count="jobs">–</b><span data-t="pJobs">company openings live now</span></li>
-    <li><b data-count="hiring">–</b><span data-t="pHiring">Chennai companies hiring</span></li>
-    <li><b>₹0</b><span data-t="pFree">to join, search or apply</span></li>
-  </ul></div>
   <div class="mq"><ul id="mq"></ul></div>
-</div>
+</div></div>
 
 <section><div class="wrap">
-  <div class="head rv"><p class="kick" data-t="painK">Sound familiar?</p><h2 data-t="painH">Job hunting in Chennai is broken in four very specific ways.</h2></div>
+  <div class="head rv"><p class="kick" data-t="painK">Job hunting in Chennai</p><h2 data-t="painH">You've lived at least one of these.</h2></div>
   <div class="pains" id="pains"></div>
 </div></section>
 
-<section style="background:var(--soft);border-block:1px solid var(--line)"><div class="wrap">
-  <div class="head rv"><p class="kick" data-t="perkK">What early access gets you</p><h2 data-t="perkH">Be first in line, not 400th.</h2><p class="sub" data-t="perkS">The map is already live and free. The waitlist gets the next things first.</p></div>
-  <div class="perks" id="perks"></div>
+<section style="background:var(--soft);border-block:1px solid var(--line)"><div class="wrap areas">
+  <div class="rv">
+    <p class="kick" data-t="areaK">Live from the map</p>
+    <h2 data-t="areaH">Where Chennai is hiring right now</h2>
+    <p class="sub" data-t="areaS">Openings by office location, read from company careers pages. This is what your alerts are built on.</p>
+    <a class="btn ghost" href="../map.html" style="margin-top:24px" data-t="navMap">Open the live map</a>
+  </div>
+  <div class="rv"><ul class="alist" id="alist"></ul><p class="note" id="anote"></p></div>
 </div></section>
 
 <section><div class="wrap">
+  <div class="head rv"><p class="kick" data-t="howK">How early access works</p><h2 data-t="howH">Tell us where. We'll tell you when.</h2></div>
+  <div class="how" id="how"></div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
   <div class="head rv"><p class="kick" data-t="faqK">Questions</p><h2 data-t="faqH">Before you join</h2></div>
   <div class="faq" id="faq"></div>
 </div></section>
 
 <div class="wrap"><div class="final rv">
-  <h2 data-t="finH">The right job might be 20 minutes from home. Be the first to know when it opens.</h2>
-  <p data-t="finP">Join free. WhatsApp alerts for your area and role, straight from the company.</p>
-  <a class="btn" href="#join" data-t="cta">Join the waitlist</a>
+  <h2 data-t="finH">The next opening near you goes up on a company's careers page. Be the first to know.</h2>
+  <p data-t="finP">Free. WhatsApp alerts for your area and role. 500 early-access spots.</p>
+  <a class="btn" href="#join" data-t="cta">Get early access</a>
 </div></div>
 
 <footer><div class="wrap">
@@ -291,9 +296,10 @@ footer a{text-decoration:none}
   <a href="../" data-t="fHome">Home</a><a href="../map.html" data-t="fMap">Map</a><a href="../privacy.html" data-t="fPriv">Privacy</a>
 </div></footer>
 
-<div class="stick" id="stick"><a class="btn" href="#join" data-t="cta">Join the waitlist</a></div>
+<div class="stick" id="stick"><a class="btn" href="#join" data-t="cta">Get early access</a></div>
 
 <script src="../auth/config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script>
 {
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
@@ -324,104 +330,101 @@ const ROLES=[
 
 const T={
 en:{
- navMap:'See the live map',eyeTag:'Early access',eyebrow:'First 500 get WhatsApp job alerts',
- h1:"Stop finding jobs<br><em>after they're gone.</em>",
- lede:'Get a WhatsApp alert the morning a company near you posts your role. <b>Straight from the company.</b> No consultancies, no fees, no 2‑hour commute.',
- offer:'<b>Early-access perk:</b> WhatsApp alerts for your area and role, before we open alerts to everyone.',
+ navMap:'Open the live map',eyeTag:'Early access',eyebrow:'500 spots · Chennai only',
+ h1:"Chennai is hiring.<br><em>Just not where you're looking.</em>",
+ lede:'<b>{jobs} openings at {hiring} Chennai companies</b> right now, including {names}. Many only post on their own careers page. We pin each one on its real office and WhatsApp you the morning one opens near you.',
+ lede0:'Many Chennai companies only post on their own careers page. We pin each opening on its real office and WhatsApp you the morning one opens near you.',
+ offerH:'Early access: WhatsApp job alerts',offerS:"For your area, the morning it's posted.",
  lEmail:'Email',lArea:'Where do you want to work?',lRole:'Your role',lWa:'WhatsApp number <small>(for alerts, optional)</small>',
  pickArea:'Pick an area',pickRole:'Pick a role',
- cta:'Join the waitlist',fnote:'Free. No spam. We never share your number.',
+ cta:'Get early access',fnote:'Free. No spam. Your number is never shared.',
  eMail:'Please enter a valid email.',eArea:'Pick where you want to work.',eRole:'Pick your role.',eWa:'That WhatsApp number looks off. Use a 10-digit Indian mobile, or leave it empty.',
  eOff:'The waitlist opens in a few hours. Please check back soon.',eFail:"That didn't go through. Please try again.",sending:'Joining…',
  doneH:"You're in.",doneHn:"You're #{n} on the Chennai list.",
- doneP:"We'll turn on alerts in the order people joined. Meanwhile, the live map is open.",
- donePwa:"We'll WhatsApp you on +91 {w} when alerts start, in the order people joined. Meanwhile, the live map is open.",
- share:'Send to a friend on WhatsApp',seeMap:'See the live map',
- shareText:"Found this for Chennai jobs: real openings straight from companies, on a map, with WhatsApp alerts for your area. Join the early-access list:",
- cap:'What your mornings look like: real openings from the map, as alerts.',
- nApp:'Soli Maps',nNow:'now',nMin:'{n}m ago',nNew:'New in {a}',nDirect:'apply on company site',
- days:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
- pJobs:'company openings live now',pHiring:'Chennai companies hiring',pFree:'to join, search or apply',
- painK:'Sound familiar?',painH:'Job hunting in Chennai is broken in four very specific ways.',
+ doneP:"Alerts switch on in the order people joined. Till then, the live map is open.",
+ donePwa:"We'll WhatsApp +91 {w} when your alerts switch on, in the order people joined. Till then, the live map is open.",
+ share:'Send to a friend on WhatsApp',seeMap:'Open the live map',
+ shareText:"Job hunting in Chennai? This map shows company openings on their real office, straight from the company. No consultancy, no fee. Early access gets WhatsApp alerts for your area:",
+ pJobs:'company openings live now',pHiring:'Chennai companies hiring',pFresh:'posted in the last 7 days',pFree:'to join, search or apply',
+ painK:'Job hunting in Chennai',painH:"You've lived at least one of these.",
  pains:[
-  ['You apply, wait two weeks, then find out the job closed a month ago.','<b>Checked every morning.</b> When a company takes a job down, it leaves the map the next day.'],
-  ["The post said “Chennai”. The office is in Siruseri. That's 4 hours a day on the road.",'<b>Every job is pinned on its real office.</b> Pick your area first, see only what you can actually reach.'],
-  ['Half the listings are consultancies collecting CVs or asking for a “registration fee”.',"<b>Only openings from the company's own careers page.</b> If the company didn't post it, it's not here."],
-  ['By the time you spot a good opening, hundreds have already applied.','<b>A WhatsApp ping the morning it goes up</b>, for your area and role. You apply on day one.']
+  ['The commute surprise','The portal said “Chennai”. The interview was in Sriperumbudur. That’s 2 hours each way from Velachery, every single day.','<b>Every opening sits on its real office.</b> Pick Velachery and you see what’s actually near Velachery.'],
+  ['The consultancy fee','A consultancy in T Nagar wants a “registration fee” before they’ll even tell you the company’s name.','<b>Every opening links to the company’s own careers page.</b> Nobody in the middle. You never pay anyone.'],
+  ['Found out too late','A senior posts about a {co1} opening on LinkedIn. By the time you apply, it closed three days ago.','<b>A WhatsApp the morning it’s posted.</b> You apply on day one, not day ten.']
  ],
- perkK:'What early access gets you',perkH:'Be first in line, not 400th.',perkS:'The map is already live and free. The waitlist gets the next things first.',
- perks:[
-  ['WhatsApp job alerts','A message the morning a company in your area posts your role, with the direct apply link.',1],
-  ['Alerts that match your commute','Tell us where you live and how far you will travel. We only ping you about offices you can reach.',0],
-  ['First look at new features',"Saved companies, “who's hiring near me” digests and more, before anyone else.",0]
+ areaK:'Live from the map',areaH:'Where Chennai is hiring right now',areaS:'Openings by office location, read from company careers pages. This is what your alerts are built on.',
+ anote:'Updated {d}. {x} more openings don’t name an office yet.',updToday:'this morning',
+ howK:'How early access works',howH:"Tell us where. We'll tell you when.",
+ how:[
+  ['Pick your area and role','OMR, Guindy, Ambattur, Sriperumbudur… and tech, marketing, ops, design or whatever you do.'],
+  ['We read careers pages every morning','Zoho, Freshworks, Chargebee, IIT-M Research Park startups and more, straight from the source. Closed jobs drop off the next day.'],
+  ['You get a WhatsApp','The morning a company near you opens your role: title, office and the direct apply link.']
  ],
- hot:'the big one',
  faqK:'Questions',faqH:'Before you join',
  faq:[
-  ['Is it free?','Yes. Joining, searching and applying are free for job seekers. Apply links go straight to the company.'],
-  ['When do WhatsApp alerts start?',"We're switching them on for the waitlist first, in the order people joined. Add your number now so you're in line."],
-  ["Do I have to share my WhatsApp number?","No. Email is enough to join. Add your number only if you want the alerts on WhatsApp."],
-  ['What do you do with my details?','We use your email, area, role and number only to send you job alerts and launch updates. Never sold, never shared. Ask us and we delete everything.'],
-  ['Who is this for?','Freshers and people with 1–5 years of experience looking for a job in Chennai: tech, marketing, ops, design, finance, core engineering and more.'],
-  ['Can I use the map now?','Yes. The live map is open today with real openings from Chennai companies. The waitlist is for alerts and what comes next.']
+  ['Is it free?','Yes. Joining, searching and applying are free for job seekers, and apply links go straight to the company.'],
+  ['When do WhatsApp alerts start?',"We switch them on for the early-access list first, in the order people joined. Add your number now to be in line."],
+  ["Do I have to share my WhatsApp number?","No. Email is enough to join. Add your number only if you want alerts on WhatsApp."],
+  ['What do you do with my details?','We use your email, area, role and number only for job alerts and launch updates. Never sold, never shared with recruiters. Ask and we delete everything.'],
+  ['Who is this for?','Freshers and people with 1–5 years of experience looking for a job in Chennai.'],
+  ['Can I use the map now?','Yes. The live map is open today. Early access is for alerts and what comes next.']
  ],
- finH:'The right job might be 20 minutes from home. Be the first to know when it opens.',
- finP:'Join free. WhatsApp alerts for your area and role, straight from the company.',
+ finH:"The next opening near you goes up on a company's careers page. Be the first to know.",
+ finP:'Free. WhatsApp alerts for your area and role. 500 early-access spots.',
  made:'Made in Chennai',fHome:'Home',fMap:'Map',fPriv:'Privacy'
 },
 ta:{
- navMap:'Live map பாருங்க',eyeTag:'Early access',eyebrow:'முதல் 500 பேருக்கு WhatsApp alerts',
- h1:'Job போனப்புறம் தெரிஞ்சு<br><em>என்ன பயன்?</em>',
- lede:'உங்க பக்கத்துல ஒரு company உங்க role-க்கு post போட்ட அன்னைக்கே காலையில WhatsApp alert. <b>Company-கிட்ட இருந்து நேரடியா.</b> Consultancy இல்ல, fee இல்ல, 2 மணி நேர travel இல்ல.',
- offer:'<b>Early access perk:</b> எல்லாருக்கும் open பண்றதுக்கு முன்னாடியே, உங்க area, உங்க role-க்கு WhatsApp alerts.',
+ navMap:'Live map-ஐ open பண்ணு',eyeTag:'Early access',eyebrow:'500 spots · சென்னை மட்டும்',
+ h1:'சென்னையில jobs இருக்கு.<br><em>நீங்க தேடுற இடத்துல இல்ல.</em>',
+ lede:'இப்போ <b>{hiring} சென்னை companies-ல {jobs} openings</b>, {names} உட்பட. நிறைய companies தங்களோட careers page-ல மட்டும் தான் post பண்றாங்க. ஒவ்வொன்றையும் அவங்க real office மேல pin பண்றோம். உங்க பக்கத்துல ஒண்ணு open ஆன அன்னைக்கே காலையில WhatsApp பண்றோம்.',
+ lede0:'நிறைய சென்னை companies தங்களோட careers page-ல மட்டும் தான் post பண்றாங்க. ஒவ்வொரு opening-ஐயும் real office மேல pin பண்ணி, உங்க பக்கத்துல ஒண்ணு open ஆன அன்னைக்கே காலையில WhatsApp பண்றோம்.',
+ offerH:'Early access: WhatsApp job alerts',offerS:'உங்க area-க்கு, post ஆன அன்னைக்கே காலையில.',
  lEmail:'Email',lArea:'எங்க வேலை பார்க்கணும்?',lRole:'உங்க role',lWa:'WhatsApp number <small>(alerts-க்கு, விருப்பம் இருந்தா)</small>',
  pickArea:'Area select பண்ணுங்க',pickRole:'Role select பண்ணுங்க',
- cta:'Waitlist-ல சேருங்க',fnote:'Free. Spam இல்ல. உங்க number-ஐ யாருக்கும் தர மாட்டோம்.',
+ cta:'Early access வேணும்',fnote:'Free. Spam இல்ல. உங்க number யாருக்கும் போகாது.',
  eMail:'சரியான email போடுங்க.',eArea:'எங்க வேலை பார்க்கணும்னு select பண்ணுங்க.',eRole:'உங்க role-ஐ select பண்ணுங்க.',eWa:'WhatsApp number சரியா இல்ல. 10 digit mobile number போடுங்க, இல்ல காலியா விடுங்க.',
- eOff:'Waitlist இன்னும் கொஞ்ச நேரத்துல open ஆகும். கொஞ்சம் கழிச்சு வாங்க.',eFail:'Send ஆகல. திரும்ப try பண்ணுங்க.',sending:'சேர்க்கறோம்…',
+ eOff:'Waitlist இன்னும் கொஞ்ச நேரத்துல open ஆகும்.',eFail:'Send ஆகல. திரும்ப try பண்ணுங்க.',sending:'சேர்க்கறோம்…',
  doneH:'நீங்க list-ல இருக்கீங்க.',doneHn:'சென்னை list-ல நீங்க #{n}.',
- doneP:'சேர்ந்த order-ல alerts on பண்ணுவோம். அதுவரைக்கும் live map open-ஆ இருக்கு.',
- donePwa:'Alerts ஆரம்பிச்சதும் +91 {w}-க்கு WhatsApp பண்ணுவோம், சேர்ந்த order-ல. அதுவரைக்கும் live map open-ஆ இருக்கு.',
- share:'Friend-க்கு WhatsApp-ல அனுப்பு',seeMap:'Live map பாருங்க',
- shareText:'சென்னை jobs-க்கு இது பாரு: company-கிட்ட இருந்து நேரடியா real openings, map-ல, உன் area-க்கு WhatsApp alerts. Early access list-ல சேரு:',
- cap:'உங்க காலை இப்படி இருக்கும்: map-ல இருக்கற real openings, alert-ஆ.',
- nApp:'Soli Maps',nNow:'இப்போ',nMin:'{n} நிமிஷம் முன்னாடி',nNew:'{a}-ல புதுசு',nDirect:'company site-லயே apply',
- days:['ஞாயிறு','திங்கள்','செவ்வாய்','புதன்','வியாழன்','வெள்ளி','சனி'],
- pJobs:'company openings இப்போ live',pHiring:'சென்னை companies hire பண்றாங்க',pFree:'சேர, தேட, apply பண்ண',
- painK:'இது உங்களுக்கும் நடந்திருக்கா?',painH:'சென்னையில job தேடுறதுல நாலு பெரிய பிரச்சனை.',
+ doneP:'சேர்ந்த order-ல alerts on ஆகும். அதுவரைக்கும் live map open-ஆ இருக்கு.',
+ donePwa:'உங்க alerts on ஆனதும் +91 {w}-க்கு WhatsApp பண்றோம், சேர்ந்த order-ல. அதுவரைக்கும் live map open-ஆ இருக்கு.',
+ share:'Friend-க்கு WhatsApp-ல அனுப்பு',seeMap:'Live map-ஐ open பண்ணு',
+ shareText:'சென்னையில job தேடுறியா? இந்த map-ல company openings அவங்க real office மேல இருக்கு, company-கிட்ட இருந்து நேரடியா. Consultancy இல்ல, fee இல்ல. Early access-ல உன் area-க்கு WhatsApp alerts:',
+ pJobs:'company openings இப்போ live',pHiring:'சென்னை companies hire பண்றாங்க',pFresh:'கடந்த 7 நாள்ல post ஆனது',pFree:'சேர, தேட, apply பண்ண',
+ painK:'சென்னையில job தேடுறது',painH:'இதுல ஒண்ணாவது உங்களுக்கு நடந்திருக்கும்.',
  pains:[
-  ['Apply பண்ணி ரெண்டு வாரம் wait பண்ணா, அந்த job ஒரு மாசத்துக்கு முன்னாடியே close ஆயிடுச்சுன்னு தெரியுது.','<b>தினமும் காலையில check.</b> Company ஒரு job-ஐ எடுத்துட்டா, மறுநாளே map-ல இருந்து போயிடும்.'],
-  ['Post-ல “Chennai”-னு போட்டிருந்தாங்க. Office Siruseri-ல. தினமும் 4 மணி நேரம் road-லயே.','<b>ஒவ்வொரு job-உம் அதோட real office மேல pin.</b> முதல்ல உங்க area-வை select பண்ணுங்க, போக முடியறது மட்டும் பாருங்க.'],
-  ['பாதி listings consultancy தான். CV வாங்குவாங்க, இல்ல “registration fee” கேப்பாங்க.','<b>Company-யோட சொந்த careers page-ல இருக்கற openings மட்டும்.</b> Company post பண்ணலைன்னா, அது இங்க இருக்காது.'],
-  ['நல்ல job-ஐ பார்க்கறதுக்குள்ள நூறு பேர் apply பண்ணிடறாங்க.','<b>Post ஆன அன்னைக்கு காலையிலேயே WhatsApp ping</b>, உங்க area, உங்க role-க்கு. முதல் நாளே apply பண்ணுங்க.']
+  ['Travel surprise','Portal-ல “Chennai”-னு போட்டிருந்தாங்க. Interview Sriperumbudur-ல. Velachery-ல இருந்து போக 2 மணி நேரம், வர 2 மணி நேரம், தினமும்.','<b>ஒவ்வொரு opening-உம் அதோட real office மேல.</b> Velachery select பண்ணா, Velachery பக்கத்துல இருக்கறது மட்டும் தெரியும்.'],
+  ['Consultancy fee','T Nagar consultancy ஒண்ணு, company பேரை சொல்றதுக்கு முன்னாடியே “registration fee” கேக்குது.','<b>ஒவ்வொரு opening-உம் company-யோட சொந்த careers page-க்கு போகும்.</b> நடுவுல யாரும் இல்ல. யாருக்கும் காசு கட்ட வேண்டாம்.'],
+  ['லேட்டா தெரியறது','LinkedIn-ல ஒரு senior {co1} opening பத்தி போடறாரு. நீங்க apply பண்றதுக்குள்ள மூணு நாள் முன்னாடியே close ஆயிடுச்சு.','<b>Post ஆன அன்னைக்கே காலையில WhatsApp.</b> பத்தாவது நாள் இல்ல, முதல் நாளே apply.']
  ],
- perkK:'Early access-ல என்ன கிடைக்கும்',perkH:'400-வது ஆளா இல்ல, முதல் ஆளா இருங்க.',perkS:'Map ஏற்கனவே live, free. அடுத்து வர்றது எல்லாம் waitlist-க்கு முதல்ல.',
- perks:[
-  ['WhatsApp job alerts','உங்க area-ல ஒரு company உங்க role-க்கு post பண்ண அன்னைக்கு காலையிலேயே message, நேரடி apply link-ஓட.',1],
-  ['உங்க travel-க்கு ஏத்த alerts','எங்க இருக்கீங்க, எவ்ளோ தூரம் போவீங்கன்னு சொல்லுங்க. போக முடியற office-க்கு மட்டும் alert.',0],
-  ['புது features முதல்ல உங்களுக்கு','Save பண்ண companies, “என் பக்கத்துல யார் hire பண்றாங்க” digest, இன்னும் நிறைய, எல்லாருக்கும் முன்னாடி.',0]
+ areaK:'Map-ல இருந்து live',areaH:'சென்னையில இப்போ எங்க hire பண்றாங்க',areaS:'Office location வாரியா openings, company careers pages-ல இருந்து. உங்க alerts இதை வெச்சு தான் வரும்.',
+ anote:'{d} update ஆச்சு. இன்னும் {x} openings-ல office பேர் இல்ல.',updToday:'இன்னைக்கு காலையில',
+ howK:'Early access எப்படி work ஆகுது',howH:'எங்கன்னு சொல்லுங்க. எப்போன்னு நாங்க சொல்றோம்.',
+ how:[
+  ['Area, role select பண்ணுங்க','OMR, Guindy, Ambattur, Sriperumbudur… tech, marketing, ops, design, நீங்க என்ன பண்றீங்களோ அது.'],
+  ['தினமும் காலையில careers pages படிக்கறோம்','Zoho, Freshworks, Chargebee, IIT-M Research Park startups, இன்னும் நிறைய, நேரடியா. Close ஆன job மறுநாளே போயிடும்.'],
+  ['உங்களுக்கு WhatsApp வரும்','உங்க பக்கத்துல ஒரு company உங்க role-ஐ open பண்ண அன்னைக்கே காலையில: title, office, நேரடி apply link.']
  ],
- hot:'முக்கியமானது',
  faqK:'Doubts',faqH:'சேர்றதுக்கு முன்னாடி',
  faq:[
-  ['இது free-ஆ?','ஆமா. சேர, தேட, apply பண்ண எல்லாமே job தேடுறவங்களுக்கு free. Apply link நேரா company-க்கு தான் போகும்.'],
-  ['WhatsApp alerts எப்போ ஆரம்பிக்கும்?','முதல்ல waitlist-ல இருக்கறவங்களுக்கு, சேர்ந்த order-ல on பண்றோம். இப்பவே number போட்டா line-ல முன்னாடி இருப்பீங்க.'],
+  ['இது free-ஆ?','ஆமா. சேர, தேட, apply பண்ண எல்லாமே free. Apply link நேரா company-க்கு தான் போகும்.'],
+  ['WhatsApp alerts எப்போ ஆரம்பிக்கும்?','முதல்ல early access list-க்கு, சேர்ந்த order-ல on பண்றோம். இப்பவே number போட்டா line-ல முன்னாடி இருப்பீங்க.'],
   ['WhatsApp number கண்டிப்பா தரணுமா?','இல்ல. சேர email போதும். WhatsApp-ல alerts வேணும்னா மட்டும் number போடுங்க.'],
-  ['என் details-ஐ என்ன பண்ணுவீங்க?','உங்க email, area, role, number எல்லாம் job alerts, launch updates அனுப்ப மட்டும் தான். யாருக்கும் விக்க மாட்டோம், தர மாட்டோம். சொன்னா எல்லாத்தையும் delete பண்ணிடுவோம்.'],
-  ['இது யாருக்கு?','சென்னையில job தேடுற freshers, 1–5 வருஷ experience இருக்கறவங்களுக்கு: tech, marketing, ops, design, finance, core engineering, இன்னும் நிறைய.'],
-  ['இப்பவே map use பண்ணலாமா?','ஆமா. சென்னை companies-ஓட real openings-ஓட live map இன்னைக்கே open. Waitlist alerts-க்கும் அடுத்து வர்றதுக்கும் தான்.']
+  ['என் details-ஐ என்ன பண்ணுவீங்க?','Email, area, role, number எல்லாம் job alerts, launch updates-க்கு மட்டும். யாருக்கும் விக்க மாட்டோம், recruiters-க்கு தர மாட்டோம். சொன்னா எல்லாத்தையும் delete பண்ணிடுவோம்.'],
+  ['இது யாருக்கு?','சென்னையில job தேடுற freshers, 1–5 வருஷ experience இருக்கறவங்க.'],
+  ['இப்பவே map use பண்ணலாமா?','ஆமா. Live map இன்னைக்கே open. Early access alerts-க்கும் அடுத்து வர்றதுக்கும் தான்.']
  ],
- finH:'சரியான job உங்க வீட்டுல இருந்து 20 நிமிஷத்துல இருக்கலாம். Open ஆனதும் முதல்ல உங்களுக்கு தெரியட்டும்.',
- finP:'Free-ஆ சேருங்க. உங்க area, role-க்கு WhatsApp alerts, company-கிட்ட இருந்து நேரடியா.',
+ finH:'உங்க பக்கத்துல அடுத்த opening ஒரு company careers page-ல வரும். முதல்ல உங்களுக்கு தெரியட்டும்.',
+ finP:'Free. உங்க area, role-க்கு WhatsApp alerts. 500 early access spots.',
  made:'சென்னையில செஞ்சது',fHome:'Home',fMap:'Map',fPriv:'Privacy'
 }};
 const t=k=>T[lang][k]??T.en[k];
+const fmt=(s,v)=>String(s).replace(/\{(\w+)\}/g,(m,k)=>v[k]!==undefined?v[k]:m);
 const tick='<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
 /* ---------- data from the live map ---------- */
-const S={jobs:[],logos:{},alerts:[],hiring:0};
-const LOC=['Perungudi','Taramani','Guindy','Sholinganallur','Siruseri','Velachery','Thoraipakkam','Karapakkam','Navalur','Kelambakkam','Okkiyam','Kandanchavadi','Ambattur','Porur','Nungambakkam','Teynampet','Alwarpet','Mylapore','T Nagar','Anna Nagar','Egmore','Adyar','Thiruvanmiyur','Kottivakkam','Tambaram','Pallavaram','Chromepet','Vadapalani','Kodambakkam','Ekkattuthangal','Saidapet','Royapettah','Chengalpattu','Sriperumbudur','Oragadam','Mount Road','Padi','Koyambedu','Pallikaranai','IIT Madras'];
-const place=a=>{if(!a)return'';const o=a.office||'';const hit=LOC.find(l=>o.toLowerCase().includes(l.toLowerCase()));if(hit)return hit;if(/GST Road|Vallancheri|Potheri/i.test(o))return'GST Road';return a.co?'':(a.en||'')};
+const S={jobs:[],logos:{},cos:[],byPlace:[],unnamed:0,updated:'',ready:false};
+const LOC=['Perungudi','Taramani','Guindy','Sholinganallur','Siruseri','Velachery','Thoraipakkam','Karapakkam','Navalur','Kelambakkam','Okkiyam','Kandanchavadi','Ambattur','Porur','Nungambakkam','Teynampet','Alwarpet','Mylapore','T Nagar','Anna Nagar','Egmore','Adyar','Thiruvanmiyur','Kottivakkam','Tambaram','Pallavaram','Chromepet','Vadapalani','Kodambakkam','Ekkattuthangal','Saidapet','Royapettah','Chengalpattu','Sriperumbudur','Oragadam','Mount Road','Padi','Koyambedu','Pallikaranai','Guduvanchery','Mahindra World City'];
+const place=a=>{if(!a)return'';const o=a.office||'';const hit=LOC.find(l=>o.toLowerCase().includes(l.toLowerCase()));if(hit)return hit;if(/IIT Madras|IITM/i.test(o))return'IIT Madras';if(/GST Road|Vallancheri|Potheri/i.test(o))return'GST Road';return''};
 const asset=u=>/^https?:/.test(u)?u:'../'+u;
 const getJSON=u=>fetch(u,{cache:'no-cache'}).then(r=>{if(!r.ok)throw r.status;return r.json()});
 const ageDays=d=>Math.floor((Date.now()-new Date(d+'T00:00:00+05:30'))/864e5);
@@ -431,63 +434,105 @@ const logo=n=>S.logos[n]?`<img src="${esc(asset(S.logos[n]))}" alt="" loading="l
 Promise.all([getJSON('../feeds.json').catch(()=>null),getJSON('../jobs.json').catch(()=>null)]).then(([f,b])=>{
   const areas={...((b&&b.areas)||{}),...((f&&f.areas)||{})};
   S.logos=(f&&f.logos)||{};
+  S.updated=[f&&f.updated,b&&b.updated].filter(Boolean).sort().pop()||'';
   const max=(b&&b.maxAgeDays)||90,seen=new Set();
   const JUNK=/^(explore|view|see|browse|search|join)\b.*\b(careers?|jobs|openings|roles|positions)\b|\bjobs in\b|^\d[\d,]*\+?\s.*\bjobs\b|^careers? at\b|^(careers?|jobs|open (positions|roles)|current openings|life at .*)$/i;
   const all=[...((f&&f.jobs)||[]),...((b&&b.jobs)||[])].filter(j=>ageDays(j.d)<=max&&(j.src==='Company careers'||String(j.a||'').startsWith('co_')));
   for(const j of all){if(!j.t||JUNK.test(j.t.trim())||!/^https?:\/\//.test(j.u||''))continue;const k=(j.t+'|'+j.c).toLowerCase();if(seen.has(k))continue;seen.add(k);S.jobs.push({...j,place:place(areas[j.a])})}
-  S.hiring=new Set(S.jobs.map(j=>j.c)).size;
-  // alerts: newest openings, one per company, logos first, with a place name
-  const used=new Set();
-  S.alerts=S.jobs.filter(j=>j.place).sort((x,y)=>y.d.localeCompare(x.d)||(!!S.logos[y.c])-(!!S.logos[x.c])).filter(j=>!used.has(j.c)&&used.add(j.c)).slice(0,8);
-  stats();marquee();feedStart();
+  S.cos=Object.entries(areas).filter(([k,a])=>a.co&&a.lat&&a.lon).map(([k,a])=>({k,name:a.en,lat:a.lat,lon:a.lon,n:S.jobs.filter(j=>j.a===k).length}));
+  const pc={};for(const j of S.jobs){if(j.place)pc[j.place]=(pc[j.place]||0)+1}
+  S.byPlace=Object.entries(pc).sort((a,b)=>b[1]-a[1]);
+  S.unnamed=S.jobs.filter(j=>!j.place).length;
+  S.ready=true;
+  paint();stats();marquee();mapPins();
 }).catch(()=>{});
 
+function live(){
+  const c={};for(const j of S.jobs)c[j.c]=(c[j.c]||0)+1;
+  const top=Object.keys(c).sort((a,b)=>(!!S.logos[b])-(!!S.logos[a])||c[b]-c[a]);
+  return{jobs:S.jobs.length,hiring:top.length,names:top.slice(0,3).join(', '),co1:top[0]||'Freshworks'};
+}
 function stats(){
-  const v={jobs:S.jobs.length,hiring:S.hiring};
-  $$('[data-count]').forEach(el=>{const to=v[el.dataset.count];if(!to)return;
-    if(REDUCE){el.textContent=to;return}
+  const v={jobs:S.jobs.length,hiring:new Set(S.jobs.map(j=>j.c)).size,fresh:S.jobs.filter(j=>ageDays(j.d)<=7).length};
+  $$('[data-count]').forEach(el=>{const to=v[el.dataset.count];if(to==null)return;
+    if(REDUCE||!to){el.textContent=to;return}
     const t0=performance.now();const step=n=>{const k=Math.min(1,(n-t0)/1100);el.textContent=Math.round(to*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(step)};requestAnimationFrame(step)});
 }
 function marquee(){
   const c={};for(const j of S.jobs)c[j.c]=(c[j.c]||0)+1;
-  const cos=Object.keys(c).sort((a,b)=>(!!S.logos[b])-(!!S.logos[a])||c[b]-c[a]).slice(0,24);
-  const li=cos.map(n=>`<li><span>${logo(n)}</span>${esc(n)}</li>`).join('');
+  const cos=Object.keys(c).sort((a,b)=>(!!S.logos[b])-(!!S.logos[a])||c[b]-c[a]);
+  const li=cos.map(n=>`<li><span>${logo(n)}</span>${esc(n)} <small>${c[n]}</small></li>`).join('');
   $('#mq').innerHTML=li+li.replace(/<li>/g,'<li aria-hidden="true">');
 }
 
-/* ---------- phone alerts ---------- */
-let fi=0,ftimer=null;
-function noteHTML(j,i,anim){
-  const when=i===0?t('nNow'):t('nMin').replace('{n}',i*4+2);
-  return `<div class="note${anim?' in':''}"><div class="ic">${logo(j.c)}</div><div class="tx"><div class="hd"><b>${esc(t('nApp'))}</b><span>${esc(when)}</span></div><div class="tt">${esc(j.t)}</div><div class="sb"><i>${esc(t('nNew').replace('{a}',j.place))}</i> · ${esc(j.c)}</div></div></div>`;
+/* ---------- background map: calm, faded, every company pin ---------- */
+let map=null,pins=[];
+const W=['interpolate',['exponential',1.4],['zoom']];
+const ROADS=['motorway','trunk','primary','secondary','tertiary','minor'];
+const STYLE={version:8,glyphs:'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf',
+ sources:{omt:{type:'vector',url:'https://tiles.openfreemap.org/planet'}},
+ layers:[
+  {id:'bg',type:'background',paint:{'background-color':'#F7F1F0'}},
+  {id:'landuse',type:'fill',source:'omt','source-layer':'landuse',paint:{'fill-color':'#F3ECEB'}},
+  {id:'park',type:'fill',source:'omt','source-layer':'park',paint:{'fill-color':'#E8EEE3'}},
+  {id:'water',type:'fill',source:'omt','source-layer':'water',paint:{'fill-color':'#D6E5EC'}},
+  {id:'road-case',type:'line',source:'omt','source-layer':'transportation',minzoom:10,filter:['in',['get','class'],['literal',ROADS]],layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':'#E6D6D4','line-width':[...W,10,['match',['get','class'],['motorway','trunk','primary'],2.8,1.2],15,['match',['get','class'],['motorway','trunk','primary'],14,6]]}},
+  {id:'road',type:'line',source:'omt','source-layer':'transportation',filter:['in',['get','class'],['literal',ROADS]],layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':'#FFFFFF','line-width':[...W,10,['match',['get','class'],['motorway','trunk','primary'],1.8,.6],15,['match',['get','class'],['motorway','trunk','primary'],11,4]]}},
+  {id:'rail',type:'line',source:'omt','source-layer':'transportation',filter:['in',['get','class'],['literal',['rail','transit']]],paint:{'line-color':'#D8C8C6','line-width':1,'line-dasharray':[3,2]}},
+  {id:'place',type:'symbol',source:'omt','source-layer':'place',filter:['in',['get','class'],['literal',['city','town','suburb','neighbourhood','quarter']]],layout:{'text-field':['coalesce',['get','name:en'],['get','name']],'text-font':['Noto Sans Regular'],'text-size':['interpolate',['linear'],['zoom'],10,11,14,13],'text-padding':10},paint:{'text-color':'#9C898B','text-halo-color':'#FBF7F6','text-halo-width':1.4}}
+ ]};
+// whole Chennai belt: Ambattur to Siruseri, Sriperumbudur to the coast
+const BOUNDS=[[79.98,12.80],[80.30,13.16]];
+
+function mapStart(){
+  if(!window.maplibregl)return;
+  try{
+    map=new maplibregl.Map({container:'bgmap',style:STYLE,bounds:BOUNDS,fitBoundsOptions:{padding:20},interactive:false,fadeDuration:0,pixelRatio:Math.min(devicePixelRatio,2),
+      attributionControl:{compact:true,customAttribution:'<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'}});
+  }catch(e){map=null;return}
+  let ok=false,err=0;
+  map.on('sourcedata',e=>{if(e.sourceId==='omt'&&e.tile)ok=true});
+  map.on('error',e=>{if(e.sourceId==='omt'||/openfreemap/.test(String(e.error&&(e.error.url||e.error.message)||''))){if(++err>=3&&!ok)backup()}});
+  setTimeout(()=>{if(!ok)backup()},9000);
+  map.on('load',mapPins);
+  let rt=0;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(map){map.fitBounds(BOUNDS,{padding:20,duration:0});cull()}},200)});
 }
-function feedPaint(anim){
-  const n=S.alerts.length;if(!n)return;
-  const shown=[];for(let k=0;k<Math.min(4,n);k++)shown.push(S.alerts[(fi-k+n*10)%n]);
-  $('#feed').innerHTML=shown.map((j,i)=>noteHTML(j,i,anim&&i===0)).join('');
+function backup(){if(!map||map._bk)return;map._bk=1;map.setStyle({version:8,sources:{osm:{type:'raster',tiles:['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],tileSize:256,maxzoom:19}},layers:[{id:'bg',type:'background',paint:{'background-color':'#F7F1F0'}},{id:'osm',type:'raster',source:'osm',paint:{'raster-saturation':-.7,'raster-contrast':-.15,'raster-brightness-min':.12}}]})}
+function mapPins(){
+  if(!map||!S.ready||pins.length||!map.isStyleLoaded())return;
+  const list=[...S.cos].sort((x,y)=>(y.n>0)-(x.n>0)||(!!S.logos[y.name])-(!!S.logos[x.name])||y.n-x.n);
+  for(const c of list){
+    const el=document.createElement('div');el.className='pin'+(c.n?' hire':'');el.innerHTML=logo(c.name);
+    new maplibregl.Marker({element:el,anchor:'center'}).setLngLat([c.lon,c.lat]).addTo(map);
+    pins.push({c,el});
+  }
+  cull();
 }
-function feedStart(){
-  $('#pday').textContent=t('days')[new Date().getDay()];
-  if(!S.alerts.length)return;
-  fi=0;feedPaint(true);
-  clearInterval(ftimer);if(!REDUCE&&S.alerts.length>1)ftimer=setInterval(()=>{fi=(fi+1)%S.alerts.length;feedPaint(true)},2600);
-}
+// keep the calm look: drop pins that would pile on a more important one
+function cull(){if(!map)return;const shown=[];const r=innerWidth<=640?32:38;
+  for(const p of pins){const pt=map.project([p.c.lon,p.c.lat]);const clash=shown.some(q=>Math.abs(q.x-pt.x)<r&&Math.abs(q.y-pt.y)<r);p.el.classList.toggle('hide',clash);if(!clash)shown.push(pt)}}
 
 /* ---------- text ---------- */
 function opts(sel,list,ph){const v=sel.value;sel.innerHTML=`<option value="" disabled${v?'':' selected'}>${esc(ph)}</option>`+list.map(([k,en,ta])=>`<option value="${k}"${k===v?' selected':''}>${esc(lang==='ta'?ta:en)}</option>`).join('')}
 function paint(){
   document.documentElement.lang=lang;
-  $$('[data-t]').forEach(e=>{const v=t(e.dataset.t);if(typeof v==='string')e.textContent=v});
+  const v=live(),vh={...v,names:esc(v.names),co1:esc(v.co1)};
+  $$('[data-t]').forEach(e=>{const s=t(e.dataset.t);if(typeof s==='string')e.textContent=fmt(s,v)});
   $$('[data-th]').forEach(e=>e.innerHTML=t(e.dataset.th));
+  $('#lede').innerHTML=S.ready&&S.jobs.length?fmt(t('lede'),vh):esc(t('lede0'));
   $('#l-en').setAttribute('aria-pressed',lang==='en');$('#l-ta').setAttribute('aria-pressed',lang==='ta');
   opts($('#ar'),AREAS,t('pickArea'));opts($('#ro'),ROLES,t('pickRole'));
-  $('#pains').innerHTML=t('pains').map(p=>`<div class="pain rv in"><div class="q">${esc(p[0])}</div><div class="f">${tick}<span>${p[1]}</span></div></div>`).join('');
-  $('#perks').innerHTML=t('perks').map((p,i)=>`<div class="perk${p[2]?' hot':''}"><div class="n">${i+1}</div><h3>${esc(p[0])}${p[2]?`<span class="tag">${esc(t('hot'))}</span>`:''}</h3><p>${esc(p[1])}</p></div>`).join('');
+  $('#pains').innerHTML=t('pains').map(p=>`<div class="pain"><div class="q"><small>${esc(p[0])}</small>${esc(fmt(p[1],v))}</div><div class="f">${tick}<span>${fmt(p[2],vh)}</span></div></div>`).join('');
+  $('#how').innerHTML=t('how').map((s,i)=>`<div class="step"><div class="n">${i+1}</div><h3>${esc(s[0])}</h3><p>${esc(s[1])}</p></div>`).join('');
   $('#faq').innerHTML=t('faq').map((q,i)=>`<details${i<2?' open':''}><summary>${esc(q[0])}</summary><p>${esc(q[1])}</p></details>`).join('');
+  if(S.ready){
+    const top=S.byPlace.slice(0,8),mx=top.length?top[0][1]:1;
+    $('#alist').innerHTML=top.map(([p,n])=>`<li><span>${esc(p)}</span><div class="barw"><i style="transform:scaleX(${(n/mx).toFixed(3)})"></i></div><b>${n}</b></li>`).join('');
+    const d=S.updated?(ageDays(S.updated)<=0?t('updToday'):new Date(S.updated+'T00:00:00').toLocaleDateString(lang==='ta'?'ta-IN':'en-IN',{day:'numeric',month:'short'})):'';
+    $('#anote').textContent=S.unnamed?fmt(t('anote'),{d,x:S.unnamed}):'';
+  }
   $('#share').href='https://wa.me/?text='+encodeURIComponent(t('shareText')+' '+location.href.split('?')[0].split('#')[0]+'?utm_source=whatsapp&utm_medium=share&utm_campaign=waitlist');
   if(DONE)doneText();
-  $('#pday').textContent=t('days')[new Date().getDay()];
-  feedPaint(false);
 }
 for(const[id,l]of[['#l-en','en'],['#l-ta','ta']])$(id).addEventListener('click',()=>{lang=l;try{localStorage.setItem('soli-lang',l)}catch(e){}paint()});
 
@@ -525,7 +570,7 @@ $('#wf').addEventListener('submit',async e=>{
     const r=await fetch(SHEET,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'waitlist',email,area,role,whatsapp:wa,lang,...UTM})});
     try{const j=await r.json();if(j&&j.ok===false)throw 0;n=(j&&j.n)||0}catch(x){if(x===0)throw x}
   }catch(err){btn.disabled=false;lbl.textContent=t('cta');m.textContent=t('eFail');return}
-  DONE={n,w:wa,e:email};try{localStorage.setItem('soli-waitlist',JSON.stringify(DONE))}catch(e){}
+  DONE={n,w:wa};try{localStorage.setItem('soli-waitlist',JSON.stringify(DONE))}catch(e){}
   finish();
   if(window.fbq)fbq('track','Lead');if(window.gtag)gtag('event','generate_lead',{method:'waitlist'});
   $('#join').scrollIntoView({behavior:REDUCE?'auto':'smooth',block:'center'});
@@ -534,13 +579,13 @@ $('#wf').addEventListener('submit',async e=>{
 /* ---------- motion ---------- */
 const io=new IntersectionObserver(es=>{for(const e of es)if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}},{threshold:.15});
 $$('.rv').forEach(e=>io.observe(e));
-addEventListener('scroll',()=>$('#nav').classList.toggle('scrolled',scrollY>8),{passive:true});
-// sticky CTA on phones: show when the form is off screen
+addEventListener('scroll',()=>$('#nav').classList.toggle('scrolled',scrollY>20),{passive:true});
 const st=$('#stick');
 new IntersectionObserver(es=>{for(const e of es)st.classList.toggle('on',!e.isIntersecting&&!$('#join').classList.contains('ok'))},{threshold:0}).observe($('#join'));
 $$('a[href="#join"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();$('#join').scrollIntoView({behavior:REDUCE?'auto':'smooth',block:'center'});setTimeout(()=>$('#em').focus({preventScroll:true}),REDUCE?0:500)}));
 
 paint();
+mapStart();
 }
 </script>
 </body>
