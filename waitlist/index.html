@@ -14,11 +14,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://tiles.openfreemap.org" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=Noto+Sans+Tamil:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=Sora:wght@400;500;600&family=Martian+Mono:wght@400;500&family=Noto+Sans+Tamil:wght@400;500;600&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
 <style>
 :root{color-scheme:light;
---bg:#FFFFFF;--soft:#FFF8F7;--tint:#FDEEEC;--line:#F0E4E2;--ink:#2B2022;--mute:#7E6E72;
+--bg:#FFFFFF;--soft:#F6F8F9;--tint:#FDEEEC;--line:#E3EAEC;--ink:#012A38;--mute:#5B707A;
+--sora:Sora,Inter,system-ui,sans-serif;--mono:"Martian Mono","IBM Plex Mono",ui-monospace,monospace;
 --red:#E5484D;--red2:#CE3B40;--redsoft:#FCE6E5;--ok:#1F9D63;
 --shadow:0 1px 2px #2b20220a,0 12px 36px #2b202214;--ease:cubic-bezier(.2,.8,.2,1)}
 *{box-sizing:border-box}
@@ -35,14 +36,14 @@ b{font-weight:600}
 nav{position:fixed;top:0;left:0;right:0;z-index:30;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
 nav.scrolled{background:#ffffffe8;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
 nav .wrap{display:flex;align-items:center;gap:14px;height:64px}
-.logo{display:flex;align-items:center;gap:9px;font-weight:600;font-size:18px;letter-spacing:-.02em;text-decoration:none}
+.logo{display:flex;align-items:center;gap:9px;font:600 18px var(--sora);letter-spacing:-.02em;text-decoration:none}
 .logo i{width:20px;height:20px;border-radius:50%;background:var(--red);display:grid;place-items:center}
 .logo i:after{content:"";width:7px;height:7px;border-radius:50%;background:#fff}
 .sp{flex:1}
 .seg{display:flex;padding:3px;border-radius:999px;background:#ffffffd0;border:1px solid var(--line);backdrop-filter:blur(8px)}
-.seg button{border:0;background:none;padding:5px 11px;border-radius:999px;font-size:13px;color:var(--mute);cursor:pointer}
+.seg button{border:0;background:none;padding:5px 11px;border-radius:999px;font:500 13px var(--sora);color:var(--mute);cursor:pointer}
 .seg button[aria-pressed=true]{background:#fff;color:var(--ink);box-shadow:0 1px 3px #0001}
-.navmap{font-size:14px;font-weight:500;text-decoration:none;padding:8px 14px;border-radius:999px;background:#ffffffd0;border:1px solid var(--line)}
+.navmap{font:500 14px var(--sora);text-decoration:none;padding:8px 14px;border-radius:999px;background:#ffffffd0;border:1px solid var(--line)}
 
 /* hero on the faded map */
 .hero{position:relative;min-height:min(100svh,920px);display:flex;align-items:center;padding:100px 0 80px;overflow:hidden;background:#F7F1F0}
@@ -52,15 +53,17 @@ nav .wrap{display:flex;align-items:center;gap:14px;height:64px}
 .fade:after{content:"";position:absolute;inset:auto 0 0;height:120px;background:linear-gradient(0deg,#fff,#fff0)}
 .hcopy{position:relative;z-index:2;max-width:580px}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:4px 12px 4px 4px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:13px;color:var(--mute);box-shadow:0 2px 8px #2b20220d}
-.eyebrow b{padding:2px 9px;border-radius:999px;background:var(--red);color:#fff;font-size:12px}
+.eyebrow{font:500 11px/1.4 var(--mono);letter-spacing:.07em;text-transform:uppercase}
+html[lang=ta] .eyebrow{text-transform:none;letter-spacing:.02em;font-family:var(--mono),"Noto Sans Tamil"}
+.eyebrow b{padding:3px 9px;border-radius:999px;background:var(--red);color:#fff;font:500 10.5px/1.4 var(--mono);letter-spacing:.07em}
 .live{width:7px;height:7px;border-radius:50%;background:var(--red);animation:pulse 1.8s infinite;flex:none}
 @keyframes pulse{0%{box-shadow:0 0 0 0 #E5484D88}70%{box-shadow:0 0 0 8px #E5484D00}100%{box-shadow:0 0 0 0 #E5484D00}}
-h1{margin:18px 0 0;font-size:clamp(42px,5.2vw,68px);line-height:1.02;font-weight:600;letter-spacing:-.05em;text-wrap:balance}
+h1{margin:18px 0 0;font-size:clamp(42px,5.2vw,66px);line-height:1.08;font-weight:400;letter-spacing:-.032em;text-wrap:balance}
 h1 em{font-style:normal;color:var(--red)}
 .hero h1,.hero .lede{text-shadow:0 0 2px #fff,0 0 10px #fff,0 0 22px #fff}
 html[lang=ta] h1{font-size:clamp(32px,3.9vw,50px);line-height:1.18;letter-spacing:-.02em}
-.lede{margin:18px 0 0;font-size:18px;line-height:1.5;color:#4A3C3F;max-width:540px;text-wrap:pretty}
-.lede b{color:var(--ink)}
+.lede{margin:18px 0 0;font-size:18px;line-height:1.55;color:#38525C;max-width:540px;text-wrap:pretty}
+.lede b{color:var(--ink);font-weight:500}
 
 /* form */
 .formcard{margin-top:24px;padding:18px;border-radius:22px;background:#fff;border:1px solid var(--line);box-shadow:0 20px 50px -18px #2b202240,0 1px 2px #2b20220d}
@@ -81,7 +84,7 @@ html[lang=ta] h1{font-size:clamp(32px,3.9vw,50px);line-height:1.18;letter-spacin
 .fld .ph span{padding:0 0 0 14px;color:var(--mute);font-size:16px}
 .fld .ph input{border:0;background:none;box-shadow:none!important;padding-left:8px}
 .fld.bad input,.fld.bad select,.fld.bad .ph{border-color:var(--red)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:52px;padding:0 24px;border-radius:999px;border:0;background:var(--red);color:#fff;font-weight:600;font-size:16px;text-decoration:none;cursor:pointer;box-shadow:0 8px 22px #E5484D45;transition:transform .2s var(--ease),background .2s}
+.btn{font-family:var(--sora)!important;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:52px;padding:0 24px;border-radius:999px;border:0;background:var(--red);color:#fff;font-weight:500;font-size:15.5px;text-decoration:none;cursor:pointer;box-shadow:0 8px 22px #E5484D45;transition:transform .2s var(--ease),background .2s}
 .btn:hover{background:var(--red2);transform:translateY(-1px)}
 .btn[disabled]{opacity:.7;cursor:wait}
 .btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line);box-shadow:none}
@@ -94,7 +97,7 @@ html[lang=ta] h1{font-size:clamp(32px,3.9vw,50px);line-height:1.18;letter-spacin
 .formcard.ok .done{display:block;animation:pop .5s var(--ease)}
 @keyframes pop{from{opacity:0;transform:scale(.96)}}
 .done .tick{width:54px;height:54px;margin:0 auto 12px;border-radius:50%;background:#1F9D6318;color:var(--ok);display:grid;place-items:center}
-.done h3{margin:0;font-size:24px;font-weight:600;letter-spacing:-.03em}
+.done h3{margin:0;font-size:24px;font-weight:400;letter-spacing:-.025em}
 .done p{margin:8px auto 0;max-width:420px;color:var(--mute);font-size:15px}
 .done .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
 .done .btn{width:auto;height:46px;font-size:15px;margin:0}
@@ -112,7 +115,7 @@ html[lang=ta] h1{font-size:clamp(32px,3.9vw,50px);line-height:1.18;letter-spacin
 .proof .bar{display:grid;grid-template-columns:repeat(4,1fr);border-radius:20px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);overflow:hidden}
 .proof .bar div{padding:18px 20px}
 .proof .bar div+div{border-left:1px solid var(--line)}
-.proof b{display:block;font-size:28px;letter-spacing:-.04em;line-height:1.1}
+.proof b{display:block;font-size:30px;font-weight:400;letter-spacing:-.03em;line-height:1.1}
 .proof span{font-size:13px;color:var(--mute)}
 .mq{overflow:hidden;padding:22px 0 0;-webkit-mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
 .mq ul{display:flex;gap:10px;width:max-content;margin:0;padding:0;list-style:none;animation:mq 50s linear infinite}
@@ -125,16 +128,17 @@ html[lang=ta] h1{font-size:clamp(32px,3.9vw,50px);line-height:1.18;letter-spacin
 
 /* sections */
 section{padding:88px 0}
-.kick{margin:0 0 10px;font-size:13px;font-weight:600;color:var(--red);letter-spacing:.02em}
-h2{margin:0;font-size:clamp(30px,3.6vw,46px);line-height:1.08;font-weight:600;letter-spacing:-.045em;text-wrap:balance}
+.kick{margin:0 0 14px;font:500 11.5px/1.4 var(--mono);color:var(--red);letter-spacing:.09em;text-transform:uppercase}
+html[lang=ta] .kick{font-family:var(--mono),"Noto Sans Tamil";text-transform:none;letter-spacing:.02em}
+h2{margin:0;font-size:clamp(30px,3.4vw,44px);line-height:1.14;font-weight:400;letter-spacing:-.028em;text-wrap:balance}
 html[lang=ta] h2{letter-spacing:-.02em;line-height:1.22;font-size:clamp(26px,3vw,38px)}
 .sub{margin:14px 0 0;color:var(--mute);font-size:17px;max-width:620px}
 .head{max-width:760px;margin-bottom:40px}
 
 .pains{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .pain{border-radius:22px;border:1px solid var(--line);overflow:hidden;background:#fff;display:flex;flex-direction:column}
-.pain .q{padding:22px 24px 20px;background:var(--soft);font-size:18px;line-height:1.42;font-weight:500;letter-spacing:-.01em;flex:1}
-.pain .q small{display:block;margin-bottom:10px;font-size:12px;font-weight:600;color:var(--red);letter-spacing:.03em;text-transform:uppercase}
+.pain .q{padding:22px 24px 20px;background:var(--soft);font-size:18.5px;line-height:1.45;font-weight:400;letter-spacing:-.012em;flex:1}
+.pain .q small{display:block;margin-bottom:12px;font:500 11px/1.4 var(--mono);color:var(--red);letter-spacing:.09em;text-transform:uppercase}
 html[lang=ta] .pain .q small{text-transform:none}
 .pain .f{display:flex;gap:10px;padding:16px 24px 18px;font-size:15px;color:var(--mute)}
 .pain .f svg{flex:none;margin-top:3px;color:var(--ok)}
@@ -151,7 +155,7 @@ html[lang=ta] .pain .q small{text-transform:none}
 .how{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .step{padding:24px;border-radius:22px;background:#fff;border:1px solid var(--line)}
 .step .n{width:36px;height:36px;border-radius:11px;background:var(--red);color:#fff;display:grid;place-items:center;font-weight:600}
-.step h3{margin:16px 0 6px;font-size:19px;font-weight:600;letter-spacing:-.02em}
+.step h3{margin:16px 0 6px;font-size:20px;font-weight:500;letter-spacing:-.02em}
 .step p{margin:0;color:var(--mute);font-size:15px}
 
 .faq{max-width:800px}
@@ -162,7 +166,7 @@ html[lang=ta] .pain .q small{text-transform:none}
 .faq details[open] summary:after{transform:rotate(45deg)}
 .faq details p{margin:0 0 18px;color:var(--mute)}
 
-.final{margin:0 auto 80px;padding:60px 28px;border-radius:32px;background:#241A1C;color:#fff;text-align:center}
+.final{margin:0 auto 80px;padding:60px 28px;border-radius:32px;background:#012A38;color:#fff;text-align:center}
 .final h2{color:#fff;max-width:780px;margin-inline:auto}
 .final p{margin:14px auto 26px;color:#ffffffb0;max-width:560px}
 footer{border-top:1px solid var(--line);padding:26px 0 calc(26px + env(safe-area-inset-bottom));font-size:13px;color:var(--mute)}
