@@ -225,6 +225,23 @@ select:hover,input[type=search]:hover{border-color:#E9CFCC}
 .pickbar button{border:0;border-radius:999px;background:var(--soft);min-height:30px;padding:0 12px;cursor:pointer;font-size:12.5px;font-weight:500}
 #map.picking .maplibregl-canvas{cursor:crosshair}
 @media(max-width:860px){.pickbar{top:auto;bottom:84px}.near{max-width:96px}}
+/* pop-up on opening the map: "Where do you start from?" */
+.askhome{position:fixed;inset:0;z-index:6000;display:grid;place-items:center;padding:16px;background:#2b20223d;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);animation:afade .25s ease both}
+.askhome[hidden]{display:none}
+.askc{width:min(420px,100%);max-height:calc(100dvh - 32px);overflow:auto;padding:20px;border-radius:22px;background:var(--bg);border:1px solid var(--line);box-shadow:0 20px 60px #2b202233;display:grid;gap:14px;animation:arise .35s cubic-bezier(.2,.8,.2,1) both}
+.askh{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.askh .fdot{margin-top:7px;border-color:var(--ink)}
+.askh h3{margin:0;font-size:20px;font-weight:500;letter-spacing:-.03em;line-height:1.25}
+.askh p{margin:4px 0 0;font-size:13.5px;color:var(--mute);line-height:1.45}
+.askc .locbox{padding:0;border:0;background:none}
+.askx{justify-self:center;border:0;background:none;color:var(--mute);font-weight:500;font-size:13.5px;cursor:pointer;min-height:36px;padding:0 12px}
+.askx:hover{color:var(--ink);text-decoration:underline}
+.trip .acts{display:flex;flex-wrap:wrap;gap:8px}
+.apply.ghost{background:var(--bg);border:1px solid var(--line);color:var(--ink)}
+button.apply{border:0;cursor:pointer;font:inherit;font-weight:500;font-size:13px}
+@keyframes afade{from{opacity:0}}@keyframes arise{from{opacity:0;transform:translateY(16px) scale(.98)}}
+@media(max-width:860px){.askhome{place-items:end center;padding:0}.askc{width:100%;border-radius:22px 22px 0 0;padding:20px 16px calc(16px + env(safe-area-inset-bottom))}}
+@media(prefers-reduced-motion:reduce){.askhome,.askc{animation:none}}
 </style>
 </head>
 <body>
@@ -291,6 +308,13 @@ select:hover,input[type=search]:hover{border-color:#E9CFCC}
     <div class="foot"><p id="stale"></p><p class="credits">Map data <a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> · <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener">© OpenMapTiles</a> · <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a></p><details><summary data-t="about">About these listings</summary><p data-t="source"></p><p data-t="check"></p></details></div>
   </section>
 </div>
+<div class="askhome" id="askhome" hidden role="dialog" aria-modal="true" aria-labelledby="askT">
+  <div class="askc">
+    <div class="askh"><i class="fdot" aria-hidden="true"></i><div><h3 id="askT" data-t="fromQ">Where do you start from?</h3><p data-t="askSub">We'll show how far each office is and how long it takes at morning and evening rush hour.</p></div></div>
+    <div id="askSlot"></div>
+    <button type="button" class="askx" id="askX" data-t="skip">Skip for now</button>
+  </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script>
 {
@@ -304,7 +328,7 @@ function panelOpen(open,save){const P=document.querySelector('.panel'),b=documen
   if(innerWidth>860)MAP_PAD()}
 const T={
 en:{newK:'New on the map',newSee:'Show on map',newClose:'Close',tag:"Jobs near you, <em>straight from the company.</em>",vp1:'Pinned on the real office',vp2:'Only real company openings',srcOurs:'Companies on the map',vp3:'Fresh every morning',openings:'Openings',jobs:'openings',jobsCo:'openings from company sites',cosShort:'companies',cos:'companies on the map',updated:'Updated',area:'Area or company',find:'Search',ph:'Role or company',all:'All of Chennai',none:'Office not named',clear:'Clear filters',today:'today',d1:'1 day ago',dn:'{n} days ago',showing:'{n}',empty:'No openings match. Try another area, field or source.',hint:'Drag to move · right-click and drag to tilt or turn',nomap:"The 3D map couldn't load on this browser. The list of openings still works.",source:'Openings come straight from company career pages, plus Indeed and Google for Jobs under Source. Refreshed every morning; listings older than 90 days are hidden.',check:'Pins sit on each company\'s published Chennai office. Check the job page for the exact work location.',stale:'Last refresh was {n} days ago, so some openings may have closed.',fields:'Fields',srcL:'Source',srcAll:'All sources',srcCo:'Company career pages',srcSoli:'Posted on Soli Maps',via:'via {s}',applyOn:'Apply on {s}',applyCo:'Apply',applySoli:'Apply',post:'Hiring? Post a job',unl:"openings don't name an office",see:'Show them',more:'Show {n} more',fresh:'New',loadErr:'Could not load openings. Please reload the page.',companies:'Companies',areas:'Areas',noOpen:'No openings listed right now.',visit:'Visit careers page',office:'Chennai office',approxOff:'Office area (approx.)',hide:'Hide',show:'Show',about:'About these listings',
- fromQ:'Where do you start from?',fromSub:'Set your home to see distance and travel time',fromPre:'From {n}',fromSub2:'Distance and rush-hour time on every job',change:'Change',nearest:'Nearest first',gps:'Use my current location',gpsBusy:'Finding you…',lqL:'Or search your area',lqPh:'e.g. Velachery, Anna Nagar',pick:'Tap a spot on the map',lclear:'Remove my location',lnote:'Your location stays on this device.',noRes:'No places found in Chennai. Try another spelling.',srchErr:"Search isn't working right now. Tap a spot on the map instead.",gpsErr:"Couldn't get your location. Search your area instead.",gpsFar:'You seem to be outside Chennai. Search your area instead.',pickHint:'Tap where you start from',cancel:'Cancel',here:'your location',locBtn:'Your location',away:'≈ {k}',rush:'{m} at rush hour',kmTip:'Approximate road distance and rush-hour travel time from your location',tripFrom:'From',tripTo:'To',byRoad:'by road',approxRoad:'by road (approx.)',am:'Morning rush · 8–11 am',pm:'Evening rush · 5–8 pm',tripNote:"Estimated from Chennai's average rush-hour speeds (TomTom Traffic Index 2025). Actual time depends on the route and the day.",dirs:'Directions'},
+ fromQ:'Where do you start from?',fromSub:'Set your home to see distance and travel time',fromPre:'From {n}',fromSub2:'Distance and rush-hour time on every job',change:'Change',nearest:'Nearest first',gps:'Use my current location',gpsBusy:'Finding you…',lqL:'Or search your area',lqPh:'e.g. Velachery, Anna Nagar',pick:'Tap a spot on the map',lclear:'Remove my location',lnote:'Your location stays on this device.',noRes:'No places found in Chennai. Try another spelling.',srchErr:"Search isn't working right now. Tap a spot on the map instead.",gpsErr:"Couldn't get your location. Search your area instead.",gpsFar:'You seem to be outside Chennai. Search your area instead.',pickHint:'Tap where you start from',cancel:'Cancel',here:'your location',locBtn:'Your location',away:'≈ {k}',rush:'{m} at rush hour',kmTip:'Approximate road distance and rush-hour travel time from your location',tripFrom:'From',tripTo:'To',byRoad:'by road',approxRoad:'by road (approx.)',am:'Morning rush · 8–11 am',pm:'Evening rush · 5–8 pm',tripNote:"Estimated from Chennai's average rush-hour speeds (TomTom Traffic Index 2025). Actual time depends on the route and the day.",dirs:'Directions',askSub:"We'll show how far each office is and how long it takes at morning and evening rush hour.",skip:'Skip for now',setStart:'Set where you start',noHome:'Set where you start from to see the distance, rush-hour travel time and route to this office.'},
 ta:{
  "newK": "Map-ல புதுசு",
  "newSee": "Map-ல காட்டு",
@@ -391,7 +415,11 @@ ta:{
  "am": "காலை rush · 8–11 மணி",
  "pm": "சாயங்கால rush · 5–8 மணி",
  "tripNote": "சென்னையோட சராசரி rush hour speed வெச்சு கணக்கு (TomTom Traffic Index 2025). Route, நாள் பொறுத்து மாறும்.",
- "dirs": "வழி காட்டு"
+ "dirs": "வழி காட்டு",
+ "askSub": "ஒவ்வொரு office-ம் எவ்வளவு தூரம், காலை, சாயங்கால rush hour-ல போக எவ்வளவு நேரம் ஆகும்-னு காட்டுவோம்.",
+ "skip": "இப்போ வேண்டாம்",
+ "setStart": "கிளம்புற இடத்தை போடுங்க",
+ "noHome": "கிளம்புற இடத்தை போட்டா இந்த office-க்கு தூரம், rush hour time, route எல்லாம் தெரியும்."
 }};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -464,7 +492,7 @@ function list(){
   const js=LIVE.filter(j=>matchBase(j)&&matchArea(j)).sort((a,b)=>(near?cmpD(a,b):0)||pin(b)-pin(a)||b.d.localeCompare(a.d));
   $('#count').textContent=js.length;
   $('#clearRow').hidden=S.area==='all'&&!S.cats.size&&!S.q&&S.src===DEF_SRC;
-  const sel=D.areas[S.area],trip=HOME_PT&&sel?`<div id="trip">${tripHTML(S.area)}</div>`:'';
+  const sel=D.areas[S.area],trip=sel?`<div id="trip">${HOME_PT?tripHTML(S.area):noHomeHTML(S.area)}</div>`:'';
   if(!js.length&&sel&&sel.co){$('#list').innerHTML=trip+`<div class="empty"><div class="lg" style="margin:0 auto 12px;width:56px;height:56px">${logoTag(sel.en)}</div><p style="margin:0 0 4px;color:var(--ink);font-weight:500">${esc(sel.en)}</p><p style="margin:0 0 14px">${esc(sel.office||'')}</p><p style="margin:0 0 14px">${esc(t('noOpen'))}</p>${sel.careers?`<a class="apply" href="${esc(sel.careers)}" target="_blank" rel="noopener">${esc(t('visit'))} ↗</a>`:''}</div>`;return}
   $('#list').innerHTML=trip+(js.length?js.slice(0,shown).map(j=>`<article class="job"><div class="lg">${logoTag(j.c)}</div><div><h3>${esc(j.t)}</h3><p class="co">${esc(j.c)}</p><p class="meta"><button type="button" class="ar" data-a="${esc(j.a||'none')}">${pinIco}${esc(j.a&&D.areas[j.a]&&D.areas[j.a].co?(D.areas[j.a].approx?t('approxOff'):t('office')):areaName(j.a))}</button>${kmTag(j)}${j.ty?`<span>${esc(j.ty)}</span>`:''}<span>${ageOf(j.d)<=3?`<span class="new">${esc(t('fresh'))}</span> · `:''}${esc(posted(j.d))}</span>${j.src&&j.src!=='Soli Maps'&&j.src!=='Company careers'?`<span>${esc(t('via',{s:j.src}))}</span>`:''}</p><a class="apply" href="${esc(j.u)}" target="_blank" rel="noopener">${esc(applyLabel(j))} <span aria-hidden="true">↗</span></a></div></article>`).join(''):`<p class="empty">${esc(t('empty'))}</p>`);
   if(js.length>shown)$('#list').insertAdjacentHTML('beforeend',`<button type="button" class="more" id="more">${esc(t('more',{n:js.length-shown}))}</button>`);
@@ -508,8 +536,25 @@ function locUI(){
 const note=(k,err)=>{const n=$('#lnote');n.textContent=t(k);n.classList.toggle('err',!!err)};
 function locOpen(open){
   const b=$('#locbox');b.hidden=!open;$('#fromBtn').setAttribute('aria-expanded',open);
-  if(!open){$('#lres').innerHTML='';$('#lq').value='';note('lnote')}
+  if(!open){$('#lres').innerHTML='';$('#lq').value='';note('lnote');ask(false)}
   else if(innerWidth>860)setTimeout(()=>$('#lq').focus(),30);
+}
+/* the pop-up borrows the same location box, then hands it back to the panel */
+const LB=$('#locbox'),LB_HOME=LB.parentNode,LB_NEXT=LB.nextSibling;let askFrom=null;
+function ask(open){
+  const m=$('#askhome');
+  if(open){if(!m.hidden)return;askFrom=document.activeElement;$('#askSlot').appendChild(LB);m.hidden=false;locOpen(true);if(innerWidth<=860)$('#gps').focus({preventScroll:true});return}
+  if(m.hidden)return;
+  m.hidden=true;LB_HOME.insertBefore(LB,LB_NEXT);LB.hidden=true;$('#fromBtn').setAttribute('aria-expanded',false);
+  try{sessionStorage.setItem('soli-ask','1')}catch(e){}
+  if(askFrom&&askFrom.focus)try{askFrom.focus({preventScroll:true})}catch(e){}
+}
+$('#askX').addEventListener('click',()=>locOpen(false));
+$('#askhome').addEventListener('click',e=>{if(e.target.id==='askhome')locOpen(false)});
+addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#askhome').hidden)locOpen(false)});
+function noHomeHTML(a){
+  const ar=D.areas[a];if(!ar)return'';
+  return`<div class="trip"><p class="fine" style="font-size:13px">${esc(t('noHome'))}</p><div class="acts"><button type="button" class="apply" id="askBtn">${esc(t('setStart'))}</button><a class="apply ghost" href="https://www.google.com/maps/dir/?api=1&destination=${ar.lat},${ar.lon}" target="_blank" rel="noopener">${esc(t('dirs'))} <span aria-hidden="true">↗</span></a></div></div>`;
 }
 function setHome(p){
   HOME_PT=p;DC={};
@@ -584,7 +629,7 @@ $('#area').addEventListener('change',e=>setArea(e.target.value));
 $('#src').addEventListener('change',e=>{S.src=e.target.value;shown=30;refresh()});
 $('#q').addEventListener('input',e=>{shown=30;S.q=e.target.value.trim().toLowerCase();refresh()});
 $('#chips').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;const c=b.dataset.c;S.cats.has(c)?S.cats.delete(c):S.cats.add(c);shown=30;refresh()});
-$('#list').addEventListener('click',e=>{if(e.target.id==='more'){shown+=30;list();return}const b=e.target.closest('.ar');if(b){setArea(b.dataset.a);if(innerWidth<=860)$('#map').scrollIntoView({block:'start',behavior:'smooth'})}});
+$('#list').addEventListener('click',e=>{if(e.target.id==='more'){shown+=30;list();return}if(e.target.closest('#askBtn')){ask(true);return}const b=e.target.closest('.ar');if(b){setArea(b.dataset.a);if(innerWidth<=860)$('#map').scrollIntoView({block:'start',behavior:'smooth'})}});
 $('#clear').addEventListener('click',()=>{S.cats.clear();S.q='';S.src=DEF_SRC;$('#q').value='';setArea('all')});
 $('#seeUnl').addEventListener('click',()=>setArea('none'));
 
@@ -778,6 +823,9 @@ Promise.all([getJSON('jobs.json'),getJSON('feeds.json').catch(()=>null),getJSON(
   render();
   if(qp.get('area')&&D.areas[qp.get('area')])setArea(qp.get('area'));
   newCard();
+  // ask where they start from, once per visit, until they set it
+  let asked=null;try{asked=sessionStorage.getItem('soli-ask')}catch(e){}
+  if(!HOME_PT&&!asked)setTimeout(()=>{if(!HOME_PT)ask(true)},matchMedia('(prefers-reduced-motion: reduce)').matches?0:1200);
 }).catch(()=>{$('#list').innerHTML=`<p class="empty">${esc(t('loadErr'))}</p>`});
 }
 </script>
