@@ -14,7 +14,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 IST = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
 TODAY = datetime.datetime.now(IST).date()
 MAX_AGE = 90
-UA = "SoliMaps/1.0 (+https://ritheeshed.github.io/Solimaps/)"
+UA = "SoliMaps/1.0 (+https://solimaps.github.io/)"
 LOG = []
 
 # ---------- places: known Chennai localities (centre points, en/ta names) ----------
@@ -339,7 +339,7 @@ GEO_CACHE = load_json("geo_cache.json", {})
 PREV = {j.get("u"): j.get("d") for j in (load_json("feeds.json", {}) or {}).get("jobs", []) if j.get("u")}
 CO_AREAS = {}
 APPROX = set()
-HTML_UA = {"User-Agent": "Mozilla/5.0 (compatible; SoliMapsBot/1.0; +https://ritheeshed.github.io/Solimaps/)",
+HTML_UA = {"User-Agent": "Mozilla/5.0 (compatible; SoliMapsBot/1.0; +https://solimaps.github.io/)",
            "Accept": "text/html,application/xhtml+xml"}
 
 
@@ -357,7 +357,7 @@ def fetch_html(url, timeout=25):
 def nominatim(q):
     url = "https://nominatim.openstreetmap.org/search?" + urllib.parse.urlencode(
         {"q": q, "format": "jsonv2", "limit": 1, "countrycodes": "in", "viewbox": "79.6,13.5,80.6,12.5", "bounded": 1})
-    res = get(url, headers={"Referer": "https://ritheeshed.github.io/Solimaps/"})
+    res = get(url, headers={"Referer": "https://solimaps.github.io/"})
     if res:
         return {"lat": float(res[0]["lat"]), "lon": float(res[0]["lon"]), "name": res[0].get("display_name", "")[:160], "t": TODAY.isoformat()}
     return {"miss": True, "t": TODAY.isoformat()}
