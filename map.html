@@ -37,8 +37,8 @@ a{color:inherit}
 #map{position:absolute;inset:0;z-index:0;background:#F7F1F0}
 .float{position:absolute;z-index:3;background:var(--card);backdrop-filter:blur(16px) saturate(1.2);-webkit-backdrop-filter:blur(16px) saturate(1.2);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}
 /* brand */
-.brand{top:16px;left:16px;width:min(340px,calc(100% - 480px));padding:14px 16px 15px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:9px 10px}
-.brand>*{grid-column:1/-1}.brand>.logo{grid-area:1/1}.brand>.brow{grid-area:1/2}
+.brand{top:16px;left:16px;width:min(360px,calc(100% - 480px));padding:14px 16px 15px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:9px 10px}
+.brand>*{grid-column:1/-1}.brand>.logo{grid-area:1/1}.brand>.brow{grid-area:1/2}.brand h1{font-weight:500}
 .logo{display:flex;align-items:center;gap:9px;margin:0;font-size:18px;font-weight:600;letter-spacing:-.035em;line-height:1}
 .logo i{width:19px;height:19px;border-radius:50%;background:var(--red);display:grid;place-items:center;flex:none}
 .logo i::after{content:"";width:7px;height:7px;border-radius:50%;background:#fff}
@@ -123,7 +123,7 @@ select:hover,input[type=search]:hover{border-color:#E9CFCC}
 .mk .bub,.mk .stk{transform-origin:50% 100%}
 .mk:hover .bub,.mk:focus-visible .bub,.mk:hover .stk,.mk:focus-visible .stk{transform:scale(1.07);box-shadow:0 0 0 1px #2b20221a,0 10px 22px #2b20222e}
 .mk.on .bub{box-shadow:0 0 0 2px #E5484D,0 10px 22px #e5484d40;transform:scale(1.12)}
-.mk.dim{opacity:.35}
+.mk.dim{opacity:.35}.mk.far{opacity:.32}.mk.far .bub{box-shadow:0 0 0 1px #2b20221a}
 .mk.zero .bub{box-shadow:0 0 0 1px #2b20221a,0 3px 8px #2b202214}.mk.zero .tip{background:#C9B8B9}
 .mk.area .bub{width:30px;height:30px;background:#FDEEEC;box-shadow:0 0 0 1px #E5484D33,0 4px 12px #2b20221f}
 .mk.area .bub b{font-size:12px;font-weight:600;color:#CE3B40}
@@ -157,7 +157,7 @@ select:hover,input[type=search]:hover{border-color:#E9CFCC}
 .newc .nlg{width:44px;height:44px;border-radius:12px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;overflow:hidden}
 .newc .nlg img{width:28px;height:28px;object-fit:contain}.newc .nlg .mono{font-weight:600;color:var(--red)}
 .newc .ntx{min-width:0}
-.newc .nk{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--red)}
+.newc .nk{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--red)}
 .newc .nk i{width:6px;height:6px;border-radius:50%;background:var(--red);animation:npulse 1.8s infinite}
 @keyframes npulse{70%{box-shadow:0 0 0 6px #e5484d00}0%{box-shadow:0 0 0 0 #e5484d55}}
 .newc h4{margin:2px 0 0;font-size:14.5px;font-weight:600;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -180,30 +180,46 @@ select:hover,input[type=search]:hover{border-color:#E9CFCC}
 @media(max-width:860px){.me .pop{right:-4px}}
 @media(prefers-reduced-motion:reduce){.mk .bub,.mk .stk{transition:none;animation:none!important}}
 /* "From": where the visitor starts, ride-app style; drives distance and rush-hour travel time */
-.from{display:flex;gap:8px;align-items:stretch}
-.fbtn{flex:1;display:flex;align-items:center;gap:11px;min-height:50px;padding:6px 12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);cursor:pointer;text-align:left}
-.fbtn:hover{border-color:#E9CFCC}
-.fdot{width:13px;height:13px;border-radius:50%;flex:none;border:3px solid var(--mute);background:var(--bg)}
-.from.set .fdot{border-color:var(--ink)}
-.ftx{display:grid;flex:1;line-height:1.3}
-.ftx b{font-weight:500;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ftx small{font-size:12px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.fch{flex:none;font-size:12.5px;color:var(--red);font-weight:500}
-.near{flex:none;border:1px solid var(--line);border-radius:12px;background:var(--bg);padding:0 12px;font-size:12.5px;font-weight:500;cursor:pointer;color:var(--mute);max-width:112px;line-height:1.25}
-.near[aria-pressed=true]{background:var(--redsoft);border-color:transparent;color:var(--red2)}
-.locbox{display:grid;gap:8px;padding:12px;border-radius:14px;background:var(--soft);border:1px solid var(--line)}
-.gps{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 14px;border:0;border-radius:10px;background:var(--red);color:#fff;font-weight:500;font-size:14px;cursor:pointer}
-.gps:hover{filter:brightness(.95)}.gps[aria-busy=true]{opacity:.7;cursor:progress}
-.lres{list-style:none;margin:0;padding:0;max-height:220px;overflow:auto;border-radius:10px;background:var(--bg);border:1px solid var(--line)}
+/* ---- Commute: the heart of the map. Home + the longest commute you'll accept, drawn on the map as a reach zone ---- */
+.brand .sub{margin:0;font-size:13px;color:var(--mute);line-height:1.45}
+.cm{display:grid;gap:10px;padding-top:13px;margin-top:2px;border-top:1px solid var(--line)}
+.hb{width:34px;height:34px;flex:none;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center}
+.home{display:flex;align-items:center;gap:10px;min-width:0}
+.hn{min-width:0;display:grid;line-height:1.2}
+.hn small{font-size:12px;color:var(--mute)}
+.hn b{font-size:17px;font-weight:600;letter-spacing:-.025em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chg{margin-left:auto;flex:none;border:1px solid var(--line);background:var(--bg);border-radius:999px;min-height:34px;padding:0 14px;font-size:13px;font-weight:500;cursor:pointer}
+.chg:hover{border-color:var(--red);color:var(--red2)}
+.cm .lbl{margin:2px 0 0;font-size:12.5px;color:var(--mute)}
+.mins{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:3px;padding:3px;border-radius:14px;background:var(--soft);border:1px solid var(--line)}
+.mins button{min-height:42px;border:0;border-radius:11px;background:none;cursor:pointer;font-size:15px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.02em;white-space:nowrap;padding:0 2px}
+.mins button small{font-size:11px;font-weight:500;color:var(--mute);margin-left:2px;letter-spacing:0}
+.mins button:hover{background:var(--bg)}
+.mins button[aria-pressed=true]{background:var(--red);color:#fff;box-shadow:0 3px 10px #e5484d40}
+.mins button[aria-pressed=true] small{color:#ffffffd0}
+.cm .res{margin:0;font-size:14px;color:var(--ink)}.cm .res b{font-weight:600;color:var(--red2)}
+.setb{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;width:100%;padding:13px 14px;border:0;border-radius:16px;background:var(--red);color:#fff;cursor:pointer;text-align:left;box-shadow:0 6px 18px #e5484d38}
+.setb:hover{filter:brightness(.96)}
+.setb .hb{background:#fff;color:var(--red)}
+.setb b{display:block;font-size:16px;font-weight:600;letter-spacing:-.02em}
+.setb small{display:block;font-size:12.5px;line-height:1.35;opacity:.92}
+/* the commute on every job */
+.job{grid-template-columns:40px minmax(0,1fr) auto}
+.cb{align-self:start;text-align:right;line-height:1.1;padding:2px 0 0 4px;white-space:nowrap}
+.cb b{display:block;font-size:17px;font-weight:600;letter-spacing:-.025em;font-variant-numeric:tabular-nums}
+.cb small{font-size:11px;color:var(--mute)}
+.meta .km{color:var(--ink);opacity:.85}
+.farrow{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:14px 16px;padding:12px 14px;border-radius:14px;border:1px dashed #E3C9C6;font-size:13px;color:var(--mute)}
+.farrow button{flex:none;border:0;background:none;color:var(--red);font-weight:600;cursor:pointer;min-height:32px;font-size:13px}
+.gps{display:flex;align-items:center;justify-content:center;gap:9px;min-height:52px;padding:0 16px;border:0;border-radius:14px;background:var(--red);color:#fff;font-weight:600;font-size:15px;cursor:pointer;box-shadow:0 6px 18px #e5484d38}
+.gps:hover{filter:brightness(.96)}.gps[aria-busy=true]{opacity:.7;cursor:progress}
+.lres{list-style:none;margin:0;padding:0;max-height:220px;overflow:auto;border-radius:12px;background:var(--bg);border:1px solid var(--line)}
 .lres:empty{display:none}
-.lres button{width:100%;display:grid;text-align:left;border:0;border-bottom:1px solid var(--line);background:none;padding:9px 12px;cursor:pointer}
+.lres button{width:100%;display:grid;text-align:left;border:0;border-bottom:1px solid var(--line);background:none;padding:10px 12px;cursor:pointer}
 .lres li:last-child button{border-bottom:0}
 .lres button:hover,.lres button:focus-visible{background:var(--soft)}
 .lres b{font-weight:500;font-size:14px}.lres small{font-size:12px;color:var(--mute)}
-.lrow{display:flex;justify-content:space-between;gap:10px}
-.lrow button{border:0;background:none;color:var(--red);font-weight:500;cursor:pointer;min-height:32px;padding:0;font-size:13px}
-.lnote{margin:0;font-size:12px;color:var(--mute)}.lnote.err{color:var(--red2)}
-.meta .km{color:var(--ink);opacity:.85}
+.lnote{margin:0;font-size:12px;color:var(--mute)}.lnote.err{color:var(--red2)}.lnote:empty{display:none}
 /* trip card: home → office, road distance, morning and evening rush-hour time */
 .trip{margin:10px 16px 6px;padding:14px;border-radius:16px;background:var(--soft);border:1px solid var(--line);display:grid;gap:12px}
 .trip .legs{display:grid;grid-template-columns:14px minmax(0,1fr);column-gap:10px;font-size:13.5px;line-height:1.35}
@@ -225,22 +241,37 @@ select:hover,input[type=search]:hover{border-color:#E9CFCC}
 .pickbar button{border:0;border-radius:999px;background:var(--soft);min-height:30px;padding:0 12px;cursor:pointer;font-size:12.5px;font-weight:500}
 #map.picking .maplibregl-canvas{cursor:crosshair}
 @media(max-width:860px){.pickbar{top:auto;bottom:84px}.near{max-width:96px}}
-/* pop-up on opening the map: "Where do you start from?" */
-.askhome{position:fixed;inset:0;z-index:6000;display:grid;place-items:center;padding:16px;background:#2b20223d;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);animation:afade .25s ease both}
+/* pop-up: where you live, then how long a commute is OK */
+.askhome{position:fixed;inset:0;z-index:6000;display:grid;place-items:center;padding:16px;background:#2b202247;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);animation:afade .25s ease both}
 .askhome[hidden]{display:none}
-.askc{width:min(420px,100%);max-height:calc(100dvh - 32px);overflow:auto;padding:20px;border-radius:22px;background:var(--bg);border:1px solid var(--line);box-shadow:0 20px 60px #2b202233;display:grid;gap:14px;animation:arise .35s cubic-bezier(.2,.8,.2,1) both}
-.askh{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
-.askh .fdot{margin-top:7px;border-color:var(--ink)}
-.askh h3{margin:0;font-size:20px;font-weight:500;letter-spacing:-.03em;line-height:1.25}
-.askh p{margin:4px 0 0;font-size:13.5px;color:var(--mute);line-height:1.45}
-.askc .locbox{padding:0;border:0;background:none}
-.askx{justify-self:center;border:0;background:none;color:var(--mute);font-weight:500;font-size:13.5px;cursor:pointer;min-height:36px;padding:0 12px}
-.askx:hover{color:var(--ink);text-decoration:underline}
+.askc{width:min(460px,100%);max-height:calc(100dvh - 32px);overflow:auto;padding:24px 22px 18px;border-radius:24px;background:var(--bg);box-shadow:0 24px 70px #2b20223d;animation:arise .35s cubic-bezier(.2,.8,.2,1) both}
+.step{display:grid;gap:12px}.step[hidden]{display:none}
+.askc h3{margin:0;font-size:25px;font-weight:600;letter-spacing:-.04em;line-height:1.12}
+.askc .lead{margin:-4px 0 4px;font-size:14px;color:var(--mute);line-height:1.45}
+.areas{display:flex;flex-wrap:wrap;gap:6px}
+.areas button{min-height:40px;padding:0 15px;border:1px solid var(--line);border-radius:999px;background:var(--bg);font-size:14px;font-weight:500;cursor:pointer}
+.areas button:hover{border-color:var(--red);color:var(--red2);background:var(--redsoft)}
+.alabel{margin:4px 0 -4px;font-size:12.5px;color:var(--mute)}
+.lrow{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:2px}
+.lrow button{border:0;background:none;font-weight:500;cursor:pointer;min-height:36px;padding:0;font-size:13.5px;color:var(--mute)}
+.lrow #pick{color:var(--red)}.lrow button:hover{text-decoration:underline}
+.askc .home{padding:10px 12px;border-radius:14px;background:var(--soft)}
+.tiles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.tiles button{display:grid;gap:4px;align-content:start;padding:12px 8px 10px;min-height:80px;border:1.5px solid var(--line);border-radius:14px;background:var(--bg);cursor:pointer;text-align:center}
+.tiles button:hover{border-color:#E3C9C6}
+.tiles b{font-size:22px;font-weight:600;letter-spacing:-.04em;font-variant-numeric:tabular-nums;line-height:1}
+.tiles b small{display:block;margin-top:2px;font-size:11.5px;font-weight:500;letter-spacing:0;color:var(--mute)}
+.tiles span{font-size:11.5px;color:var(--mute);line-height:1.25}
+.tiles button[aria-pressed=true]{border-color:var(--red);background:var(--redsoft)}
+.tiles button[aria-pressed=true] b,.tiles button[aria-pressed=true] span{color:var(--red2)}
+.go{min-height:54px;border:0;border-radius:14px;background:var(--red);color:#fff;font-size:15.5px;font-weight:600;cursor:pointer;margin-top:4px;box-shadow:0 6px 18px #e5484d38}
+.go:hover{filter:brightness(.96)}
 .trip .acts{display:flex;flex-wrap:wrap;gap:8px}
 .apply.ghost{background:var(--bg);border:1px solid var(--line);color:var(--ink)}
 button.apply{border:0;cursor:pointer;font:inherit;font-weight:500;font-size:13px}
 @keyframes afade{from{opacity:0}}@keyframes arise{from{opacity:0;transform:translateY(16px) scale(.98)}}
-@media(max-width:860px){.askhome{place-items:end center;padding:0}.askc{width:100%;border-radius:22px 22px 0 0;padding:20px 16px calc(16px + env(safe-area-inset-bottom))}}
+@media(max-width:860px){.askhome{place-items:end center;padding:0}.askc{width:100%;border-radius:24px 24px 0 0;padding:22px 16px calc(16px + env(safe-area-inset-bottom))}.tiles b{font-size:19px}.tiles button{padding:10px 4px 9px;min-height:74px}
+ .brand .sub{display:none}.cm{padding-top:10px;gap:8px}.cm .lbl{display:none}.mins button{min-height:38px;font-size:14px}.hb{width:30px;height:30px}.hn b{font-size:15.5px}.setb{padding:10px 12px}.setb small{display:none}}
 @media(prefers-reduced-motion:reduce){.askhome,.askc{animation:none}}
 </style>
 </head>
@@ -248,13 +279,10 @@ button.apply{border:0;cursor:pointer;font:inherit;font-weight:500;font-size:13px
 <div class="app">
   <header class="float brand">
     <a class="logo" href="./" style="text-decoration:none;color:inherit"><i aria-hidden="true"></i>Soli Maps</a>
-    <h1 data-th="tag">Jobs near you, <em>straight from the company.</em></h1>
-    <ul class="vp">
-      <li><i><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5a5 5 0 0 0-5 5c0 3.6 5 8 5 8s5-4.4 5-8a5 5 0 0 0-5-5Zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z" fill="currentColor"/></svg></i><span data-t="vp1">Pinned on the real office</span></li>
-      <li><i><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span data-t="vp2">Only real company openings</span></li>
-      <li><i><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M13 8a5 5 0 1 1-1.5-3.6M13 2.5v3h-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span data-t="vp3">Fresh every morning</span></li>
-    </ul>
-    <p class="stats" id="stats"></p>
+    <h1 data-t="tag">Jobs you can reach from home</h1>
+    <p class="sub" data-t="sub">Real openings from company career pages, fresh every morning.</p>
+    <div class="cm" id="cm"></div>
+    <p class="stats" id="stats" hidden></p>
     <div class="brow">
       <div class="seg" role="group" aria-label="Language"><button type="button" id="l-en" aria-pressed="true">English</button><button type="button" id="l-ta" aria-pressed="false">தமிழ்</button></div>
       <a class="post" id="post" href="#" target="_blank" rel="noopener" hidden data-t="post">Hiring? Post a job</a>
@@ -284,17 +312,6 @@ button.apply{border:0;cursor:pointer;font:inherit;font-weight:500;font-size:13px
   <section class="float panel" aria-label="Openings">
     <div class="ph">
       <h2><span data-t="openings">Openings</span><span class="hr"><small id="count"></small><button type="button" class="ptog" id="ptog" aria-expanded="true" aria-controls="list"><span data-t="hide">Hide</span><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 7.5 6 4.5l3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></span></h2>
-      <div class="from" id="from">
-        <button type="button" class="fbtn" id="fromBtn" aria-expanded="false" aria-controls="locbox"><i class="fdot" aria-hidden="true"></i><span class="ftx"><b id="fromT">Where do you start from?</b><small id="fromS">Set your home to see distance and travel time</small></span><span class="fch" id="fromCh" data-t="change" hidden>Change</span></button>
-        <button type="button" class="near" id="near" aria-pressed="true" data-t="nearest" hidden>Nearest first</button>
-      </div>
-      <div class="locbox" id="locbox" hidden>
-        <button type="button" class="gps" id="gps"><svg width="16" height="16" viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="9" cy="9" r="1.8" fill="currentColor"/><path d="M9 1v2.5M9 14.5V17M1 9h2.5M14.5 9H17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span id="gpsT" data-t="gps">Use my current location</span></button>
-        <div class="fld"><label for="lq" data-t="lqL">Or search your area</label><input type="search" id="lq" autocomplete="off" enterkeyhint="search"></div>
-        <ul class="lres" id="lres"></ul>
-        <div class="lrow"><button type="button" id="pick" data-t="pick">Tap a spot on the map</button><button type="button" id="lclear" data-t="lclear" hidden>Remove my location</button></div>
-        <p class="lnote" id="lnote" aria-live="polite"></p>
-      </div>
       <div class="row">
         <div class="fld"><label for="area" data-t="area">Area or company</label><select id="area"></select></div>
         <div class="fld"><label for="src" data-t="srcL">Source</label><select id="src"></select></div>
@@ -310,9 +327,24 @@ button.apply{border:0;cursor:pointer;font:inherit;font-weight:500;font-size:13px
 </div>
 <div class="askhome" id="askhome" hidden role="dialog" aria-modal="true" aria-labelledby="askT">
   <div class="askc">
-    <div class="askh"><i class="fdot" aria-hidden="true"></i><div><h3 id="askT" data-t="fromQ">Where do you start from?</h3><p data-t="askSub">We'll show how far each office is and how long it takes at morning and evening rush hour.</p></div></div>
-    <div id="askSlot"></div>
-    <button type="button" class="askx" id="askX" data-t="skip">Skip for now</button>
+    <div class="step" id="st1">
+      <h3 id="askT" data-t="q1">Where do you live?</h3>
+      <p class="lead" data-t="q1s">We'll show the openings you can reach, even in evening traffic.</p>
+      <button type="button" class="gps" id="gps"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="9" cy="9" r="1.8" fill="currentColor"/><path d="M9 1v2.5M9 14.5V17M1 9h2.5M14.5 9H17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span id="gpsT" data-t="gps">Use my current location</span></button>
+      <div class="fld"><label for="lq" data-t="lqL">Search your area</label><input type="search" id="lq" autocomplete="off" enterkeyhint="search"></div>
+      <ul class="lres" id="lres"></ul>
+      <p class="lnote" id="lnote" aria-live="polite"></p>
+      <p class="alabel" data-t="popular">Or pick an area</p>
+      <div class="areas" id="areas" role="group"></div>
+      <div class="lrow"><button type="button" id="pick" data-t="pick">Pick on the map instead</button><button type="button" id="lclear" data-t="lclear" hidden>Remove my home</button><button type="button" id="askX" data-t="skip">Skip for now</button></div>
+    </div>
+    <div class="step" id="st2" hidden>
+      <div class="home"><span class="hb"><svg width="16" height="16" viewBox="0 0 18 18" aria-hidden="true"><path d="M2.5 8.5 9 3l6.5 5.5M4.5 7v8h9V7" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="hn"><small data-t="homeL">Home</small><b id="st2H"></b></span><button type="button" class="chg" id="st2C" data-t="change">Change</button></div>
+      <h3 id="askT2" data-t="q2">How long a commute is OK?</h3>
+      <p class="lead" data-t="q2s">One way, in evening rush-hour traffic.</p>
+      <div class="tiles" id="tiles" role="group"></div>
+      <button type="button" class="go" id="go"></button>
+    </div>
   </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
@@ -421,6 +453,18 @@ ta:{
  "setStart": "கிளம்புற இடத்தை போடுங்க",
  "noHome": "கிளம்புற இடத்தை போட்டா இந்த office-க்கு தூரம், rush hour time, route எல்லாம் தெரியும்."
 }};
+Object.assign(T.en,{tag:'Jobs you can reach from home',sub:'Real openings from company career pages, fresh every morning.',
+ q1:'Where do you live?',q1s:"We'll show the openings you can reach, even in evening traffic.",gps:'Use my current location',gpsBusy:'Finding you…',lqL:'Search your area',lqPh:'Type your area or street',popular:'Or pick an area',pick:'Pick on the map instead',lclear:'Remove my home',skip:'Skip for now',lnote:'',
+ pickHint:'Tap where you live',homeL:'Home',here:'Your location',change:'Change',q2:'How long a commute is OK?',q2s:'One way, in evening rush-hour traffic.',any:'Any',anyL:'Any distance',anyS:'time',nOpen:'{n} openings',go:'Show {n} openings',
+ setHome:'Set your home',setWhy:'See which openings are 15, 30 or 45 minutes from your door.',maxL:'Longest commute at evening rush',within:'<b>{n} openings</b> within {m} of home',allFrom:'<b>{n} openings</b>, closest first',
+ farRow:'{n} more are over {m} away',showFar:'Show them',cbAt:'at 6 pm',cbTip:'Estimated one-way commute in evening rush-hour traffic',minsL:'Longest commute',hr:'hr',mn:'min',
+ setStart:'Set your home',noHome:'Set your home to see the commute and route to this office.',fromPre:'From {n}',locBtn:'Your home'});
+Object.assign(T.ta,{tag:'வீட்டுக்கு பக்கத்துல இருக்கற jobs',sub:'Company careers pages-ல இருந்து real openings, தினமும் காலையில fresh-ஆ.',
+ q1:'நீங்க எங்க இருக்கீங்க?',q1s:'சாயங்கால traffic-லயும் நீங்க போய் சேரக்கூடிய openings-ஐ காட்டுவோம்.',lqL:'உங்க area-வ தேடுங்க',lqPh:'Area இல்ல street பேரு',popular:'இல்ல ஒரு area-வ தேர்ந்தெடுங்க',pick:'Map-ல pick பண்ணுங்க',lclear:'என் வீட்டை எடுத்துடு',skip:'இப்போ வேண்டாம்',lnote:'',
+ pickHint:'உங்க வீடு இருக்கற இடத்தை tap பண்ணுங்க',homeL:'வீடு',here:'உங்க location',change:'மாத்து',q2:'எவ்வளவு நேரம் travel பண்ணலாம்?',q2s:'ஒரு பக்கம், சாயங்கால rush hour traffic-ல.',any:'எதுவும்',anyL:'தூரம் பரவாயில்ல',anyS:'நேரம்',nOpen:'{n} openings',go:'{n} openings காட்டு',
+ setHome:'உங்க வீட்டை போடுங்க',setWhy:'வீட்டுல இருந்து 15, 30, 45 நிமிஷத்துல எந்த openings-னு பாருங்க.',maxL:'சாயங்கால rush-ல அதிகபட்ச travel',within:'வீட்டுல இருந்து {m}-க்குள்ள <b>{n} openings</b>',allFrom:'<b>{n} openings</b>, பக்கத்துல இருக்கறது முதல்ல',
+ farRow:'இன்னும் {n} openings {m}-க்கு மேல',showFar:'அதையும் காட்டு',cbAt:'6 மணிக்கு',cbTip:'சாயங்கால rush hour-ல ஒரு பக்க travel நேரம் (தோராயமா)',minsL:'அதிகபட்ச travel',hr:'மணி',mn:'நிமி',
+ setStart:'உங்க வீட்டை போடுங்க',noHome:'வீட்டை போட்டா இந்த office-க்கு travel நேரம், route தெரியும்.',locBtn:'உங்க வீடு'});
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const ageOf=d=>Math.max(0,Math.floor((Date.now()-new Date(d+'T00:00:00+05:30').getTime())/864e5));
@@ -448,7 +492,9 @@ const HOMEKEY='soli-home',ROADF=1.35;          // road route ≈ 1.35 × straigh
 const SPD={am:17.7,pm:14.6};                   // Chennai average rush-hour speeds, km/h (TomTom Traffic Index 2025)
 const INB=(la,lo)=>la>12.2&&la<13.8&&lo>79.2&&lo<81;
 let HOME_PT=null;try{const h=JSON.parse(localStorage.getItem(HOMEKEY)||'null');if(h&&typeof h.la==='number'&&typeof h.lo==='number'&&INB(h.la,h.lo))HOME_PT=h}catch(e){}
-S.near=true;let DC={};const ROUTES={};
+let DC={};const ROUTES={};
+const MAXES=[15,30,45,60,0];let MAXM=30;try{const v=localStorage.getItem('soli-max');if(v!==null&&MAXES.includes(+v))MAXM=+v}catch(e){}
+const AREAS=[['Anna Nagar',13.0850,80.2101],['Velachery',12.9791,80.2209],['T. Nagar',13.0418,80.2341],['Adyar',13.0012,80.2565],['Tambaram',12.9249,80.1000],['Porur',13.0382,80.1565],['Sholinganallur',12.9010,80.2279],['Guindy',13.0067,80.2206],['Ambattur',13.1143,80.1548],['Perambur',13.1210,80.2329]];
 const hav=(a,b,c,d)=>{const r=Math.PI/180,x=Math.sin((c-a)*r/2)**2+Math.cos(a*r)*Math.cos(c*r)*Math.sin((d-b)*r/2)**2;return 12742*Math.asin(Math.sqrt(x))};
 const distTo=a=>{if(!HOME_PT||!a||!D.areas[a])return null;if(!(a in DC))DC[a]=hav(HOME_PT.la,HOME_PT.lo,D.areas[a].lat,D.areas[a].lon);return DC[a]};
 const roadKm=a=>{const d=distTo(a);if(d==null)return null;const R=ROUTES[rkey(a)];return R&&R.km?R.km:d*ROADF};
@@ -456,7 +502,12 @@ const mins=(km,k)=>Math.max(3,Math.round(km/SPD[k]*60));
 const fmtKm=km=>km<1?'<1 km':km<10?km.toFixed(1)+' km':Math.round(km)+' km';
 const fmtMin=m=>m<60?m+' min':Math.floor(m/60)+' h'+(m%60?' '+m%60+' min':'');
 const rng=km=>{const a=mins(km,'am'),b=mins(km,'pm');return a===b?fmtMin(a):b<60?`${a}–${b} min`:`${fmtMin(a)}–${fmtMin(b)}`};
-const kmTag=j=>{const r=roadKm(j.a);return r==null?'':`<span class="km" title="${esc(t('kmTip'))}">${esc(t('away',{k:fmtKm(r)}))} · ${esc(t('rush',{m:rng(r)}))}</span>`};
+const kmTag=j=>{const r=roadKm(j.a);return r==null?'':`<span class="km">${esc(t('away',{k:fmtKm(r)}))}</span>`};
+const cmin=a=>{const r=roadKm(a);return r==null?null:mins(r,'pm')};
+const reachOK=(j,m=MAXM)=>{if(!HOME_PT||!m)return true;const c=cmin(j.a);return c!=null&&c<=m};
+const maxTxt=m=>m===60?'1 '+t('hr'):m+' '+t('mn');
+const maxHTML=m=>m?(m===60?`1<small>${esc(t('hr'))}</small>`:`${m}<small>${esc(t('mn'))}</small>`):esc(t('any'));
+const cbTag=j=>{const m=HOME_PT?cmin(j.a):null;return m==null?'':`<div class="cb" title="${esc(t('cbTip'))}"><b>${esc(fmtMin(m))}</b><small>${esc(t('cbAt'))}</small></div>`};
 const homeName=()=>HOME_PT?(HOME_PT.n||t('here')):'';
 const pinIco='<svg width="10" height="12" viewBox="0 0 9 12" aria-hidden="true"><path d="M4.5 0A4.5 4.5 0 0 0 0 4.5C0 8 4.5 12 4.5 12S9 8 9 4.5A4.5 4.5 0 0 0 4.5 0Zm0 6.2a1.7 1.7 0 1 1 0-3.4 1.7 1.7 0 0 1 0 3.4Z" fill="currentColor"/></svg>';
 
@@ -488,13 +539,16 @@ function filters(){
 }
 function list(){
   const pin=j=>String(j.a||'').startsWith('co_')?2:j.a?1:0;
-  const near=HOME_PT&&S.near,cmpD=(a,b)=>{const x=distTo(a.a),y=distTo(b.a);return x==null?(y==null?0:1):y==null?-1:x-y};
-  const js=LIVE.filter(j=>matchBase(j)&&matchArea(j)).sort((a,b)=>(near?cmpD(a,b):0)||pin(b)-pin(a)||b.d.localeCompare(a.d));
+  const cmpD=(a,b)=>{const x=distTo(a.a),y=distTo(b.a);return x==null?(y==null?0:1):y==null?-1:x-y};
+  const pool=LIVE.filter(j=>matchBase(j)&&matchArea(j)),useReach=HOME_PT&&MAXM&&S.area==='all';
+  const js=(useReach?pool.filter(j=>reachOK(j)):pool).sort((a,b)=>(HOME_PT?cmpD(a,b):0)||pin(b)-pin(a)||b.d.localeCompare(a.d)),far=pool.length-js.length;
+  cmRes();
   $('#count').textContent=js.length;
   $('#clearRow').hidden=S.area==='all'&&!S.cats.size&&!S.q&&S.src===DEF_SRC;
   const sel=D.areas[S.area],trip=sel?`<div id="trip">${HOME_PT?tripHTML(S.area):noHomeHTML(S.area)}</div>`:'';
   if(!js.length&&sel&&sel.co){$('#list').innerHTML=trip+`<div class="empty"><div class="lg" style="margin:0 auto 12px;width:56px;height:56px">${logoTag(sel.en)}</div><p style="margin:0 0 4px;color:var(--ink);font-weight:500">${esc(sel.en)}</p><p style="margin:0 0 14px">${esc(sel.office||'')}</p><p style="margin:0 0 14px">${esc(t('noOpen'))}</p>${sel.careers?`<a class="apply" href="${esc(sel.careers)}" target="_blank" rel="noopener">${esc(t('visit'))} ↗</a>`:''}</div>`;return}
-  $('#list').innerHTML=trip+(js.length?js.slice(0,shown).map(j=>`<article class="job"><div class="lg">${logoTag(j.c)}</div><div><h3>${esc(j.t)}</h3><p class="co">${esc(j.c)}</p><p class="meta"><button type="button" class="ar" data-a="${esc(j.a||'none')}">${pinIco}${esc(j.a&&D.areas[j.a]&&D.areas[j.a].co?(D.areas[j.a].approx?t('approxOff'):t('office')):areaName(j.a))}</button>${kmTag(j)}${j.ty?`<span>${esc(j.ty)}</span>`:''}<span>${ageOf(j.d)<=3?`<span class="new">${esc(t('fresh'))}</span> · `:''}${esc(posted(j.d))}</span>${j.src&&j.src!=='Soli Maps'&&j.src!=='Company careers'?`<span>${esc(t('via',{s:j.src}))}</span>`:''}</p><a class="apply" href="${esc(j.u)}" target="_blank" rel="noopener">${esc(applyLabel(j))} <span aria-hidden="true">↗</span></a></div></article>`).join(''):`<p class="empty">${esc(t('empty'))}</p>`);
+  $('#list').innerHTML=trip+(js.length?js.slice(0,shown).map(j=>`<article class="job"><div class="lg">${logoTag(j.c)}</div><div><h3>${esc(j.t)}</h3><p class="co">${esc(j.c)}</p><p class="meta"><button type="button" class="ar" data-a="${esc(j.a||'none')}">${pinIco}${esc(j.a&&D.areas[j.a]&&D.areas[j.a].co?(D.areas[j.a].approx?t('approxOff'):t('office')):areaName(j.a))}</button>${kmTag(j)}${j.ty?`<span>${esc(j.ty)}</span>`:''}<span>${ageOf(j.d)<=3?`<span class="new">${esc(t('fresh'))}</span> · `:''}${esc(posted(j.d))}</span>${j.src&&j.src!=='Soli Maps'&&j.src!=='Company careers'?`<span>${esc(t('via',{s:j.src}))}</span>`:''}</p><a class="apply" href="${esc(j.u)}" target="_blank" rel="noopener">${esc(applyLabel(j))} <span aria-hidden="true">↗</span></a></div>${cbTag(j)}</article>`).join(''):`<p class="empty">${esc(t('empty'))}</p>`);
+  if(useReach&&far&&js.length<=shown)$('#list').insertAdjacentHTML('beforeend',`<div class="farrow"><span>${esc(t('farRow',{n:far,m:maxTxt(MAXM)}))}</span><button type="button" id="showFar">${esc(t('showFar'))}</button></div>`);
   if(js.length>shown)$('#list').insertAdjacentHTML('beforeend',`<button type="button" class="more" id="more">${esc(t('more',{n:js.length-shown}))}</button>`);
 }
 function render(){texts();filters();list();if(MAP)MAP.update();if(NEW.list.length)newShow()}
@@ -525,48 +579,62 @@ function refresh(){filters();list();if(MAP)MAP.update()}
 function setArea(a){if(a!=='all')panelOpen(true);S.area=a;shown=30;$('#list').scrollTop=0;refresh();tripGo(a);if(MAP)MAP.focus(a)}
 
 /* ---------- Your location: GPS, area search (Photon, OpenStreetMap) or a tap on the map ---------- */
-function locUI(){
-  const set=!!HOME_PT;$('#from').classList.toggle('set',set);
-  $('#fromT').textContent=set?t('fromPre',{n:homeName()}):t('fromQ');
-  $('#fromS').textContent=set?t('fromSub2'):t('fromSub');
-  $('#fromCh').hidden=!set;$('#near').hidden=!set;$('#near').setAttribute('aria-pressed',!!S.near);$('#lclear').hidden=!set;
-  $('#lq').placeholder=t('lqPh');$('#loc').setAttribute('aria-label',t('locBtn'));
-  if(!$('#lnote').classList.contains('err'))$('#lnote').textContent=t('lnote');
+const HSVG='<svg width="16" height="16" viewBox="0 0 18 18" aria-hidden="true"><path d="M2.5 8.5 9 3l6.5 5.5M4.5 7v8h9V7" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+function locUI(){ // the commute block in the brand card
+  const c=$('#cm');
+  c.innerHTML=HOME_PT?`<div class="home"><span class="hb">${HSVG}</span><span class="hn"><small>${esc(t('homeL'))}</small><b>${esc(homeName())}</b></span><button type="button" class="chg" data-act="chg">${esc(t('change'))}</button></div>
+    <p class="lbl">${esc(t('maxL'))}</p>
+    <div class="mins" role="group" aria-label="${esc(t('minsL'))}">${MAXES.map(m=>`<button type="button" data-m="${m}" aria-pressed="${m===MAXM}">${maxHTML(m)}</button>`).join('')}</div>
+    <p class="res" id="cmRes" aria-live="polite"></p>`
+   :`<button type="button" class="setb" data-act="set"><span class="hb">${HSVG}</span><span><b>${esc(t('setHome'))}</b><small>${esc(t('setWhy'))}</small></span></button>`;
+  $('#lq').placeholder=t('lqPh');$('#loc').setAttribute('aria-label',t('locBtn'));$('#lclear').hidden=!HOME_PT;
+  $('#areas').setAttribute('aria-label',t('popular'));$('#tiles').setAttribute('aria-label',t('minsL'));
+  cmRes();
 }
-const note=(k,err)=>{const n=$('#lnote');n.textContent=t(k);n.classList.toggle('err',!!err)};
-function locOpen(open){
-  const b=$('#locbox');b.hidden=!open;$('#fromBtn').setAttribute('aria-expanded',open);
-  if(!open){$('#lres').innerHTML='';$('#lq').value='';note('lnote');ask(false)}
-  else if(innerWidth>860)setTimeout(()=>$('#lq').focus(),30);
-}
-/* the pop-up borrows the same location box, then hands it back to the panel */
-const LB=$('#locbox'),LB_HOME=LB.parentNode,LB_NEXT=LB.nextSibling;let askFrom=null;
-function ask(open){
+function cmRes(){const r=$('#cmRes');if(!r||!HOME_PT)return;const n=LIVE.filter(j=>matchBase(j)&&reachOK(j)).length;r.innerHTML=MAXM?t('within',{n:esc(n),m:esc(maxTxt(MAXM))}):t('allFrom',{n:esc(n)})}
+$('#cm').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.act)ask(1);else if(b.dataset.m!==undefined)setMax(+b.dataset.m)});
+function setMax(m){MAXM=m;try{localStorage.setItem('soli-max',m)}catch(e){}shown=30;refresh();locUI();if(!$('#askhome').hidden)tiles();if(MAP)MAP.zone(true)}
+const note=(k,err)=>{const n=$('#lnote');n.textContent=k?t(k):'';n.classList.toggle('err',!!err)};
+let askFrom=null;
+function ask(step){
   const m=$('#askhome');
-  if(open){if(!m.hidden)return;askFrom=document.activeElement;$('#askSlot').appendChild(LB);m.hidden=false;locOpen(true);if(innerWidth<=860)$('#gps').focus({preventScroll:true});return}
-  if(m.hidden)return;
-  m.hidden=true;LB_HOME.insertBefore(LB,LB_NEXT);LB.hidden=true;$('#fromBtn').setAttribute('aria-expanded',false);
-  try{sessionStorage.setItem('soli-ask','1')}catch(e){}
-  if(askFrom&&askFrom.focus)try{askFrom.focus({preventScroll:true})}catch(e){}
+  if(!step){if(m.hidden)return;m.hidden=true;$('#lres').innerHTML='';$('#lq').value='';note('');
+    try{sessionStorage.setItem('soli-ask','1')}catch(e){}
+    if(askFrom&&askFrom.focus)try{askFrom.focus({preventScroll:true})}catch(e){}return}
+  if(m.hidden)askFrom=document.activeElement;
+  m.hidden=false;$('#st1').hidden=step!==1;$('#st2').hidden=step!==2;
+  if(step===1){$('#areas').innerHTML=AREAS.map((a,i)=>`<button type="button" data-i="${i}">${esc(a[0])}</button>`).join('');if(innerWidth>860)setTimeout(()=>$('#lq').focus(),30)}
+  else{tiles();setTimeout(()=>$('#go').focus({preventScroll:true}),30)}
 }
-$('#askX').addEventListener('click',()=>locOpen(false));
-$('#askhome').addEventListener('click',e=>{if(e.target.id==='askhome')locOpen(false)});
-addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#askhome').hidden)locOpen(false)});
+function tiles(){
+  const base=LIVE.filter(matchBase),cnt=m=>base.filter(j=>reachOK(j,m)).length;
+  $('#st2H').textContent=homeName();
+  $('#tiles').innerHTML=MAXES.map(m=>`<button type="button" data-m="${m}" aria-pressed="${m===MAXM}"><b>${m?maxHTML(m):esc(t('any'))+`<small>${esc(t('anyS'))}</small>`}</b><span>${esc(t('nOpen',{n:cnt(m)}))}</span></button>`).join('');
+  $('#go').textContent=t('go',{n:cnt(MAXM)});
+}
+$('#tiles').addEventListener('click',e=>{const b=e.target.closest('button[data-m]');if(b)setMax(+b.dataset.m)});
+$('#go').addEventListener('click',()=>{ask(0);if(MAP)MAP.zone(true);if(innerWidth<=860)$('#map').scrollIntoView({block:'start',behavior:'smooth'})});
+$('#st2C').addEventListener('click',()=>ask(1));
+$('#askX').addEventListener('click',()=>ask(0));
+$('#askhome').addEventListener('click',e=>{if(e.target.id==='askhome')ask(0)});
+addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#askhome').hidden)ask(0)});
+$('#areas').addEventListener('click',e=>{const b=e.target.closest('button[data-i]');if(!b)return;const a=AREAS[+b.dataset.i];setHome({la:a[1],lo:a[2],n:a[0]})});
 function noHomeHTML(a){
   const ar=D.areas[a];if(!ar)return'';
   return`<div class="trip"><p class="fine" style="font-size:13px">${esc(t('noHome'))}</p><div class="acts"><button type="button" class="apply" id="askBtn">${esc(t('setStart'))}</button><a class="apply ghost" href="https://www.google.com/maps/dir/?api=1&destination=${ar.lat},${ar.lon}" target="_blank" rel="noopener">${esc(t('dirs'))} <span aria-hidden="true">↗</span></a></div></div>`;
 }
-function setHome(p){
+function setHome(p){ // after a home is chosen, step 2 asks how long a commute is OK
   HOME_PT=p;DC={};
   try{p?localStorage.setItem(HOMEKEY,JSON.stringify(p)):localStorage.removeItem(HOMEKEY)}catch(e){}
-  locOpen(false);refresh();locUI();
-  if(MAP)MAP.home(true);
+  refresh();locUI();
+  if(MAP){MAP.home(false);MAP.zone(false)}
+  if(p)ask(2);else{ask(0);if(MAP&&S.area==='all')MAP.focus('all')}
   if(p&&D.areas[S.area]){tripGo(S.area);if(MAP)MAP.focus(S.area)}else if(MAP)MAP.route(null);
 }
 const PHOTON='https://photon.komoot.io';
 const placeName=p=>p.name||p.street||p.district||p.locality||p.city||'';
 function nameSpot(p){ // give a GPS or tapped spot a neighbourhood name, if the lookup works
-  fetch(`${PHOTON}/reverse?lat=${p.la}&lon=${p.lo}&limit=1`).then(r=>r.json()).then(j=>{const f=j.features&&j.features[0];if(!f||HOME_PT!==p)return;const q=f.properties||{};const n=q.district||q.locality||q.name||q.street||q.city;if(n){p.n=n;try{localStorage.setItem(HOMEKEY,JSON.stringify(p))}catch(e){}locUI();if(MAP)MAP.home(false);const tr=$('#trip');if(tr&&D.areas[S.area])tr.innerHTML=tripHTML(S.area)}}).catch(()=>{});
+  fetch(`${PHOTON}/reverse?lat=${p.la}&lon=${p.lo}&limit=1`).then(r=>r.json()).then(j=>{const f=j.features&&j.features[0];if(!f||HOME_PT!==p)return;const q=f.properties||{};const n=q.district||q.locality||q.name||q.street||q.city;if(n){p.n=n;try{localStorage.setItem(HOMEKEY,JSON.stringify(p))}catch(e){}locUI();$('#st2H').textContent=homeName();if(MAP)MAP.home(false);const tr=$('#trip');if(tr&&D.areas[S.area])tr.innerHTML=tripHTML(S.area)}}).catch(()=>{});
 }
 let sT=0,sAb=null,RES=[];
 function search(q){
@@ -574,13 +642,11 @@ function search(q){
   fetch(`${PHOTON}/api/?q=${encodeURIComponent(q)}&limit=7&lat=13.04&lon=80.21&bbox=79.6,12.4,80.5,13.5`,{signal:sAb.signal}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(j=>{
     RES=(j.features||[]).filter(f=>f.geometry&&f.geometry.type==='Point'&&INB(f.geometry.coordinates[1],f.geometry.coordinates[0])).map(f=>{const p=f.properties||{},n=placeName(p);return{n,sub:[p.district!==n&&p.district,p.city!==n&&(p.city||p.county),p.postcode].filter(Boolean).join(', '),la:f.geometry.coordinates[1],lo:f.geometry.coordinates[0]}}).filter(r=>r.n);
     $('#lres').innerHTML=RES.map((r,i)=>`<li><button type="button" data-i="${i}"><b>${esc(r.n)}</b>${r.sub?`<small>${esc(r.sub)}</small>`:''}</button></li>`).join('');
-    RES.length?note('lnote'):note('noRes',true);
+    RES.length?note(''):note('noRes',true);
   }).catch(e=>{if(e.name!=='AbortError')note('srchErr',true)});
 }
-$('#fromBtn').addEventListener('click',()=>locOpen($('#locbox').hidden));
-$('#near').addEventListener('click',()=>{S.near=!S.near;shown=30;refresh();locUI()});
-$('#lq').addEventListener('input',e=>{clearTimeout(sT);const q=e.target.value.trim();if(q.length<3){$('#lres').innerHTML='';return}sT=setTimeout(()=>search(q),350)});
-$('#lq').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();clearTimeout(sT);const q=e.target.value.trim();if(q.length>=2)search(q)}if(e.key==='Escape')locOpen(false)});
+$('#lq').addEventListener('input',e=>{clearTimeout(sT);const q=e.target.value.trim();if(q.length<3){$('#lres').innerHTML='';note('');return}sT=setTimeout(()=>search(q),350)});
+$('#lq').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();clearTimeout(sT);const q=e.target.value.trim();if(q.length>=2)search(q)}});
 $('#lres').addEventListener('click',e=>{const b=e.target.closest('button[data-i]');if(!b)return;const r=RES[+b.dataset.i];if(r)setHome({la:+r.la.toFixed(5),lo:+r.lo.toFixed(5),n:r.n})});
 $('#gps').addEventListener('click',()=>{
   if(!navigator.geolocation){note('gpsErr',true);return}
@@ -629,7 +695,7 @@ $('#area').addEventListener('change',e=>setArea(e.target.value));
 $('#src').addEventListener('change',e=>{S.src=e.target.value;shown=30;refresh()});
 $('#q').addEventListener('input',e=>{shown=30;S.q=e.target.value.trim().toLowerCase();refresh()});
 $('#chips').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;const c=b.dataset.c;S.cats.has(c)?S.cats.delete(c):S.cats.add(c);shown=30;refresh()});
-$('#list').addEventListener('click',e=>{if(e.target.id==='more'){shown+=30;list();return}if(e.target.closest('#askBtn')){ask(true);return}const b=e.target.closest('.ar');if(b){setArea(b.dataset.a);if(innerWidth<=860)$('#map').scrollIntoView({block:'start',behavior:'smooth'})}});
+$('#list').addEventListener('click',e=>{if(e.target.id==='more'){shown+=30;list();return}if(e.target.closest('#askBtn')){ask(1);return}if(e.target.id==='showFar'){setMax(0);return}const b=e.target.closest('.ar');if(b){setArea(b.dataset.a);if(innerWidth<=860)$('#map').scrollIntoView({block:'start',behavior:'smooth'})}});
 $('#clear').addEventListener('click',()=>{S.cats.clear();S.q='';S.src=DEF_SRC;$('#q').value='';setArea('all')});
 $('#seeUnl').addEventListener('click',()=>setArea('none'));
 
@@ -670,7 +736,7 @@ function makeMap(){
   addEventListener('resize',()=>map.setPadding(pad()));
   MAP_PAD=()=>map.easeTo({padding:pad(),duration:reduce?0:500});
   const hint=$('.hint');map.once('dragstart',()=>hint&&hint.classList.add('gone'));map.once('rotatestart',()=>hint&&hint.classList.add('gone'));
-  map.on('load',()=>{if(!reduce)map.easeTo({...HOME,duration:1600});MAP.lang()});
+  map.on('load',()=>{if(HOME_PT&&MAXM&&S.area==='all')zone(true);else if(!reduce)map.easeTo({...HOME,duration:1600});MAP.lang()});
   // Backup map: if OpenFreeMap's tiles can't be reached on this network (some mobile networks, content blockers
   // or private relays block them), switch to CARTO's map tiles so nobody is left with a blank map.
   let tileOK=false,tileErr=0,backupOn=false;
@@ -690,11 +756,12 @@ function makeMap(){
   function build(){
     for(const[,m]of markers)m.mk.remove();markers.clear();
     const by={};for(const a in D.areas)if(D.areas[a].co)by[a]={n:0};
-    for(const j of LIVE.filter(matchBase))if(j.a&&D.areas[j.a]){const b=by[j.a]=by[j.a]||{n:0};b.n++}
+    const rOn=HOME_PT&&MAXM&&S.area==='all';
+    for(const j of LIVE.filter(matchBase))if(j.a&&D.areas[j.a]&&(!rOn||reachOK(j))){const b=by[j.a]=by[j.a]||{n:0};b.n++}
     for(const a in by){
       const ar=D.areas[a],n=by[a].n,co=!!ar.co,rk=roadKm(a),name=areaName(a)+(rk!=null?` · ${fmtKm(rk)}`:'');
       if(!co&&!n)continue;
-      const el=document.createElement('div');el.className='mk '+(co?'co':'area')+(co&&!n?' zero':'');
+      const el=document.createElement('div');el.className='mk '+(co?'co':'area')+(co&&!n?' zero':'')+(rOn&&cmin(a)>MAXM?' far':'');
       el.setAttribute('role','button');el.tabIndex=0;el.setAttribute('aria-label',`${name}: ${n} ${t('jobs')}`);
       el.innerHTML=co?`<div class="bub">${ar.logo?`<img src="${esc(ar.logo)}" alt="" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'mono',textContent:'${mono(ar.en)}'}))">`:`<span class="mono">${mono(ar.en)}</span>`}${n?`<span class="ct">${n}</span>`:''}</div><div class="stk"></div><span class="tip"></span><span class="nm">${esc(name)}</span>`
         :`<div class="bub"><b>${n}</b></div><div class="stk"></div><span class="tip"></span><span class="nm">${esc(name)}</span>`;
@@ -742,7 +809,7 @@ function makeMap(){
   map.on('moveend',()=>group());
   function style(){for(const[a,m]of markers){m.el.classList.toggle('on',S.area===a);m.el.classList.toggle('dim',S.area!=='all'&&S.area!==a);m.el.style.zIndex=S.area===a?999:m.grp?800+m.grp.length:(m.co?500:0)+m.n}}
   function focus(a){
-    if(a==='all'||a==='none'){map.flyTo({...HOME,duration:reduce?0:1400});return}
+    if(a==='all'||a==='none'){if(HOME_PT&&a==='all'){zone(true);return}map.flyTo({...HOME,duration:reduce?0:1400});return}
     const ar=D.areas[a];
     if(ar&&HOME_PT){ // show the whole trip: home and the office together
       const bb=new maplibregl.LngLatBounds([HOME_PT.lo,HOME_PT.la],[HOME_PT.lo,HOME_PT.la]).extend([ar.lon,ar.lat]);
@@ -775,8 +842,13 @@ function makeMap(){
   }
   // route line home → office (solid for a road route, dashed for the straight-line fallback); re-added if the style is swapped
   const EMPTY={type:'FeatureCollection',features:[]};let tripData=EMPTY;
+  let zoneData=EMPTY;
   function ensureRoute(){
     if(map.getSource('trip')||!map.isStyleLoaded())return;
+    // commute zone: everywhere reachable from home within the chosen time at evening rush (straight-line equivalent)
+    map.addSource('zone',{type:'geojson',data:zoneData});
+    map.addLayer({id:'zone-fill',type:'fill',source:'zone',paint:{'fill-color':'#E5484D','fill-opacity':.07}});
+    map.addLayer({id:'zone-line',type:'line',source:'zone',paint:{'line-color':'#E5484D','line-opacity':.55,'line-width':1.6,'line-dasharray':[3,2]}});
     map.addSource('trip',{type:'geojson',data:tripData});
     const lay={type:'line',source:'trip',layout:{'line-cap':'round','line-join':'round'}};
     map.addLayer({...lay,id:'trip-case',paint:{'line-color':'#FFFFFF','line-width':['interpolate',['linear'],['zoom'],10,5,16,10],'line-opacity':.95}});
@@ -788,19 +860,28 @@ function makeMap(){
     tripData=coords?{type:'FeatureCollection',features:[{type:'Feature',properties:{d:dashed?1:0},geometry:{type:'LineString',coordinates:coords}}]}:EMPTY;
     ensureRoute();const s=map.getSource('trip');if(s)s.setData(tripData);
   }
+  function zone(fit){
+    if(!HOME_PT||!MAXM){zoneData=EMPTY}else{
+      const r=MAXM/60*SPD.pm/ROADF,la=HOME_PT.la,lo=HOME_PT.lo,dy=r/110.574,dx=r/(111.32*Math.cos(la*Math.PI/180)),ring=[];
+      for(let i=0;i<=72;i++){const a=i/72*2*Math.PI;ring.push([lo+dx*Math.cos(a),la+dy*Math.sin(a)])}
+      zoneData={type:'FeatureCollection',features:[{type:'Feature',properties:{},geometry:{type:'Polygon',coordinates:[ring]}}]};
+      if(fit&&S.area==='all'){const cam=map.cameraForBounds([[lo-dx,la-dy],[lo+dx,la+dy]],{padding:40,bearing:map.getBearing()});if(cam)map.flyTo({center:cam.center,zoom:Math.min(cam.zoom,14),pitch:35,bearing:map.getBearing(),duration:reduce?0:1400,essential:true})}
+    }
+    ensureRoute();const s=map.getSource('zone');if(s)s.setData(zoneData);
+  }
   // "tap a spot on the map" to set where you start
   const bar=$('#pickbar');
   const onPick=e=>{pick(false);const p={la:+e.lngLat.lat.toFixed(5),lo:+e.lngLat.lng.toFixed(5),n:null};if(!INB(p.la,p.lo))return;setHome(p);nameSpot(p)};
-  function pick(on){box.classList.toggle('picking',on);bar.hidden=!on;map.off('click',onPick);if(on){map.once('click',onPick);locOpen(false)}}
+  function pick(on){box.classList.toggle('picking',on);bar.hidden=!on;map.off('click',onPick);if(on){map.once('click',onPick);ask(0)}}
   $('#pickX').addEventListener('click',e=>{e.stopPropagation();pick(false)});
   addEventListener('keydown',e=>{if(e.key==='Escape'&&!bar.hidden)pick(false)});
   // the location button: fly to your home, or ask where you start from
   $('#loc').addEventListener('click',()=>{
     if(HOME_PT){if(D.areas[S.area])focus(S.area);else map.flyTo({center:[HOME_PT.lo,HOME_PT.la],zoom:Math.max(map.getZoom(),13),duration:reduce?0:1200,essential:true});return}
-    panelOpen(true);locOpen(true);if(innerWidth<=860)$('.panel').scrollIntoView({block:'start',behavior:'smooth'});
+    ask(1);
   });
   home(false);
-  return{update:build,focus,lang:()=>{setNames();build();home(false)},home,route,pick};
+  return{update:build,focus,lang:()=>{setNames();build();home(false)},home,route,pick,zone};
 }
 
 const getJSON=f=>fetch(f,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()});
@@ -825,7 +906,7 @@ Promise.all([getJSON('jobs.json'),getJSON('feeds.json').catch(()=>null),getJSON(
   newCard();
   // ask where they start from, once per visit, until they set it
   let asked=null;try{asked=sessionStorage.getItem('soli-ask')}catch(e){}
-  if(!HOME_PT&&!asked)setTimeout(()=>{if(!HOME_PT)ask(true)},matchMedia('(prefers-reduced-motion: reduce)').matches?0:1200);
+  if(!HOME_PT&&!asked)setTimeout(()=>{if(!HOME_PT)ask(1)},matchMedia('(prefers-reduced-motion: reduce)').matches?0:1200);
 }).catch(()=>{$('#list').innerHTML=`<p class="empty">${esc(t('loadErr'))}</p>`});
 }
 </script>
