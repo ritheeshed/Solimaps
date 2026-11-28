@@ -179,6 +179,52 @@ select:hover,input[type=search]:hover{border-color:#E9CFCC}
 .me .pop button{justify-self:start;border:0;background:none;padding:0;color:var(--red);font-weight:500;cursor:pointer;min-height:28px}
 @media(max-width:860px){.me .pop{right:-4px}}
 @media(prefers-reduced-motion:reduce){.mk .bub,.mk .stk{transition:none;animation:none!important}}
+/* "From": where the visitor starts, ride-app style; drives distance and rush-hour travel time */
+.from{display:flex;gap:8px;align-items:stretch}
+.fbtn{flex:1;display:flex;align-items:center;gap:11px;min-height:50px;padding:6px 12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);cursor:pointer;text-align:left}
+.fbtn:hover{border-color:#E9CFCC}
+.fdot{width:13px;height:13px;border-radius:50%;flex:none;border:3px solid var(--mute);background:var(--bg)}
+.from.set .fdot{border-color:var(--ink)}
+.ftx{display:grid;flex:1;line-height:1.3}
+.ftx b{font-weight:500;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ftx small{font-size:12px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fch{flex:none;font-size:12.5px;color:var(--red);font-weight:500}
+.near{flex:none;border:1px solid var(--line);border-radius:12px;background:var(--bg);padding:0 12px;font-size:12.5px;font-weight:500;cursor:pointer;color:var(--mute);max-width:112px;line-height:1.25}
+.near[aria-pressed=true]{background:var(--redsoft);border-color:transparent;color:var(--red2)}
+.locbox{display:grid;gap:8px;padding:12px;border-radius:14px;background:var(--soft);border:1px solid var(--line)}
+.gps{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 14px;border:0;border-radius:10px;background:var(--red);color:#fff;font-weight:500;font-size:14px;cursor:pointer}
+.gps:hover{filter:brightness(.95)}.gps[aria-busy=true]{opacity:.7;cursor:progress}
+.lres{list-style:none;margin:0;padding:0;max-height:220px;overflow:auto;border-radius:10px;background:var(--bg);border:1px solid var(--line)}
+.lres:empty{display:none}
+.lres button{width:100%;display:grid;text-align:left;border:0;border-bottom:1px solid var(--line);background:none;padding:9px 12px;cursor:pointer}
+.lres li:last-child button{border-bottom:0}
+.lres button:hover,.lres button:focus-visible{background:var(--soft)}
+.lres b{font-weight:500;font-size:14px}.lres small{font-size:12px;color:var(--mute)}
+.lrow{display:flex;justify-content:space-between;gap:10px}
+.lrow button{border:0;background:none;color:var(--red);font-weight:500;cursor:pointer;min-height:32px;padding:0;font-size:13px}
+.lnote{margin:0;font-size:12px;color:var(--mute)}.lnote.err{color:var(--red2)}
+.meta .km{color:var(--ink);opacity:.85}
+/* trip card: home → office, road distance, morning and evening rush-hour time */
+.trip{margin:10px 16px 6px;padding:14px;border-radius:16px;background:var(--soft);border:1px solid var(--line);display:grid;gap:12px}
+.trip .legs{display:grid;grid-template-columns:14px minmax(0,1fr);column-gap:10px;font-size:13.5px;line-height:1.35}
+.trip .legs i{justify-self:center;margin-top:4px;width:11px;height:11px;border-radius:50%}
+.trip .legs .a{border:2.5px solid var(--ink)}.trip .legs .b{background:var(--red)}
+.trip .legs .ln{justify-self:center;width:2px;height:12px;margin:2px 0;background:var(--line)}
+.trip .legs small{display:block;color:var(--mute);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trip .legs span{min-width:0}
+.trip .rd{font-size:13px;color:var(--mute)}.trip .rd b{font-size:19px;font-weight:600;color:var(--ink);letter-spacing:-.02em;margin-right:6px}
+.trip .tt{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.trip .tt div{padding:10px 12px;border-radius:12px;background:var(--bg);border:1px solid var(--line)}
+.trip .tt small{display:block;font-size:11.5px;color:var(--mute);line-height:1.3}
+.trip .tt b{display:block;margin-top:2px;font-size:18px;font-weight:600;letter-spacing:-.02em}
+.trip .fine{margin:0;font-size:11.5px;color:var(--mute)}
+.trip .apply{margin:0;justify-self:start}
+/* home pin on the map, and the "tap where you start" bar */
+.homepin{width:30px;height:30px;border-radius:50%;background:#2B2022;display:grid;place-items:center;box-shadow:0 0 0 3px #fff,0 6px 16px #2b202240;cursor:default}
+.pickbar{position:absolute;z-index:3100;top:16px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;padding:8px 8px 8px 16px;border-radius:999px;font-size:13.5px;font-weight:500;white-space:nowrap}
+.pickbar button{border:0;border-radius:999px;background:var(--soft);min-height:30px;padding:0 12px;cursor:pointer;font-size:12.5px;font-weight:500}
+#map.picking .maplibregl-canvas{cursor:crosshair}
+@media(max-width:860px){.pickbar{top:auto;bottom:84px}.near{max-width:96px}}
 </style>
 </head>
 <body>
@@ -205,6 +251,7 @@ select:hover,input[type=search]:hover{border-color:#E9CFCC}
         <button type="button" id="zin" aria-label="Zoom in">+</button>
         <button type="button" id="zout" aria-label="Zoom out">−</button>
         <div class="sep"></div>
+        <button type="button" id="loc" aria-label="Your location"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="9" r="1.8" fill="currentColor"/><path d="M9 1v2.5M9 14.5V17M1 9h2.5M14.5 9H17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
         <button type="button" id="tilt" aria-pressed="true" aria-label="Switch between 3D and flat view">3D</button>
         <button type="button" id="rotl" aria-label="Turn left"><svg width="16" height="16" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9a6 6 0 1 0 1.8-4.3M3 2.5v3.8h3.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <button type="button" id="rotr" aria-label="Turn right"><svg width="16" height="16" viewBox="0 0 18 18" aria-hidden="true"><path d="M15 9a6 6 0 1 1-1.8-4.3M15 2.5v3.8h-3.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -214,11 +261,23 @@ select:hover,input[type=search]:hover{border-color:#E9CFCC}
       </div>
       <p class="float hint" data-t="hint">Drag to move · right-click and drag to tilt or turn</p>
     </div>
+    <div class="float pickbar" id="pickbar" hidden><span data-t="pickHint">Tap where you start from</span><button type="button" id="pickX" data-t="cancel">Cancel</button></div>
     <div class="nomap" id="nomap"><p data-t="nomap">The 3D map couldn't load on this browser. The list of openings still works.</p></div>
   </section>
   <section class="float panel" aria-label="Openings">
     <div class="ph">
       <h2><span data-t="openings">Openings</span><span class="hr"><small id="count"></small><button type="button" class="ptog" id="ptog" aria-expanded="true" aria-controls="list"><span data-t="hide">Hide</span><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 7.5 6 4.5l3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></span></h2>
+      <div class="from" id="from">
+        <button type="button" class="fbtn" id="fromBtn" aria-expanded="false" aria-controls="locbox"><i class="fdot" aria-hidden="true"></i><span class="ftx"><b id="fromT">Where do you start from?</b><small id="fromS">Set your home to see distance and travel time</small></span><span class="fch" id="fromCh" data-t="change" hidden>Change</span></button>
+        <button type="button" class="near" id="near" aria-pressed="true" data-t="nearest" hidden>Nearest first</button>
+      </div>
+      <div class="locbox" id="locbox" hidden>
+        <button type="button" class="gps" id="gps"><svg width="16" height="16" viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="9" cy="9" r="1.8" fill="currentColor"/><path d="M9 1v2.5M9 14.5V17M1 9h2.5M14.5 9H17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span id="gpsT" data-t="gps">Use my current location</span></button>
+        <div class="fld"><label for="lq" data-t="lqL">Or search your area</label><input type="search" id="lq" autocomplete="off" enterkeyhint="search"></div>
+        <ul class="lres" id="lres"></ul>
+        <div class="lrow"><button type="button" id="pick" data-t="pick">Tap a spot on the map</button><button type="button" id="lclear" data-t="lclear" hidden>Remove my location</button></div>
+        <p class="lnote" id="lnote" aria-live="polite"></p>
+      </div>
       <div class="row">
         <div class="fld"><label for="area" data-t="area">Area or company</label><select id="area"></select></div>
         <div class="fld"><label for="src" data-t="srcL">Source</label><select id="src"></select></div>
@@ -244,7 +303,8 @@ function panelOpen(open,save){const P=document.querySelector('.panel'),b=documen
   if(save)try{localStorage.setItem('soli-panel',open?'1':'0')}catch(e){}
   if(innerWidth>860)MAP_PAD()}
 const T={
-en:{newK:'New on the map',newSee:'Show on map',newClose:'Close',tag:"Jobs near you, <em>straight from the company.</em>",vp1:'Pinned on the real office',vp2:'Only real company openings',srcOurs:'Companies on the map',vp3:'Fresh every morning',openings:'Openings',jobs:'openings',jobsCo:'openings from company sites',cosShort:'companies',cos:'companies on the map',updated:'Updated',area:'Area or company',find:'Search',ph:'Role or company',all:'All of Chennai',none:'Office not named',clear:'Clear filters',today:'today',d1:'1 day ago',dn:'{n} days ago',showing:'{n}',empty:'No openings match. Try another area, field or source.',hint:'Drag to move · right-click and drag to tilt or turn',nomap:"The 3D map couldn't load on this browser. The list of openings still works.",source:'Openings come straight from company career pages, plus Indeed and Google for Jobs under Source. Refreshed every morning; listings older than 90 days are hidden.',check:'Pins sit on each company\'s published Chennai office. Check the job page for the exact work location.',stale:'Last refresh was {n} days ago, so some openings may have closed.',fields:'Fields',srcL:'Source',srcAll:'All sources',srcCo:'Company career pages',srcSoli:'Posted on Soli Maps',via:'via {s}',applyOn:'Apply on {s}',applyCo:'Apply',applySoli:'Apply',post:'Hiring? Post a job',unl:"openings don't name an office",see:'Show them',more:'Show {n} more',fresh:'New',loadErr:'Could not load openings. Please reload the page.',companies:'Companies',areas:'Areas',noOpen:'No openings listed right now.',visit:'Visit careers page',office:'Chennai office',approxOff:'Office area (approx.)',hide:'Hide',show:'Show',about:'About these listings'},
+en:{newK:'New on the map',newSee:'Show on map',newClose:'Close',tag:"Jobs near you, <em>straight from the company.</em>",vp1:'Pinned on the real office',vp2:'Only real company openings',srcOurs:'Companies on the map',vp3:'Fresh every morning',openings:'Openings',jobs:'openings',jobsCo:'openings from company sites',cosShort:'companies',cos:'companies on the map',updated:'Updated',area:'Area or company',find:'Search',ph:'Role or company',all:'All of Chennai',none:'Office not named',clear:'Clear filters',today:'today',d1:'1 day ago',dn:'{n} days ago',showing:'{n}',empty:'No openings match. Try another area, field or source.',hint:'Drag to move · right-click and drag to tilt or turn',nomap:"The 3D map couldn't load on this browser. The list of openings still works.",source:'Openings come straight from company career pages, plus Indeed and Google for Jobs under Source. Refreshed every morning; listings older than 90 days are hidden.',check:'Pins sit on each company\'s published Chennai office. Check the job page for the exact work location.',stale:'Last refresh was {n} days ago, so some openings may have closed.',fields:'Fields',srcL:'Source',srcAll:'All sources',srcCo:'Company career pages',srcSoli:'Posted on Soli Maps',via:'via {s}',applyOn:'Apply on {s}',applyCo:'Apply',applySoli:'Apply',post:'Hiring? Post a job',unl:"openings don't name an office",see:'Show them',more:'Show {n} more',fresh:'New',loadErr:'Could not load openings. Please reload the page.',companies:'Companies',areas:'Areas',noOpen:'No openings listed right now.',visit:'Visit careers page',office:'Chennai office',approxOff:'Office area (approx.)',hide:'Hide',show:'Show',about:'About these listings',
+ fromQ:'Where do you start from?',fromSub:'Set your home to see distance and travel time',fromPre:'From {n}',fromSub2:'Distance and rush-hour time on every job',change:'Change',nearest:'Nearest first',gps:'Use my current location',gpsBusy:'Finding you…',lqL:'Or search your area',lqPh:'e.g. Velachery, Anna Nagar',pick:'Tap a spot on the map',lclear:'Remove my location',lnote:'Your location stays on this device.',noRes:'No places found in Chennai. Try another spelling.',srchErr:"Search isn't working right now. Tap a spot on the map instead.",gpsErr:"Couldn't get your location. Search your area instead.",gpsFar:'You seem to be outside Chennai. Search your area instead.',pickHint:'Tap where you start from',cancel:'Cancel',here:'your location',locBtn:'Your location',away:'≈ {k}',rush:'{m} at rush hour',kmTip:'Approximate road distance and rush-hour travel time from your location',tripFrom:'From',tripTo:'To',byRoad:'by road',approxRoad:'by road (approx.)',am:'Morning rush · 8–11 am',pm:'Evening rush · 5–8 pm',tripNote:"Estimated from Chennai's average rush-hour speeds (TomTom Traffic Index 2025). Actual time depends on the route and the day.",dirs:'Directions'},
 ta:{
  "newK": "Map-ல புதுசு",
  "newSee": "Map-ல காட்டு",
@@ -299,7 +359,39 @@ ta:{
  "approxOff": "Office area (தோராயமா)",
  "hide": "மறை",
  "show": "காட்டு",
- "about": "இந்த listings பத்தி"
+ "about": "இந்த listings பத்தி",
+ "fromQ": "எங்க இருந்து கிளம்புறீங்க?",
+ "fromSub": "Location போட்டா ஒவ்வொரு office-க்கும் தூரம், travel time தெரியும்",
+ "fromPre": "{n}-ல இருந்து",
+ "fromSub2": "ஒவ்வொரு job-லயும் தூரம், rush hour time",
+ "change": "மாத்து",
+ "nearest": "பக்கத்துல இருக்கறது முதல்ல",
+ "gps": "என் current location-ஐ எடு",
+ "gpsBusy": "தேடுறோம்…",
+ "lqL": "இல்ல உங்க area-வ தேடுங்க",
+ "lqPh": "உதா: Velachery, Anna Nagar",
+ "pick": "Map-ல ஒரு இடத்தை tap பண்ணுங்க",
+ "lclear": "என் location-ஐ எடுத்துடு",
+ "lnote": "உங்க location இந்த device-ல மட்டும் தான் இருக்கும்.",
+ "noRes": "சென்னையில அப்படி ஒரு இடம் கிடைக்கல. வேற spelling try பண்ணுங்க.",
+ "srchErr": "Search இப்போ வேலை செய்யல. Map-ல ஒரு இடத்தை tap பண்ணுங்க.",
+ "gpsErr": "Location கிடைக்கல. உங்க area-வ தேடுங்க.",
+ "gpsFar": "நீங்க சென்னைக்கு வெளியே இருக்கற மாதிரி இருக்கு. உங்க area-வ தேடுங்க.",
+ "pickHint": "கிளம்புற இடத்தை tap பண்ணுங்க",
+ "cancel": "வேண்டாம்",
+ "here": "உங்க location",
+ "locBtn": "உங்க location",
+ "away": "≈ {k}",
+ "rush": "rush hour-ல {m}",
+ "kmTip": "உங்க location-ல இருந்து தோராயமான road தூரம், rush hour time",
+ "tripFrom": "கிளம்புற இடம்",
+ "tripTo": "போற இடம்",
+ "byRoad": "road-ல",
+ "approxRoad": "road-ல (தோராயமா)",
+ "am": "காலை rush · 8–11 மணி",
+ "pm": "சாயங்கால rush · 5–8 மணி",
+ "tripNote": "சென்னையோட சராசரி rush hour speed வெச்சு கணக்கு (TomTom Traffic Index 2025). Route, நாள் பொறுத்து மாறும்.",
+ "dirs": "வழி காட்டு"
 }};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -323,6 +415,21 @@ const posted=d=>{const n=ageOf(d);return n===0?t('today'):n===1?t('d1'):t('dn',{
 const logoOf=name=>LOGOS[name]||'';
 const mono=n=>esc((String(n||'?').replace(/[^A-Za-z0-9]/g,'')[0]||'?').toUpperCase());
 const logoTag=(name,cls)=>{const l=logoOf(name);return l?`<img src="${esc(l)}" alt="" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'mono',textContent:'${mono(name)}'}))">`:`<span class="mono">${mono(name)}</span>`};
+/* Your location → distance and travel time. Home is kept only in this browser (localStorage). */
+const HOMEKEY='soli-home',ROADF=1.35;          // road route ≈ 1.35 × straight line until the real route arrives
+const SPD={am:17.7,pm:14.6};                   // Chennai average rush-hour speeds, km/h (TomTom Traffic Index 2025)
+const INB=(la,lo)=>la>12.2&&la<13.8&&lo>79.2&&lo<81;
+let HOME_PT=null;try{const h=JSON.parse(localStorage.getItem(HOMEKEY)||'null');if(h&&typeof h.la==='number'&&typeof h.lo==='number'&&INB(h.la,h.lo))HOME_PT=h}catch(e){}
+S.near=true;let DC={};const ROUTES={};
+const hav=(a,b,c,d)=>{const r=Math.PI/180,x=Math.sin((c-a)*r/2)**2+Math.cos(a*r)*Math.cos(c*r)*Math.sin((d-b)*r/2)**2;return 12742*Math.asin(Math.sqrt(x))};
+const distTo=a=>{if(!HOME_PT||!a||!D.areas[a])return null;if(!(a in DC))DC[a]=hav(HOME_PT.la,HOME_PT.lo,D.areas[a].lat,D.areas[a].lon);return DC[a]};
+const roadKm=a=>{const d=distTo(a);if(d==null)return null;const R=ROUTES[rkey(a)];return R&&R.km?R.km:d*ROADF};
+const mins=(km,k)=>Math.max(3,Math.round(km/SPD[k]*60));
+const fmtKm=km=>km<1?'<1 km':km<10?km.toFixed(1)+' km':Math.round(km)+' km';
+const fmtMin=m=>m<60?m+' min':Math.floor(m/60)+' h'+(m%60?' '+m%60+' min':'');
+const rng=km=>{const a=mins(km,'am'),b=mins(km,'pm');return a===b?fmtMin(a):b<60?`${a}–${b} min`:`${fmtMin(a)}–${fmtMin(b)}`};
+const kmTag=j=>{const r=roadKm(j.a);return r==null?'':`<span class="km" title="${esc(t('kmTip'))}">${esc(t('away',{k:fmtKm(r)}))} · ${esc(t('rush',{m:rng(r)}))}</span>`};
+const homeName=()=>HOME_PT?(HOME_PT.n||t('here')):'';
 const pinIco='<svg width="10" height="12" viewBox="0 0 9 12" aria-hidden="true"><path d="M4.5 0A4.5 4.5 0 0 0 0 4.5C0 8 4.5 12 4.5 12S9 8 9 4.5A4.5 4.5 0 0 0 4.5 0Zm0 6.2a1.7 1.7 0 1 1 0-3.4 1.7 1.7 0 0 1 0 3.4Z" fill="currentColor"/></svg>';
 
 function texts(){
@@ -335,6 +442,7 @@ function texts(){
   const pool=LIVE.filter(j=>srcOk(j,DEF_SRC)),cos=Object.values(D.areas).filter(a=>a.co).length;
   $('#stats').innerHTML=`<b>${pool.length}</b> ${esc(t('jobs'))} · <b>${cos}</b> ${esc(t('cosShort'))} · ${esc(upd)}`;
   const st=ageOf(D.updated);$('#stale').textContent=st>2?t('stale',{n:st}):'';
+  locUI();
 }
 function filters(){
   const sc={};for(const j of LIVE){const g=srcGroup(j);sc[g]=(sc[g]||0)+1}
@@ -352,12 +460,13 @@ function filters(){
 }
 function list(){
   const pin=j=>String(j.a||'').startsWith('co_')?2:j.a?1:0;
-  const js=LIVE.filter(j=>matchBase(j)&&matchArea(j)).sort((a,b)=>pin(b)-pin(a)||b.d.localeCompare(a.d));
+  const near=HOME_PT&&S.near,cmpD=(a,b)=>{const x=distTo(a.a),y=distTo(b.a);return x==null?(y==null?0:1):y==null?-1:x-y};
+  const js=LIVE.filter(j=>matchBase(j)&&matchArea(j)).sort((a,b)=>(near?cmpD(a,b):0)||pin(b)-pin(a)||b.d.localeCompare(a.d));
   $('#count').textContent=js.length;
   $('#clearRow').hidden=S.area==='all'&&!S.cats.size&&!S.q&&S.src===DEF_SRC;
-  const sel=D.areas[S.area];
-  if(!js.length&&sel&&sel.co){$('#list').innerHTML=`<div class="empty"><div class="lg" style="margin:0 auto 12px;width:56px;height:56px">${logoTag(sel.en)}</div><p style="margin:0 0 4px;color:var(--ink);font-weight:500">${esc(sel.en)}</p><p style="margin:0 0 14px">${esc(sel.office||'')}</p><p style="margin:0 0 14px">${esc(t('noOpen'))}</p>${sel.careers?`<a class="apply" href="${esc(sel.careers)}" target="_blank" rel="noopener">${esc(t('visit'))} ↗</a>`:''}</div>`;return}
-  $('#list').innerHTML=js.length?js.slice(0,shown).map(j=>`<article class="job"><div class="lg">${logoTag(j.c)}</div><div><h3>${esc(j.t)}</h3><p class="co">${esc(j.c)}</p><p class="meta"><button type="button" class="ar" data-a="${esc(j.a||'none')}">${pinIco}${esc(j.a&&D.areas[j.a]&&D.areas[j.a].co?(D.areas[j.a].approx?t('approxOff'):t('office')):areaName(j.a))}</button>${j.ty?`<span>${esc(j.ty)}</span>`:''}<span>${ageOf(j.d)<=3?`<span class="new">${esc(t('fresh'))}</span> · `:''}${esc(posted(j.d))}</span>${j.src&&j.src!=='Soli Maps'&&j.src!=='Company careers'?`<span>${esc(t('via',{s:j.src}))}</span>`:''}</p><a class="apply" href="${esc(j.u)}" target="_blank" rel="noopener">${esc(applyLabel(j))} <span aria-hidden="true">↗</span></a></div></article>`).join(''):`<p class="empty">${esc(t('empty'))}</p>`;
+  const sel=D.areas[S.area],trip=HOME_PT&&sel?`<div id="trip">${tripHTML(S.area)}</div>`:'';
+  if(!js.length&&sel&&sel.co){$('#list').innerHTML=trip+`<div class="empty"><div class="lg" style="margin:0 auto 12px;width:56px;height:56px">${logoTag(sel.en)}</div><p style="margin:0 0 4px;color:var(--ink);font-weight:500">${esc(sel.en)}</p><p style="margin:0 0 14px">${esc(sel.office||'')}</p><p style="margin:0 0 14px">${esc(t('noOpen'))}</p>${sel.careers?`<a class="apply" href="${esc(sel.careers)}" target="_blank" rel="noopener">${esc(t('visit'))} ↗</a>`:''}</div>`;return}
+  $('#list').innerHTML=trip+(js.length?js.slice(0,shown).map(j=>`<article class="job"><div class="lg">${logoTag(j.c)}</div><div><h3>${esc(j.t)}</h3><p class="co">${esc(j.c)}</p><p class="meta"><button type="button" class="ar" data-a="${esc(j.a||'none')}">${pinIco}${esc(j.a&&D.areas[j.a]&&D.areas[j.a].co?(D.areas[j.a].approx?t('approxOff'):t('office')):areaName(j.a))}</button>${kmTag(j)}${j.ty?`<span>${esc(j.ty)}</span>`:''}<span>${ageOf(j.d)<=3?`<span class="new">${esc(t('fresh'))}</span> · `:''}${esc(posted(j.d))}</span>${j.src&&j.src!=='Soli Maps'&&j.src!=='Company careers'?`<span>${esc(t('via',{s:j.src}))}</span>`:''}</p><a class="apply" href="${esc(j.u)}" target="_blank" rel="noopener">${esc(applyLabel(j))} <span aria-hidden="true">↗</span></a></div></article>`).join(''):`<p class="empty">${esc(t('empty'))}</p>`);
   if(js.length>shown)$('#list').insertAdjacentHTML('beforeend',`<button type="button" class="more" id="more">${esc(t('more',{n:js.length-shown}))}</button>`);
 }
 function render(){texts();filters();list();if(MAP)MAP.update();if(NEW.list.length)newShow()}
@@ -385,7 +494,87 @@ function newShow(){
   $('#nX').setAttribute('aria-label',t('newClose'));
 }
 function refresh(){filters();list();if(MAP)MAP.update()}
-function setArea(a){if(a!=='all')panelOpen(true);S.area=a;shown=30;$('#list').scrollTop=0;refresh();if(MAP)MAP.focus(a)}
+function setArea(a){if(a!=='all')panelOpen(true);S.area=a;shown=30;$('#list').scrollTop=0;refresh();tripGo(a);if(MAP)MAP.focus(a)}
+
+/* ---------- Your location: GPS, area search (Photon, OpenStreetMap) or a tap on the map ---------- */
+function locUI(){
+  const set=!!HOME_PT;$('#from').classList.toggle('set',set);
+  $('#fromT').textContent=set?t('fromPre',{n:homeName()}):t('fromQ');
+  $('#fromS').textContent=set?t('fromSub2'):t('fromSub');
+  $('#fromCh').hidden=!set;$('#near').hidden=!set;$('#near').setAttribute('aria-pressed',!!S.near);$('#lclear').hidden=!set;
+  $('#lq').placeholder=t('lqPh');$('#loc').setAttribute('aria-label',t('locBtn'));
+  if(!$('#lnote').classList.contains('err'))$('#lnote').textContent=t('lnote');
+}
+const note=(k,err)=>{const n=$('#lnote');n.textContent=t(k);n.classList.toggle('err',!!err)};
+function locOpen(open){
+  const b=$('#locbox');b.hidden=!open;$('#fromBtn').setAttribute('aria-expanded',open);
+  if(!open){$('#lres').innerHTML='';$('#lq').value='';note('lnote')}
+  else if(innerWidth>860)setTimeout(()=>$('#lq').focus(),30);
+}
+function setHome(p){
+  HOME_PT=p;DC={};
+  try{p?localStorage.setItem(HOMEKEY,JSON.stringify(p)):localStorage.removeItem(HOMEKEY)}catch(e){}
+  locOpen(false);refresh();locUI();
+  if(MAP)MAP.home(true);
+  if(p&&D.areas[S.area]){tripGo(S.area);if(MAP)MAP.focus(S.area)}else if(MAP)MAP.route(null);
+}
+const PHOTON='https://photon.komoot.io';
+const placeName=p=>p.name||p.street||p.district||p.locality||p.city||'';
+function nameSpot(p){ // give a GPS or tapped spot a neighbourhood name, if the lookup works
+  fetch(`${PHOTON}/reverse?lat=${p.la}&lon=${p.lo}&limit=1`).then(r=>r.json()).then(j=>{const f=j.features&&j.features[0];if(!f||HOME_PT!==p)return;const q=f.properties||{};const n=q.district||q.locality||q.name||q.street||q.city;if(n){p.n=n;try{localStorage.setItem(HOMEKEY,JSON.stringify(p))}catch(e){}locUI();if(MAP)MAP.home(false);const tr=$('#trip');if(tr&&D.areas[S.area])tr.innerHTML=tripHTML(S.area)}}).catch(()=>{});
+}
+let sT=0,sAb=null,RES=[];
+function search(q){
+  if(sAb)sAb.abort();sAb=new AbortController();
+  fetch(`${PHOTON}/api/?q=${encodeURIComponent(q)}&limit=7&lat=13.04&lon=80.21&bbox=79.6,12.4,80.5,13.5`,{signal:sAb.signal}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(j=>{
+    RES=(j.features||[]).filter(f=>f.geometry&&f.geometry.type==='Point'&&INB(f.geometry.coordinates[1],f.geometry.coordinates[0])).map(f=>{const p=f.properties||{},n=placeName(p);return{n,sub:[p.district!==n&&p.district,p.city!==n&&(p.city||p.county),p.postcode].filter(Boolean).join(', '),la:f.geometry.coordinates[1],lo:f.geometry.coordinates[0]}}).filter(r=>r.n);
+    $('#lres').innerHTML=RES.map((r,i)=>`<li><button type="button" data-i="${i}"><b>${esc(r.n)}</b>${r.sub?`<small>${esc(r.sub)}</small>`:''}</button></li>`).join('');
+    RES.length?note('lnote'):note('noRes',true);
+  }).catch(e=>{if(e.name!=='AbortError')note('srchErr',true)});
+}
+$('#fromBtn').addEventListener('click',()=>locOpen($('#locbox').hidden));
+$('#near').addEventListener('click',()=>{S.near=!S.near;shown=30;refresh();locUI()});
+$('#lq').addEventListener('input',e=>{clearTimeout(sT);const q=e.target.value.trim();if(q.length<3){$('#lres').innerHTML='';return}sT=setTimeout(()=>search(q),350)});
+$('#lq').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();clearTimeout(sT);const q=e.target.value.trim();if(q.length>=2)search(q)}if(e.key==='Escape')locOpen(false)});
+$('#lres').addEventListener('click',e=>{const b=e.target.closest('button[data-i]');if(!b)return;const r=RES[+b.dataset.i];if(r)setHome({la:+r.la.toFixed(5),lo:+r.lo.toFixed(5),n:r.n})});
+$('#gps').addEventListener('click',()=>{
+  if(!navigator.geolocation){note('gpsErr',true);return}
+  const b=$('#gps');b.setAttribute('aria-busy','true');$('#gpsT').textContent=t('gpsBusy');
+  const done=()=>{b.removeAttribute('aria-busy');$('#gpsT').textContent=t('gps')};
+  navigator.geolocation.getCurrentPosition(pos=>{done();const la=pos.coords.latitude,lo=pos.coords.longitude;
+    if(!INB(la,lo)){note('gpsFar',true);return}
+    const p={la:+la.toFixed(5),lo:+lo.toFixed(5),n:null};setHome(p);nameSpot(p)},
+    ()=>{done();note('gpsErr',true)},{enableHighAccuracy:false,timeout:12000,maximumAge:300000});
+});
+$('#pick').addEventListener('click',()=>{if(!MAP)return;MAP.pick(true);if(innerWidth<=860)$('#map').scrollIntoView({block:'start',behavior:'smooth'})});
+$('#lclear').addEventListener('click',()=>setHome(null));
+
+/* Trip card: road route from OSRM's free public router (falls back to a straight-line estimate);
+   travel time = road km ÷ Chennai's average morning / evening rush-hour speed. */
+const rkey=a=>HOME_PT?`${HOME_PT.la},${HOME_PT.lo}>${a}`:'';
+function tripHTML(a){
+  const ar=D.areas[a];if(!HOME_PT||!ar)return'';
+  const R=ROUTES[rkey(a)],exact=!!(R&&R.km),km=exact?R.km:roadKm(a);
+  const to=ar.co?ar.en:areaName(a),toSub=ar.co?(ar.office||''):'';
+  const dir=`https://www.google.com/maps/dir/?api=1&origin=${HOME_PT.la},${HOME_PT.lo}&destination=${ar.lat},${ar.lon}`;
+  return`<div class="trip"><div class="legs"><i class="a" aria-hidden="true"></i><span><small>${esc(t('tripFrom'))}</small>${esc(homeName())}</span><b class="ln" aria-hidden="true"></b><span></span><i class="b" aria-hidden="true"></i><span><small>${esc(t('tripTo'))}${toSub?' · '+esc(toSub):''}</small>${esc(to)}</span></div>
+  <div class="rd"><b>${exact?'':'≈ '}${esc(fmtKm(km))}</b>${esc(t(exact?'byRoad':'approxRoad'))}</div>
+  <div class="tt"><div><small>${esc(t('am'))}</small><b>${esc(fmtMin(mins(km,'am')))}</b></div><div><small>${esc(t('pm'))}</small><b>${esc(fmtMin(mins(km,'pm')))}</b></div></div>
+  <p class="fine">${esc(t('tripNote'))}</p>
+  <a class="apply" href="${esc(dir)}" target="_blank" rel="noopener">${esc(t('dirs'))} <span aria-hidden="true">↗</span></a></div>`;
+}
+function tripGo(a){
+  const ar=D.areas[a];
+  if(!HOME_PT||!ar){if(MAP)MAP.route(null);return}
+  const k=rkey(a),straight=[[HOME_PT.lo,HOME_PT.la],[ar.lon,ar.lat]],R=ROUTES[k];
+  if(MAP)MAP.route(R&&R.g||straight,!(R&&R.g));
+  if(R)return;
+  ROUTES[k]={wait:1};
+  fetch(`https://router.project-osrm.org/route/v1/driving/${HOME_PT.lo},${HOME_PT.la};${ar.lon},${ar.lat}?overview=simplified&geometries=geojson`)
+    .then(r=>r.ok?r.json():Promise.reject(r.status)).then(j=>{const r=j.routes&&j.routes[0];if(!r||!(r.distance>0))throw 0;ROUTES[k]={km:Math.max(r.distance/1000,distTo(a)||0),g:r.geometry.coordinates}})
+    .catch(()=>{ROUTES[k]={fail:1}})
+    .then(()=>{if(S.area!==a||rkey(a)!==k)return;const tr=$('#trip');if(tr)tr.innerHTML=tripHTML(a);const R2=ROUTES[k];if(MAP)MAP.route(R2.g||straight,!R2.g)});
+}
 const setLang=l=>{lang=l;try{localStorage.setItem('soli-lang',l)}catch(e){}render();if(MAP)MAP.lang()};
 $('#l-en').addEventListener('click',()=>setLang('en'));
 $('#l-ta').addEventListener('click',()=>setLang('ta'));
@@ -419,6 +608,10 @@ const STYLE={version:8,glyphs:'https://tiles.openfreemap.org/fonts/{fontstack}/{
   {id:'road',type:'line',source:'omt','source-layer':'transportation',filter:['in',['get','class'],['literal',ROADS]],layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':'#FFFFFF','line-width':roadW(1,18)}},
   {id:'rail',type:'line',source:'omt','source-layer':'transportation',filter:['in',['get','class'],['literal',['rail','transit']]],paint:{'line-color':'#D9C9C7','line-width':[...W,9,.6,16,2.5],'line-dasharray':[3,2]}},
   {id:'building',type:'fill-extrusion',source:'omt','source-layer':'building',minzoom:13.5,paint:{'fill-extrusion-color':['interpolate',['linear'],['coalesce',['get','render_height'],6],0,'#FBF6F5',40,'#FFFFFF'],'fill-extrusion-height':['*',['max',['coalesce',['get','render_height'],6],6],1.5],'fill-extrusion-base':['coalesce',['get','render_min_height'],0],'fill-extrusion-opacity':['interpolate',['linear'],['zoom'],13.5,0,14.2,.96],'fill-extrusion-vertical-gradient':true}},
+  // street names along the roads: main roads from zoom 13, smaller streets from 15
+  ...[['road-name-main',13,['motorway','trunk','primary','secondary']],['road-name',15,['tertiary','minor','service']]].map(([id,mz,cls])=>({id,type:'symbol',source:'omt','source-layer':'transportation_name',minzoom:mz,filter:['all',['has','name'],['in',['get','class'],['literal',cls]]],
+   layout:{'symbol-placement':'line','text-field':['coalesce',['get','name:en'],['get','name']],'text-font':['Noto Sans Regular'],'text-size':['interpolate',['linear'],['zoom'],13,10.5,17,13],'text-letter-spacing':.02,'text-max-angle':30,'symbol-spacing':320,'text-padding':4},
+   paint:{'text-color':'#8A7A7C','text-halo-color':'#FFFFFF','text-halo-width':1.6}})),
   {id:'water-name',type:'symbol',source:'omt','source-layer':'water_name',layout:{'text-field':['coalesce',['get','name:en'],['get','name']],'text-font':['Noto Sans Italic'],'text-size':13},paint:{'text-color':'#8FA6B0','text-halo-color':'#ffffffaa','text-halo-width':1}},
   {id:'place',type:'symbol',source:'omt','source-layer':'place',filter:['in',['get','class'],['literal',['city','town','suburb','village','quarter','neighbourhood']]],layout:{'text-field':['coalesce',['get','name:en'],['get','name']],'text-font':['Noto Sans Regular'],'text-size':['interpolate',['linear'],['zoom'],10,11,15,13.5],'text-padding':8},paint:{'text-color':'#A39193','text-halo-color':'#FBF7F6','text-halo-width':1.4}}
  ]};
@@ -454,7 +647,7 @@ function makeMap(){
     const by={};for(const a in D.areas)if(D.areas[a].co)by[a]={n:0};
     for(const j of LIVE.filter(matchBase))if(j.a&&D.areas[j.a]){const b=by[j.a]=by[j.a]||{n:0};b.n++}
     for(const a in by){
-      const ar=D.areas[a],n=by[a].n,co=!!ar.co,name=areaName(a);
+      const ar=D.areas[a],n=by[a].n,co=!!ar.co,rk=roadKm(a),name=areaName(a)+(rk!=null?` · ${fmtKm(rk)}`:'');
       if(!co&&!n)continue;
       const el=document.createElement('div');el.className='mk '+(co?'co':'area')+(co&&!n?' zero':'');
       el.setAttribute('role','button');el.tabIndex=0;el.setAttribute('aria-label',`${name}: ${n} ${t('jobs')}`);
@@ -505,7 +698,13 @@ function makeMap(){
   function style(){for(const[a,m]of markers){m.el.classList.toggle('on',S.area===a);m.el.classList.toggle('dim',S.area!=='all'&&S.area!==a);m.el.style.zIndex=S.area===a?999:m.grp?800+m.grp.length:(m.co?500:0)+m.n}}
   function focus(a){
     if(a==='all'||a==='none'){map.flyTo({...HOME,duration:reduce?0:1400});return}
-    const ar=D.areas[a];if(ar)map.flyTo({center:[ar.lon,ar.lat],zoom:ar.co?15.4:14.2,pitch:60,bearing:map.getBearing(),duration:reduce?0:1800,essential:true});
+    const ar=D.areas[a];
+    if(ar&&HOME_PT){ // show the whole trip: home and the office together
+      const bb=new maplibregl.LngLatBounds([HOME_PT.lo,HOME_PT.la],[HOME_PT.lo,HOME_PT.la]).extend([ar.lon,ar.lat]);
+      const cam=map.cameraForBounds(bb,{padding:{top:90,bottom:90,left:70,right:70},bearing:map.getBearing()});
+      if(cam){map.flyTo({center:cam.center,zoom:Math.min(cam.zoom-.15,15.2),pitch:40,bearing:map.getBearing(),duration:reduce?0:1600,essential:true});return}
+    }
+    if(ar)map.flyTo({center:[ar.lon,ar.lat],zoom:ar.co?15.4:14.2,pitch:60,bearing:map.getBearing(),duration:reduce?0:1800,essential:true});
   }
   $('#zin').addEventListener('click',()=>map.zoomIn());
   $('#zout').addEventListener('click',()=>map.zoomOut());
@@ -517,8 +716,46 @@ function makeMap(){
   $('#tilt').addEventListener('click',()=>map.easeTo({pitch:map.getPitch()>5?0:60,duration:dur}));
   const sync=()=>{$('#needle').style.transform=`rotate(${-map.getBearing()}deg)`;const p=map.getPitch()>5;$('#tilt').textContent=p?'3D':'2D';$('#tilt').setAttribute('aria-pressed',p)};
   map.on('rotate',sync);map.on('pitch',sync);sync();
-  const setNames=()=>{if(!map.getLayer('place'))return;map.setLayoutProperty('place','text-field',nameField())};
-  return{update:build,focus,lang:()=>{setNames();build()}};
+  const setNames=()=>{if(!map.getLayer('place'))return;map.setLayoutProperty('place','text-field',nameField());for(const id of['road-name-main','road-name'])if(map.getLayer(id))map.setLayoutProperty(id,'text-field',nameField())};
+
+  // home pin
+  let homeMk=null;
+  function home(fly){
+    if(homeMk){homeMk.remove();homeMk=null}
+    if(!HOME_PT)return;
+    const el=document.createElement('div');el.className='homepin';el.setAttribute('role','img');el.setAttribute('aria-label',t('fromPre',{n:homeName()}));el.title=homeName();
+    el.innerHTML='<svg width="16" height="16" viewBox="0 0 18 18" aria-hidden="true"><path d="M2.5 8.5 9 3l6.5 5.5M4.5 7v8h9V7" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    homeMk=new maplibregl.Marker({element:el,anchor:'center'}).setLngLat([HOME_PT.lo,HOME_PT.la]).addTo(map);
+    if(fly&&!D.areas[S.area])map.flyTo({center:[HOME_PT.lo,HOME_PT.la],zoom:Math.max(map.getZoom(),12.6),duration:reduce?0:1200,essential:true});
+  }
+  // route line home → office (solid for a road route, dashed for the straight-line fallback); re-added if the style is swapped
+  const EMPTY={type:'FeatureCollection',features:[]};let tripData=EMPTY;
+  function ensureRoute(){
+    if(map.getSource('trip')||!map.isStyleLoaded())return;
+    map.addSource('trip',{type:'geojson',data:tripData});
+    const lay={type:'line',source:'trip',layout:{'line-cap':'round','line-join':'round'}};
+    map.addLayer({...lay,id:'trip-case',paint:{'line-color':'#FFFFFF','line-width':['interpolate',['linear'],['zoom'],10,5,16,10],'line-opacity':.95}});
+    map.addLayer({...lay,id:'trip-line',filter:['==',['get','d'],0],paint:{'line-color':'#E5484D','line-width':['interpolate',['linear'],['zoom'],10,2.6,16,5.5]}});
+    map.addLayer({...lay,id:'trip-dash',filter:['==',['get','d'],1],layout:{'line-cap':'butt','line-join':'round'},paint:{'line-color':'#E5484D','line-width':['interpolate',['linear'],['zoom'],10,2.4,16,4.5],'line-dasharray':[2,1.6]}});
+  }
+  map.on('load',ensureRoute);map.on('style.load',ensureRoute);map.on('styledata',ensureRoute);
+  function route(coords,dashed){
+    tripData=coords?{type:'FeatureCollection',features:[{type:'Feature',properties:{d:dashed?1:0},geometry:{type:'LineString',coordinates:coords}}]}:EMPTY;
+    ensureRoute();const s=map.getSource('trip');if(s)s.setData(tripData);
+  }
+  // "tap a spot on the map" to set where you start
+  const bar=$('#pickbar');
+  const onPick=e=>{pick(false);const p={la:+e.lngLat.lat.toFixed(5),lo:+e.lngLat.lng.toFixed(5),n:null};if(!INB(p.la,p.lo))return;setHome(p);nameSpot(p)};
+  function pick(on){box.classList.toggle('picking',on);bar.hidden=!on;map.off('click',onPick);if(on){map.once('click',onPick);locOpen(false)}}
+  $('#pickX').addEventListener('click',e=>{e.stopPropagation();pick(false)});
+  addEventListener('keydown',e=>{if(e.key==='Escape'&&!bar.hidden)pick(false)});
+  // the location button: fly to your home, or ask where you start from
+  $('#loc').addEventListener('click',()=>{
+    if(HOME_PT){if(D.areas[S.area])focus(S.area);else map.flyTo({center:[HOME_PT.lo,HOME_PT.la],zoom:Math.max(map.getZoom(),13),duration:reduce?0:1200,essential:true});return}
+    panelOpen(true);locOpen(true);if(innerWidth<=860)$('.panel').scrollIntoView({block:'start',behavior:'smooth'});
+  });
+  home(false);
+  return{update:build,focus,lang:()=>{setNames();build();home(false)},home,route,pick};
 }
 
 const getJSON=f=>fetch(f,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()});
