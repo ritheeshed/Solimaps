@@ -48,7 +48,7 @@ nav .wrap{display:flex;align-items:center;gap:14px;height:64px}
 .hero{position:relative;min-height:min(100svh,920px);display:flex;align-items:center;padding:100px 0 80px;overflow:hidden;background:#F7F1F0}
 #bgmap{position:absolute;inset:0;z-index:0}
 #bgmap .maplibregl-ctrl-attrib{font-size:10px;background:#ffffffb0}
-.fade{position:absolute;inset:0;z-index:1;pointer-events:none;background:#ffffffc4}
+.fade{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,#ffffffd9 0%,#ffffffc7 40%,#ffffffa8 65%,#ffffffa3 100%)}
 .fade:after{content:"";position:absolute;inset:auto 0 0;height:120px;background:linear-gradient(0deg,#fff,#fff0)}
 .hcopy{position:relative;z-index:2;max-width:580px}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:4px 12px 4px 4px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:13px;color:var(--mute);box-shadow:0 2px 8px #2b20220d}
@@ -99,10 +99,10 @@ html[lang=ta] h1{font-size:clamp(32px,3.9vw,50px);line-height:1.18;letter-spacin
 .done .btn{width:auto;height:46px;font-size:15px;margin:0}
 
 /* map pins: calm, half-faded */
-.pin{width:36px;height:36px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 0 0 1px #2b20221a,0 4px 12px #2b202226;opacity:.5}
+.pin{width:36px;height:36px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 0 0 1px #2b20221a,0 4px 12px #2b202226;opacity:.62}
 .pin img{width:22px;height:22px;object-fit:contain;border-radius:3px}
 .pin .m{font-weight:600;font-size:13px;color:var(--red)}
-.pin.hire{opacity:.62}
+.pin.hire{opacity:.82}
 .pin.hire:after{content:"";position:absolute;right:-1px;top:-1px;width:9px;height:9px;border-radius:50%;background:var(--red);box-shadow:0 0 0 2px #fff}
 .pin.hide{display:none}
 
@@ -188,7 +188,7 @@ footer a{text-decoration:none}
   .wrap{width:calc(100% - 28px)}
   nav .wrap{height:56px}
   .navmap{display:none}
-  .fade{background:#ffffffc9}
+  .fade{background:linear-gradient(180deg,#ffffffb0 0%,#ffffffc4 35%,#ffffffd6 100%)}
   h1{margin-top:14px;font-size:38px}
   html[lang=ta] h1{font-size:29px}
   .lede{font-size:16px;margin-top:12px}
@@ -483,11 +483,13 @@ const STYLE={version:8,glyphs:'https://tiles.openfreemap.org/fonts/{fontstack}/{
  ]};
 // whole Chennai belt: Ambattur to Siruseri, Sriperumbudur to the coast
 const BOUNDS=[[79.98,12.80],[80.30,13.16]];
+// desktop: keep the pins in the open space right of the headline and form
+const pad=()=>innerWidth>900?{left:Math.min(640,Math.round(innerWidth*.46)),right:40,top:70,bottom:40}:20;
 
 function mapStart(){
   if(!window.maplibregl)return;
   try{
-    map=new maplibregl.Map({container:'bgmap',style:STYLE,bounds:BOUNDS,fitBoundsOptions:{padding:20},interactive:false,fadeDuration:0,pixelRatio:Math.min(devicePixelRatio,2),
+    map=new maplibregl.Map({container:'bgmap',style:STYLE,bounds:BOUNDS,fitBoundsOptions:{padding:pad()},interactive:false,fadeDuration:0,pixelRatio:Math.min(devicePixelRatio,2),
       attributionControl:{compact:true,customAttribution:'<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'}});
   }catch(e){map=null;return}
   let ok=false,err=0;
@@ -495,7 +497,7 @@ function mapStart(){
   map.on('error',e=>{if(e.sourceId==='omt'||/openfreemap/.test(String(e.error&&(e.error.url||e.error.message)||''))){if(++err>=3&&!ok)backup()}});
   setTimeout(()=>{if(!ok)backup()},9000);
   map.on('load',mapPins);
-  let rt=0;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(map){map.fitBounds(BOUNDS,{padding:20,duration:0});cull()}},200)});
+  let rt=0;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(map){map.fitBounds(BOUNDS,{padding:pad(),duration:0});cull()}},200)});
 }
 function backup(){if(!map||map._bk)return;map._bk=1;map.setStyle({version:8,sources:{osm:{type:'raster',tiles:['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],tileSize:256,maxzoom:19}},layers:[{id:'bg',type:'background',paint:{'background-color':'#F7F1F0'}},{id:'osm',type:'raster',source:'osm',paint:{'raster-saturation':-.7,'raster-contrast':-.15,'raster-brightness-min':.12}}]})}
 function mapPins(){
