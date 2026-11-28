@@ -46,10 +46,10 @@ nav .wrap{display:flex;align-items:center;gap:14px;height:64px}
 .navmap{font:500 14px var(--sora);text-decoration:none;padding:8px 14px;border-radius:999px;background:#ffffffd0;border:1px solid var(--line)}
 
 /* hero on the faded map */
-.hero{position:relative;min-height:min(100svh,920px);display:flex;align-items:center;padding:100px 0 80px;overflow:hidden;background:#F7F1F0}
+.hero{position:relative;min-height:min(92svh,820px);display:flex;align-items:center;padding:96px 0 72px;overflow:hidden;background:#F7F1F0}
 #bgmap{position:absolute;inset:0;z-index:0}
 #bgmap .maplibregl-ctrl-attrib{font-size:10px;background:#ffffffb0}
-.fade{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,#ffffffd9 0%,#ffffffc7 40%,#ffffffa8 65%,#ffffffa3 100%)}
+.fade{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,#fff 0%,#fff 38%,#ffffffd0 46%,#ffffff26 60%,#ffffff1a 100%)}
 .fade:after{content:"";position:absolute;inset:auto 0 0;height:120px;background:linear-gradient(0deg,#fff,#fff0)}
 .hcopy{position:relative;z-index:2;max-width:580px}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:4px 12px 4px 4px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:13px;color:var(--mute);box-shadow:0 2px 8px #2b20220d}
@@ -60,9 +60,25 @@ html[lang=ta] .eyebrow{text-transform:none;letter-spacing:.02em;font-family:var(
 @keyframes pulse{0%{box-shadow:0 0 0 0 #E5484D88}70%{box-shadow:0 0 0 8px #E5484D00}100%{box-shadow:0 0 0 0 #E5484D00}}
 h1{margin:18px 0 0;font-size:clamp(42px,5.2vw,66px);line-height:1.08;font-weight:400;letter-spacing:-.032em;text-wrap:balance}
 h1 em{font-style:normal;color:var(--red)}
-.hero h1,.hero .lede{text-shadow:0 0 2px #fff,0 0 10px #fff,0 0 22px #fff}
 html[lang=ta] h1{font-size:clamp(32px,3.9vw,50px);line-height:1.18;letter-spacing:-.02em}
-.lede{margin:18px 0 0;font-size:18px;line-height:1.55;color:#38525C;max-width:540px;text-wrap:pretty}
+.lede{margin:18px 0 0;font-size:19px;line-height:1.5;color:#38525C;max-width:500px;text-wrap:pretty}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 0;padding:0;list-style:none}
+.chips li{display:flex;align-items:baseline;gap:6px;padding:7px 13px;border-radius:999px;background:var(--soft);border:1px solid var(--line);font-size:14px;color:var(--mute)}
+.chips b{font:500 15px var(--sora);color:var(--ink)}
+.ctas{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.btn.big{height:56px;padding:0 28px;font-size:16.5px}
+.cnote{margin:12px 0 0;font-size:13px;color:var(--mute)}
+/* bottom sheet (dialog on desktop) */
+.sheet{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center}
+.sheet[hidden]{display:none}
+.shbg{position:absolute;inset:0;background:#012A3866;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);animation:fadein .25s ease both}
+.shp{position:relative;width:min(480px,100% - 32px);max-height:92svh;overflow:auto;padding:22px;border-radius:24px;background:#fff;box-shadow:0 30px 80px -20px #012a3866;animation:rise .35s var(--ease) both}
+.shp .formcard{margin:0;padding:0;border:0;box-shadow:none;border-radius:0}
+.grab{display:none}
+.shx{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:#fff;display:grid;place-items:center;cursor:pointer;color:var(--mute);z-index:2}
+@keyframes fadein{from{opacity:0}}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}}
+body.lock{overflow:hidden}
 .lede b{color:var(--ink);font-weight:500}
 
 /* form */
@@ -103,21 +119,18 @@ html[lang=ta] h1{font-size:clamp(32px,3.9vw,50px);line-height:1.18;letter-spacin
 .done .btn{width:auto;height:46px;font-size:15px;margin:0}
 
 /* map pins: calm, half-faded */
-.pin{width:36px;height:36px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 0 0 1px #2b20221a,0 4px 12px #2b202226;opacity:.62}
+.pin{width:38px;height:38px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 0 0 1px #2b20221a,0 6px 16px #2b202229;opacity:.78}
 .pin img{width:22px;height:22px;object-fit:contain;border-radius:3px}
 .pin .m{font-weight:600;font-size:13px;color:var(--red)}
-.pin.hire{opacity:.82}
+.pin.hire{opacity:1}
 .pin.hire:after{content:"";position:absolute;right:-1px;top:-1px;width:9px;height:9px;border-radius:50%;background:var(--red);box-shadow:0 0 0 2px #fff}
 .pin.hide{display:none}
 
 /* proof strip */
-.proof{position:relative;z-index:3;margin-top:-40px}
-.proof .bar{display:grid;grid-template-columns:repeat(4,1fr);border-radius:20px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);overflow:hidden}
-.proof .bar div{padding:18px 20px}
-.proof .bar div+div{border-left:1px solid var(--line)}
-.proof b{display:block;font-size:30px;font-weight:400;letter-spacing:-.03em;line-height:1.1}
-.proof span{font-size:13px;color:var(--mute)}
-.mq{overflow:hidden;padding:22px 0 0;-webkit-mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.proof{position:relative;z-index:3;padding:8px 0 0}
+.mqT{margin:0 0 4px;text-align:center;font:500 11px/1.4 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--mute)}
+html[lang=ta] .mqT{text-transform:none;font-family:var(--mono),"Noto Sans Tamil"}
+.mq{overflow:hidden;padding:14px 0 0;-webkit-mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
 .mq ul{display:flex;gap:10px;width:max-content;margin:0;padding:0;list-style:none;animation:mq 50s linear infinite}
 .mq li{display:flex;align-items:center;gap:8px;height:40px;padding:0 13px 0 5px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:14px;font-weight:500;white-space:nowrap}
 .mq li span{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);background:#fff}
@@ -180,11 +193,11 @@ footer a{text-decoration:none}
 .rv.in{opacity:1;transform:none}
 
 @media (max-width:900px){
-  .hero{align-items:flex-start;padding:80px 0 64px;min-height:auto}
+  /* phones and tablets: clear map on top, text on white below */
+  .hero{--mh:min(46svh,420px);display:block;min-height:auto;padding:calc(var(--mh) - 24px) 0 36px;background:#fff}
+  #bgmap{inset:0 0 auto;height:var(--mh)}
+  .fade{background:linear-gradient(180deg,#ffffff00 0,#ffffff00 calc(var(--mh) - 150px),#fff calc(var(--mh) - 10px))}
   .hcopy{max-width:none}
-  .proof .bar{grid-template-columns:1fr 1fr}
-  .proof .bar div:nth-child(3){border-left:0}
-  .proof .bar div:nth-child(n+3){border-top:1px solid var(--line)}
   .pains{grid-template-columns:1fr}
   .areas{grid-template-columns:1fr;gap:28px}
   .how{grid-template-columns:1fr}
@@ -193,18 +206,22 @@ footer a{text-decoration:none}
   .wrap{width:calc(100% - 28px)}
   nav .wrap{height:56px}
   .navmap{display:none}
-  .fade{background:linear-gradient(180deg,#ffffff94 0%,#ffffffb3 30%,#ffffffc7 100%)}
-  .pin{opacity:.72}.pin.hire{opacity:.9}
-  h1{margin-top:14px;font-size:38px}
-  html[lang=ta] h1{font-size:29px}
-  .lede{font-size:16px;margin-top:12px}
-  .formcard{padding:16px;border-radius:20px}
+  h1{margin-top:12px;font-size:36px}
+  html[lang=ta] h1{font-size:28px}
+  .lede{font-size:16.5px;margin-top:10px}
+  .chips{margin-top:14px;gap:6px}.chips li{padding:6px 11px;font-size:13px}.chips b{font-size:14px}
+  .ctas{margin-top:18px}.ctas .btn{width:100%}.ctas .btn.ghost{display:none}
+  .cnote{text-align:center}
+  .sheet{align-items:flex-end}
+  .shp{width:100%;max-height:94svh;border-radius:24px 24px 0 0;padding:14px 16px calc(18px + env(safe-area-inset-bottom));animation:up .38s var(--ease) both}
+  @keyframes up{from{transform:translateY(100%)}}
+  .grab{display:block;width:40px;height:5px;margin:0 auto 12px;border-radius:9px;background:#D7DFE2}
+  .shx{top:10px;right:10px}
   .fgrid{grid-template-columns:1fr;gap:9px}
   .fld input,.fld select,.fld .ph{height:46px}
-  .pin{width:30px;height:30px}.pin img{width:18px;height:18px}
+  .pin{width:32px;height:32px}.pin img{width:19px;height:19px}
   .pain .q{font-size:16.5px}
   .alist li{grid-template-columns:118px 1fr 34px;font-size:14px}
-  .proof b{font-size:24px}
   section{padding:64px 0}
   .stick{display:block}
   .final{margin-bottom:96px;padding:44px 20px;border-radius:26px}
@@ -226,8 +243,21 @@ footer a{text-decoration:none}
   <div class="wrap"><div class="hcopy">
     <span class="eyebrow"><b data-t="eyeTag">Early access</b><span class="live"></span><span data-t="eyebrow">500 spots · Chennai only</span></span>
     <h1 data-th="h1">Chennai is hiring.<br><em>Just not where you're looking.</em></h1>
-    <p class="lede" id="lede"></p>
+    <p class="lede" data-t="line">A WhatsApp alert the morning a company near you opens your role.</p>
+    <ul class="chips" id="chips"></ul>
+    <div class="ctas">
+      <button class="btn big" type="button" data-open id="heroCta"><span data-t="cta">Get early access</span><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <a class="btn ghost" href="../map.html" data-t="navMap">Open the live map</a>
+    </div>
+    <p class="cnote" data-t="cnote">Free · takes 20 seconds · no spam</p>
+  </div></div>
+</header>
 
+<div class="sheet" id="sheet" hidden>
+  <div class="shbg" data-close></div>
+  <div class="shp" role="dialog" aria-modal="true" aria-label="Get early access">
+    <div class="grab" aria-hidden="true"></div>
+    <button class="shx" type="button" data-close aria-label="Close"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
     <div class="formcard" id="join">
       <div class="offer"><div class="wa"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></div><div><b data-t="offerH">Early access: WhatsApp job alerts</b><span data-t="offerS">For your area, the morning it's posted.</span></div></div>
       <form id="wf" novalidate>
@@ -251,16 +281,11 @@ footer a{text-decoration:none}
         </div>
       </div>
     </div>
-  </div></div>
-</header>
+  </div>
+</div>
 
 <div class="proof"><div class="wrap">
-  <div class="bar">
-    <div><b data-count="jobs">–</b><span data-t="pJobs">company openings live now</span></div>
-    <div><b data-count="hiring">–</b><span data-t="pHiring">Chennai companies hiring</span></div>
-    <div><b data-count="fresh">–</b><span data-t="pFresh">posted in the last 7 days</span></div>
-    <div><b>₹0</b><span data-t="pFree">to join, search or apply</span></div>
-  </div>
+  <p class="mqT" data-t="mqT">Hiring on the map right now</p>
   <div class="mq"><ul id="mq"></ul></div>
 </div></div>
 
@@ -292,7 +317,7 @@ footer a{text-decoration:none}
 <div class="wrap"><div class="final rv">
   <h2 data-t="finH">The next opening near you goes up on a company's careers page. Be the first to know.</h2>
   <p data-t="finP">Free. WhatsApp alerts for your area and role. 500 early-access spots.</p>
-  <a class="btn" href="#join" data-t="cta">Get early access</a>
+  <button class="btn" type="button" data-open data-t="cta">Get early access</button>
 </div></div>
 
 <footer><div class="wrap">
@@ -302,7 +327,7 @@ footer a{text-decoration:none}
   <a href="../" data-t="fHome">Home</a><a href="../map.html" data-t="fMap">Map</a><a href="../privacy.html" data-t="fPriv">Privacy</a>
 </div></footer>
 
-<div class="stick" id="stick"><a class="btn" href="#join" data-t="cta">Get early access</a></div>
+<div class="stick" id="stick"><button class="btn" type="button" data-open data-t="cta">Get early access</button></div>
 
 <script src="../auth/config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
@@ -337,6 +362,8 @@ const ROLES=[
 const T={
 en:{
  navMap:'Open the live map',eyeTag:'Early access',eyebrow:'500 spots · Chennai only',
+ line:'A WhatsApp alert the morning a company near you opens your role.',cnote:'Free · takes 20 seconds · no spam',mqT:'Hiring on the map right now',onList:'You’re on the list ✓',
+ chips:['<b>{jobs}</b> openings live','<b>{hiring}</b> companies hiring','<b>₹0</b> to apply'],
  h1:"Chennai is hiring.<br><em>Just not where you're looking.</em>",
  lede:'<b>{jobs} openings at {hiring} Chennai companies</b> right now, including {names}. Many only post on their own careers page. We pin each one on its real office and WhatsApp you the morning one opens near you.',
  lede0:'Many Chennai companies only post on their own careers page. We pin each opening on its real office and WhatsApp you the morning one opens near you.',
@@ -381,6 +408,8 @@ en:{
 },
 ta:{
  navMap:'Live map-ஐ open பண்ணு',eyeTag:'Early access',eyebrow:'500 spots · சென்னை மட்டும்',
+ line:'உங்க பக்கத்துல ஒரு company உங்க role-ஐ open பண்ண அன்னைக்கே காலையில WhatsApp alert.',cnote:'Free · 20 second தான் · spam இல்ல',mqT:'இப்போ map-ல hire பண்றவங்க',onList:'நீங்க list-ல இருக்கீங்க ✓',
+ chips:['<b>{jobs}</b> openings live','<b>{hiring}</b> companies hire பண்றாங்க','apply பண்ண <b>₹0</b>'],
  h1:'சென்னையில jobs இருக்கு.<br><em>நீங்க தேடுற இடத்துல இல்ல.</em>',
  lede:'இப்போ <b>{hiring} சென்னை companies-ல {jobs} openings</b>, {names} உட்பட. நிறைய companies தங்களோட careers page-ல மட்டும் தான் post பண்றாங்க. ஒவ்வொன்றையும் அவங்க real office மேல pin பண்றோம். உங்க பக்கத்துல ஒண்ணு open ஆன அன்னைக்கே காலையில WhatsApp பண்றோம்.',
  lede0:'நிறைய சென்னை companies தங்களோட careers page-ல மட்டும் தான் post பண்றாங்க. ஒவ்வொரு opening-ஐயும் real office மேல pin பண்ணி, உங்க பக்கத்துல ஒண்ணு open ஆன அன்னைக்கே காலையில WhatsApp பண்றோம்.',
@@ -490,9 +519,9 @@ const STYLE={version:8,glyphs:'https://tiles.openfreemap.org/fonts/{fontstack}/{
 // whole Chennai belt: Ambattur to Siruseri, Sriperumbudur to the coast
 const BOUNDS=[[79.98,12.80],[80.30,13.16]];
 // desktop: keep the pins in the open space right of the headline and form
-const pad=()=>innerWidth>900?{left:Math.min(640,Math.round(innerWidth*.46)),right:40,top:70,bottom:40}:{top:60,bottom:20,left:4,right:4};
+const pad=()=>innerWidth>900?{left:Math.min(660,Math.round(innerWidth*.5)),right:50,top:90,bottom:60}:{top:70,bottom:40,left:16,right:16};
 // phones: city + OMR corridor, tall like the screen, so the logos spread behind the headline
-const BOUNDS_M=[[80.17,12.86],[80.28,13.12]];
+const BOUNDS_M=[[80.15,12.88],[80.29,13.10]];
 const bnd=()=>innerWidth>900?BOUNDS:BOUNDS_M;
 
 function mapStart(){
@@ -520,8 +549,11 @@ function mapPins(){
   cull();
 }
 // keep the calm look: drop pins that would pile on a more important one
-function cull(){if(!map)return;const shown=[];const r=innerWidth<=640?32:38;
-  for(const p of pins){const pt=map.project([p.c.lon,p.c.lat]);const clash=shown.some(q=>Math.abs(q.x-pt.x)<r&&Math.abs(q.y-pt.y)<r);p.el.classList.toggle('hide',clash);if(!clash)shown.push(pt)}}
+function cull(){if(!map)return;const shown=[];const r=innerWidth<=640?34:42;
+  // the text side stays clean: no pins left of the copy (desktop) or below the map strip (phones)
+  const desk=innerWidth>900,hc=$('.hcopy').getBoundingClientRect(),mb=map.getContainer().getBoundingClientRect();
+  const minX=desk?hc.right-mb.left+28:-99,maxY=desk?1e9:mb.height-70;
+  for(const p of pins){const pt=map.project([p.c.lon,p.c.lat]);const out=pt.x<minX||pt.y>maxY||pt.y<56;const clash=out||shown.some(q=>Math.abs(q.x-pt.x)<r&&Math.abs(q.y-pt.y)<r);p.el.classList.toggle('hide',clash);if(!clash)shown.push(pt)}}
 
 /* ---------- text ---------- */
 function opts(sel,list,ph){const v=sel.value;sel.innerHTML=`<option value="" disabled${v?'':' selected'}>${esc(ph)}</option>`+list.map(([k,en,ta])=>`<option value="${k}"${k===v?' selected':''}>${esc(lang==='ta'?ta:en)}</option>`).join('')}
@@ -530,7 +562,8 @@ function paint(){
   const v=live(),vh={...v,names:esc(v.names),co1:esc(v.co1)};
   $$('[data-t]').forEach(e=>{const s=t(e.dataset.t);if(typeof s==='string')e.textContent=fmt(s,v)});
   $$('[data-th]').forEach(e=>e.innerHTML=t(e.dataset.th));
-  $('#lede').innerHTML=S.ready&&S.jobs.length?fmt(t('lede'),vh):esc(t('lede0'));
+  $('#chips').innerHTML=S.ready&&S.jobs.length?t('chips').map(c=>`<li>${fmt(c,v)}</li>`).join(''):'';
+  if(DONE)$('#heroCta span').textContent=t('onList');
   $('#l-en').setAttribute('aria-pressed',lang==='en');$('#l-ta').setAttribute('aria-pressed',lang==='ta');
   opts($('#ar'),AREAS,t('pickArea'));opts($('#ro'),ROLES,t('pickRole'));
   $('#pains').innerHTML=t('pains').map(p=>`<div class="pain"><div class="q"><small>${esc(p[0])}</small>${esc(fmt(p[1],v))}</div><div class="f">${tick}<span>${fmt(p[2],vh)}</span></div></div>`).join('');
@@ -561,7 +594,7 @@ function doneText(){
   $('#doneH').textContent=DONE.n?t('doneHn').replace('{n}',DONE.n):t('doneH');
   $('#doneP').textContent=DONE.w?t('donePwa').replace('{w}',DONE.w.replace(/(\d{5})(\d{5})/,'$1 $2')):t('doneP');
 }
-function finish(){$('#join').classList.add('ok');doneText()}
+function finish(){$('#join').classList.add('ok');doneText();const b=$('#heroCta span');if(b)b.textContent=t('onList')}
 if(DONE)finish();
 
 const normWa=v=>{let d=String(v||'').replace(/\D/g,'');if(d.length===12&&d.startsWith('91'))d=d.slice(2);if(d.length===11&&d.startsWith('0'))d=d.slice(1);return d};
@@ -584,7 +617,6 @@ $('#wf').addEventListener('submit',async e=>{
   DONE={n,w:wa};try{localStorage.setItem('soli-waitlist',JSON.stringify(DONE))}catch(e){}
   finish();
   if(window.fbq)fbq('track','Lead');if(window.gtag)gtag('event','generate_lead',{method:'waitlist'});
-  $('#join').scrollIntoView({behavior:REDUCE?'auto':'smooth',block:'center'});
 });
 
 /* ---------- motion ---------- */
@@ -592,8 +624,16 @@ const io=new IntersectionObserver(es=>{for(const e of es)if(e.isIntersecting){e.
 $$('.rv').forEach(e=>io.observe(e));
 addEventListener('scroll',()=>$('#nav').classList.toggle('scrolled',scrollY>20),{passive:true});
 const st=$('#stick');
-new IntersectionObserver(es=>{for(const e of es)st.classList.toggle('on',!e.isIntersecting&&!$('#join').classList.contains('ok'))},{threshold:0}).observe($('#join'));
-$$('a[href="#join"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();$('#join').scrollIntoView({behavior:REDUCE?'auto':'smooth',block:'center'});setTimeout(()=>$('#em').focus({preventScroll:true}),REDUCE?0:500)}));
+new IntersectionObserver(es=>{for(const e of es)st.classList.toggle('on',!e.isIntersecting&&!$('#join').classList.contains('ok'))},{threshold:0}).observe($('#heroCta'));
+const sheet=$('#sheet');let lastFocus=null;
+function openSheet(){lastFocus=document.activeElement;sheet.hidden=false;document.body.classList.add('lock');st.classList.remove('on');if(!$('#join').classList.contains('ok'))setTimeout(()=>$('#em').focus({preventScroll:true}),innerWidth<=640?380:60)}
+function closeSheet(){sheet.hidden=true;document.body.classList.remove('lock');if(lastFocus&&lastFocus.focus)lastFocus.focus({preventScroll:true})}
+$$('[data-open]').forEach(b=>b.addEventListener('click',openSheet));
+$$('[data-close]').forEach(b=>b.addEventListener('click',closeSheet));
+addEventListener('keydown',e=>{if(e.key==='Escape'&&!sheet.hidden)closeSheet()});
+// swipe the sheet down to close on phones
+{let y0=null;const p=$('.shp');p.addEventListener('touchstart',e=>{if(p.scrollTop<=0)y0=e.touches[0].clientY},{passive:true});p.addEventListener('touchmove',e=>{if(y0!==null&&e.touches[0].clientY-y0>90){y0=null;closeSheet()}},{passive:true});p.addEventListener('touchend',()=>{y0=null})}
+if(Q.has('join'))openSheet();
 
 paint();
 mapStart();
